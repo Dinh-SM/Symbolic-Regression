@@ -1,7 +1,12 @@
 #include "Node.h"
+#include <cstring>
+#include <cstdlib>
+#include<string>
+#include<iostream>
 
 // Constructor
-Node::Node(Node lc, Node rc, char* v)
+
+Node::Node(Node* lc, Node* rc, std::string v)
 {
 	left_child_ = lc;
 	right_child_ = rc;
@@ -11,23 +16,41 @@ Node::Node(Node lc, Node rc, char* v)
 // Destructor
 Node::~Node()
 {
-	delete []value_;
-	left_child_.~Node();
-	right_child_.~Node();
+	value_.clear();
 };
 
 // Getters
-Node Node::left_child()
+Node* Node::left_child()
 {
 	return left_child_;
 };
 
-Node Node::right_child()
+Node* Node::right_child()
 {
 	return right_child_;
 };
 
-char* Node::value()
+std::string Node::value()
 {
 	return value_;
+};
+
+int Node::node_result()
+{
+	if(std::strcmp(value_.c_str(), "AND") == 0)
+	{
+		return left_child_->node_result() && right_child_->node_result();
+	}
+	else if(std::strcmp(value_.c_str(), "OR") == 0)
+	{
+		return left_child_->node_result() || right_child_->node_result();
+	}
+	else if(std::strcmp(value_.c_str(), "NOT") == 0)
+	{
+		return !left_child_->node_result();
+	}
+	else
+	{
+		return std::atoi(value_.c_str());
+	}
 };
