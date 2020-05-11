@@ -2,7 +2,7 @@ class Node
 {
 	public:
 		// Constructor
-		Node(Node left_child, Node right_child, value);
+		Node(Node lc, Node rc, char* v);
 
 		// Destructor
 		~Node();
