@@ -15,6 +15,7 @@ class Node
 		std::string value();
 
 		int node_result();
+		std::string node_formula();
 
 	protected:
 		Node* left_child_;

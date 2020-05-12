@@ -54,3 +54,23 @@ int Node::node_result()
 		return std::atoi(value_.c_str());
 	}
 };
+
+std::string Node::node_formula()
+{
+	if(std::strcmp(value_.c_str(), "AND") == 0)
+	{
+		return '(' + left_child_->node_formula() + " " + value_ + " " + right_child_->node_formula() + ')';
+	}
+	else if(std::strcmp(value_.c_str(), "OR") == 0)
+	{
+		return '(' + left_child_->node_formula() + " " + value_ + " " + right_child_->node_formula() + ')';
+	}
+	else if(std::strcmp(value_.c_str(), "NOT") == 0)
+	{
+		return '(' + value_ + " " + left_child_->node_formula() + ')';
+	}
+	else
+	{
+		return value_.c_str();
+	}
+};
