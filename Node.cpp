@@ -103,6 +103,34 @@ int Node::node_result()
 	}
 };
 
+int Node::node_result(int x1, int x2)
+{
+	if(std::strcmp(value_.c_str(), "AND") == 0)
+	{
+		return left_child_->node_result() && right_child_->node_result();
+	}
+	else if(std::strcmp(value_.c_str(), "OR") == 0)
+	{
+		return left_child_->node_result() || right_child_->node_result();
+	}
+	else if(std::strcmp(value_.c_str(), "NOT") == 0)
+	{
+		return !left_child_->node_result();
+	}
+	else if(std::strcmp(value_.c_str(), std::to_string(x1).c_str()) == 0)
+	{
+		return x1;
+	}
+	else if(std::strcmp(value_.c_str(), std::to_string(x2).c_str()) == 0)
+	{
+		return x2;
+	}
+	else
+	{
+		return std::atoi(value_.c_str());
+	}
+};
+
 std::string Node::node_formula()
 {
 	if(std::strcmp(value_.c_str(), "AND") == 0)

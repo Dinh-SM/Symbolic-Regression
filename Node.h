@@ -17,12 +17,14 @@ class Node
 		Node* right_child();
 		std::string value();
 
-		// Getters
+		// Setters
 		void set_left_child(Node* lc);
 		void set_right_child(Node* rc);
 		void set_value(int b);
 
+		//Fonction
 		int node_result();
+		int node_result(int x1, int x2);
 		std::string node_formula();
 
 	protected:
