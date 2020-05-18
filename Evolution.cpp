@@ -1,4 +1,5 @@
 #include "Evolution.h"
+#include<iostream>
 
 //Constructor
 Evolution::Evolution()
@@ -28,7 +29,7 @@ Node empty(NULL, NULL, operand_false);
 //Functions
 
 	/*Evolution*/
-Node* Evolution::replication(Node parent_tree [], int number_of_child)
+Node* Evolution::replication(Node parent_tree, int number_of_child)
 {
 	
 	return 0;
@@ -38,17 +39,20 @@ void Evolution::mutation(Node parent, Node parent_tree)
 {
 	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
 	//Selon la probabilité, le node parent est copié et subit une des trois mutations:
-	if (prob = 0)
+	if (prob == 0)
 	{
 		insertion(parent, parent_tree);
+		std::cout << "insertion" << std::endl;
 	}
-	else if (prob = 1) 
+	else if (prob == 1) 
 	{
 		deletion(parent, parent_tree);
+		std::cout << "deletion" << std::endl;
 	}
-	else if (prob = 2)
+	else if (prob == 2)
 	{
 		replacement(parent);
+		std::cout << "replacement" << std::endl;
 	};
 };
 
@@ -74,11 +78,7 @@ int Evolution::fitness(Node tree[])
 	return 0;
 };
 
-<<<<<<< HEAD
-Node * Evolution::comparative_fitness (Node[] children_tab, int number_of_child)
-=======
 Node* Evolution::comparative_fitness (Node* children_tab, int number_of_child)
->>>>>>> af3d2e3a2a6a6aca15951768024671eec514de94
 {
 	return &empty;
 };
