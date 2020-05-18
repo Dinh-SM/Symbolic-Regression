@@ -22,6 +22,7 @@ class Node
 		void set_right_child(Node* rc);
 
 		int node_result();
+		int node_result(int x1, int x2);
 		std::string node_formula();
 
 	protected:

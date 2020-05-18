@@ -85,5 +85,32 @@ int main(int argc, char const *argv[])
 	}
 	std::cout << current_node->value() << std::endl;
 
+
+	std::string operand_x1("x1");
+	std::string operand_x2("x2");
+	Node gdg3(NULL, NULL, operand_x1); //Niveau4
+	Node gd3(&gdg3, NULL, operator_not); // Niveau 3
+	Node ggg3(NULL, NULL, operand_x2); //Niveau 4
+	Node ggd3(NULL, NULL, operand_x2); //Niveau 4
+	Node gg3(&ggg3, &ggd3, operator_and); // Niveau 3
+	Node g3(&gg3, &gd3, operator_and); // Niveau 2
+
+	Node dgg3(NULL, NULL, operand_x2); //Niveau 4
+	Node dgd3(NULL, NULL, operand_x1); //Niveau 4
+	Node dg3(&dgg3, &dgd3, operator_or); // Niveau 3
+	Node d3(&dg3, NULL, operator_not); // Niveau 2
+
+	Node racine3(&g3, &d3, operator_or); // Niveau 1
+
+	std::cout << "Résultat arbre avec x1 et x2 :" << std::endl;
+	std::cout << racine3.node_result(1, 0) << std::endl;
+	std::cout << "Formule arbre avec x1 et x2 :" << std::endl;
+	std::cout << racine3.node_formula() << std::endl;
+	
+	std::cout << "Résultat arbre de base :" << std::endl;
+	std::cout << racine.node_result() << std::endl;
+	std::cout << "Formule arbre de base :" << std::endl;
+	std::cout << racine.node_formula() << std::endl;
+
 	return 0;
 }
