@@ -20,6 +20,7 @@ class Node
 		// Getters
 		void set_left_child(Node* lc);
 		void set_right_child(Node* rc);
+		void set_value(int b);
 
 		int node_result();
 		std::string node_formula();
