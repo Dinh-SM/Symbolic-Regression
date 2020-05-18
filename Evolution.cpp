@@ -51,7 +51,7 @@ void Evolution::mutation(Node position, Node root)
 	}
 	else if (prob == 2)
 	{
-		replacement(parent, root);
+		replacement(position, root);
 		std::cout << "replacement" << std::endl;
 	};
 };

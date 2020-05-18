@@ -63,5 +63,27 @@ int main(int argc, char const *argv[])
 		evolution.mutation(racine, racine);
 	}
 
+
+	// parcours à partir d'un string
+	// si le chemin mène à rien à un moment, il donne le dernier noeud sur le chemin
+	std::string path("gdg");
+	Node* current_node = &racine;
+	for (int i = 0; i < path.length(); ++i)
+	{
+		if(path.c_str()[i] == 'g' && current_node->left_child() != NULL)
+		{
+			current_node = current_node->left_child();
+		}
+		else if(path.c_str()[i] == 'd' && current_node->right_child() != NULL)
+		{
+			current_node = current_node->right_child();
+		}
+		else
+		{
+			break;
+		}
+	}
+	std::cout << current_node->value() << std::endl;
+
 	return 0;
 }
