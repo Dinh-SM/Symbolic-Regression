@@ -1,6 +1,7 @@
-#include"Node.cpp"
+//#include"Node.cpp"
 #include<iostream>
 #include<string>
+#include"Evolution.cpp"
 
 int main(int argc, char const *argv[])
 {
@@ -55,6 +56,14 @@ int main(int argc, char const *argv[])
 	
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;
+	
+	std::string s = droite.node_formula();
+	std::cout<<"forumle originale :" <<droite.node_formula()<<'\n';
+	Evolution e;
+	e.deletion(droite,racine);
+	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
+
+	
 
 	return 0;
 }
