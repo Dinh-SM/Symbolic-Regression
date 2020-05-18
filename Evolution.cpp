@@ -1,9 +1,4 @@
-#include "Evolution.cpp"
-
-Node* Node::left_child()
-{
-	return left_child_;
-};
+#include "Evolution.h"
 
 //Constructor
 Evolution::Evolution()
@@ -58,7 +53,7 @@ int Evolution::fitness(Node tree[ ])
 	return 0;
 };
 
-Node * Evolution::comparative_fitness (Node[] childre_tab, int number_of_child)
+Node * Evolution::comparative_fitness (Node[] children_tab, int number_of_child)
 {
 	return 0;
 };

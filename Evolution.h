@@ -13,7 +13,7 @@ class Evolution
 
 		//Functions
 			/*Evolution*/
-		Node[] replication(Node parent_tree [], int number_of_child);
+		Node* replication(Node parent_tree [], int number_of_child);
 		Node mutation(Node parent, Node parent_tree []);
 
 			/*Mutations*/
@@ -23,13 +23,13 @@ class Evolution
 
 			/*Fitness*/
 		int fitness(Node tree[ ]);
-		Node * comparative_fitness (Node[] childre_tab, int number_of_child);
+		Node * comparative_fitness (Node[] children_tab, int number_of_child);
 			
 	
 	protected :
 
 
-}
+};
 
 
 
