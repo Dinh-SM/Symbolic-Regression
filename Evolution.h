@@ -23,7 +23,7 @@ class Evolution
 
 			/*Fitness*/
 		int fitness(Node tree, int* donnee);
-		Node comparative_fitness (Node parent_tree, Node* children_tab, int number_of_child, int* donnee);
+		Node comparative_fitness (Node root, Node* children_tab, int number_of_child, int* donnee);
 			
 	
 	protected :
