@@ -13,13 +13,13 @@ class Evolution
 
 		//Functions
 			/*Evolution*/
-		Node* replication(Node parent_tree, int number_of_child);
-		void mutation(Node parent, Node parent_tree);
+		Node* replication(Node root, int number_of_child);
+		void mutation(Node position, Node root);
 
 			/*Mutations*/
-		Node insertion(Node parent, Node parent_tree);
-		Node deletion(Node parent, Node parent_tree);
-		Node replacement(Node parent);
+		Node insertion(Node position, Node root);
+		Node deletion(Node position, Node root);
+		Node replacement(Node position, Node root);
 
 			/*Fitness*/
 		int fitness(Node tree, int* donnee);
