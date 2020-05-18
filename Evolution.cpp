@@ -29,45 +29,45 @@ Node empty(NULL, NULL, operand_false);
 //Functions
 
 	/*Evolution*/
-Node* Evolution::replication(Node parent_tree, int number_of_child)
+Node* Evolution::replication(Node root, int number_of_child)
 {
 	
 	return 0;
 };
 
-void Evolution::mutation(Node parent, Node parent_tree)
+void Evolution::mutation(Node position, Node root)
 {
 	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
 	//Selon la probabilité, le node parent est copié et subit une des trois mutations:
 	if (prob == 0)
 	{
-		insertion(parent, parent_tree);
+		insertion(position, root);
 		std::cout << "insertion" << std::endl;
 	}
 	else if (prob == 1) 
 	{
-		deletion(parent, parent_tree);
+		deletion(position, root);
 		std::cout << "deletion" << std::endl;
 	}
 	else if (prob == 2)
 	{
-		replacement(parent);
+		replacement(parent, root);
 		std::cout << "replacement" << std::endl;
 	};
 };
 
 	/*Mutations*/
-Node Evolution::insertion(Node parent, Node parent_tree)
+Node Evolution::insertion(Node position, Node root)
 {
 	return empty;
 };
 
-Node Evolution::deletion(Node parent, Node parent_tree)
+Node Evolution::deletion(Node position, Node root)
 {
 	return empty;
 };
 
-Node Evolution::replacement(Node parent)
+Node Evolution::replacement(Node position, Node root)
 {
 	return empty;
 };
