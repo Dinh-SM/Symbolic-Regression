@@ -1,10 +1,4 @@
 #include "Evolution.h"
-#include "Node.cpp"
-
-Node* Node::left_child()
-{
-	return left_child_;
-};
 
 //Constructor
 Evolution::Evolution()
@@ -23,6 +17,13 @@ Evolution::~Evolution()
 // Getters
 
 
+//Useful
+std::string operand_true("1");
+std::string operand_false("0");
+std::string operator_or("OR");
+std::string operator_and("AND");
+std::string operator_not("NOT");
+Node empty(NULL, NULL, operand_false);
 
 //Functions
 
@@ -54,17 +55,17 @@ void Evolution::mutation(Node parent, Node parent_tree [])
 	/*Mutations*/
 Node Evolution::insertion(Node parent, Node parent_tree[])
 {
-	return 0;
+	return empty;
 };
 
 Node Evolution::deletion(Node parent, Node parent_tree[])
 {
-	return 0;
+	return empty;
 };
 
 Node Evolution::replacement(Node parent)
 {
-	return 0;
+	return empty;
 };
 
 	/*Fitness*/
@@ -73,9 +74,9 @@ int Evolution::fitness(Node tree[ ])
 	return 0;
 };
 
-Node* Evolution::comparative_fitness (Node[] childre_tab, int number_of_child)
+Node* Evolution::comparative_fitness (Node* children_tab, int number_of_child)
 {
-	return 0;
+	return &empty;
 };
 
 
