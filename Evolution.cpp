@@ -85,11 +85,11 @@ int Evolution::fitness(Node tree, int* donnee)
 	
 };
 
-Node Evolution::comparative_fitness (Node parent_tree, Node* children_tab, int number_of_child, int* donnee)
+Node Evolution::comparative_fitness (Node root, Node* children_tab, int number_of_child, int* donnee)
 {
 	int fit, new_fit, best;
 	
-	fit = fitness(parent_tree, donnee);
+	fit = fitness(root, donnee);
 	best = number_of_child;
 
 	for ( int i = 0; i < number_of_child; i++){
@@ -101,7 +101,7 @@ Node Evolution::comparative_fitness (Node parent_tree, Node* children_tab, int n
 	}
 
 	if (best == number_of_child){
-		return parent_tree;
+		return root;
 	}
 	else{
 		return children_tab[best];
