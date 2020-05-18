@@ -34,7 +34,7 @@ Node* Evolution::replication(Node parent_tree [], int number_of_child)
 	return 0;
 };
 
-void Evolution::mutation(Node parent, Node parent_tree [])
+void Evolution::mutation(Node parent, Node parent_tree)
 {
 	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
 	//Selon la probabilité, le node parent est copié et subit une des trois mutations:
@@ -53,12 +53,12 @@ void Evolution::mutation(Node parent, Node parent_tree [])
 };
 
 	/*Mutations*/
-Node Evolution::insertion(Node parent, Node parent_tree[])
+Node Evolution::insertion(Node parent, Node parent_tree)
 {
 	return empty;
 };
 
-Node Evolution::deletion(Node parent, Node parent_tree[])
+Node Evolution::deletion(Node parent, Node parent_tree)
 {
 	return empty;
 };
