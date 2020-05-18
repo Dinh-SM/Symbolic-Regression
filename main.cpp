@@ -37,5 +37,10 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;
 
+
+	Node copy(racine);
+	std::cout << "Formule arbre copié :" << std::endl;
+	std::cout << copy.node_formula() << std::endl;
+
 	return 0;
 }

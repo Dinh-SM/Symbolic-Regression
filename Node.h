@@ -6,6 +6,9 @@ class Node
 		// Constructor
 		Node(Node* lc, Node* rc, std::string v);
 
+		// Copy Constructor
+		Node(Node &root);
+
 		// Destructor
 		~Node();
 		
