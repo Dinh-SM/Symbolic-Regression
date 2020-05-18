@@ -115,6 +115,6 @@ std::string Node::node_formula()
 	}
 	else
 	{
-		return value_.c_str();
+		return value_;
 	}
 };
