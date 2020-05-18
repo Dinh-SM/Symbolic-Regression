@@ -74,7 +74,11 @@ int Evolution::fitness(Node tree[ ])
 	return 0;
 };
 
+<<<<<<< HEAD
+Node * Evolution::comparative_fitness (Node[] children_tab, int number_of_child)
+=======
 Node* Evolution::comparative_fitness (Node* children_tab, int number_of_child)
+>>>>>>> af3d2e3a2a6a6aca15951768024671eec514de94
 {
 	return &empty;
 };
