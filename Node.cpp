@@ -2,15 +2,48 @@
 #include <cstring>
 #include <cstdlib>
 #include<string>
-#include<iostream>
 
 // Constructor
-
 Node::Node(Node* lc, Node* rc, std::string v)
 {
 	left_child_ = lc;
 	right_child_ = rc;
 	value_ = v;
+};
+
+// Copy Constructor
+Node::Node(Node &root)
+{
+	if(root.left_child() != NULL && root.right_child() != NULL)
+	{
+		value_ = root.value();
+
+		Node* lc = new Node(*root.left_child());
+		left_child_ = lc;
+		*left_child_ = *lc;
+
+		Node* rc = new Node(*root.right_child());
+		right_child_ = rc;
+		*right_child_ = *rc;
+	}
+	else if(root.left_child() != NULL && root.right_child() == NULL)
+	{
+		value_ = root.value();
+
+		Node* lc = new Node(*root.left_child());
+		left_child_ = lc;
+		*left_child_ = *lc;
+
+		right_child_ = NULL;
+	}
+	else if(root.left_child() == NULL && root.right_child() == NULL)
+	{
+		value_ = root.value();
+
+		left_child_ = NULL;
+
+		right_child_ = NULL;
+	}
 };
 
 // Destructor
@@ -33,6 +66,17 @@ Node* Node::right_child()
 std::string Node::value()
 {
 	return value_;
+};
+
+// Setters
+void Node::set_left_child(Node* lc)
+{
+	left_child_ = lc;
+};
+
+void Node::set_right_child(Node* rc)
+{
+	right_child_ = rc;
 };
 
 int Node::node_result()
