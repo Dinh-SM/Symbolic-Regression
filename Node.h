@@ -17,6 +17,10 @@ class Node
 		Node* right_child();
 		std::string value();
 
+		// Getters
+		void set_left_child(Node* lc);
+		void set_right_child(Node* rc);
+
 		int node_result();
 		std::string node_formula();
 

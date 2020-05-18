@@ -68,6 +68,17 @@ std::string Node::value()
 	return value_;
 };
 
+// Setters
+void Node::set_left_child(Node* lc)
+{
+	left_child_ = lc;
+};
+
+void Node::set_right_child(Node* rc)
+{
+	right_child_ = rc;
+};
+
 int Node::node_result()
 {
 	if(std::strcmp(value_.c_str(), "AND") == 0)

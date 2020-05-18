@@ -24,7 +24,6 @@ int main(int argc, char const *argv[])
 
 	Node racine(&gauche, &droite, operator_or); // Niveau 1
 
-
 	std::cout << "Résultat arbre :" << std::endl;
 	std::cout << racine.node_result() << std::endl;
 
@@ -39,8 +38,23 @@ int main(int argc, char const *argv[])
 
 
 	Node copy(racine);
+	Node dgd2(NULL, NULL, operand_true); //Niveau 4
+	copy.right_child()->left_child()->set_right_child(&dgd2);
+
+	std::cout << "Résultat arbre copié :" << std::endl;
+	std::cout << copy.node_result() << std::endl;
+
+	std::cout << "Résultat noeud gauche copié :" << std::endl;
+	std::cout << copy.left_child()->node_result() << std::endl;
+
+	std::cout << "Résultat noeud droite copié :" << std::endl;
+	std::cout << copy.right_child()->node_result() << std::endl;
+
 	std::cout << "Formule arbre copié :" << std::endl;
 	std::cout << copy.node_formula() << std::endl;
+	
+	std::cout << "Formule arbre de base :" << std::endl;
+	std::cout << racine.node_formula() << std::endl;
 
 	return 0;
 }
