@@ -1,4 +1,4 @@
-#include"Node.cpp"
+#include"Evolution.cpp"
 #include<iostream>
 #include<string>
 
@@ -55,6 +55,13 @@ int main(int argc, char const *argv[])
 	
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;
+
+
+	Evolution evolution;
+	for (int i = 0; i < 100; ++i)
+	{
+		evolution.mutation(racine, racine);
+	}
 
 	return 0;
 }

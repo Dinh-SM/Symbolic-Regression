@@ -1,4 +1,5 @@
 #include "Evolution.h"
+#include<iostream>
 
 //Constructor
 Evolution::Evolution()
@@ -38,17 +39,20 @@ void Evolution::mutation(Node parent, Node parent_tree)
 {
 	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
 	//Selon la probabilité, le node parent est copié et subit une des trois mutations:
-	if (prob = 0)
+	if (prob == 0)
 	{
 		insertion(parent, parent_tree);
+		std::cout << "insertion" << std::endl;
 	}
-	else if (prob = 1) 
+	else if (prob == 1) 
 	{
 		deletion(parent, parent_tree);
+		std::cout << "deletion" << std::endl;
 	}
-	else if (prob = 2)
+	else if (prob == 2)
 	{
 		replacement(parent);
+		std::cout << "replacement" << std::endl;
 	};
 };
 
