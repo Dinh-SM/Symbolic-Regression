@@ -1,4 +1,5 @@
-#include "Evolution.cpp"
+#include "Evolution.h"
+#include "Node.cpp"
 
 Node* Node::left_child()
 {
@@ -26,14 +27,28 @@ Evolution::~Evolution()
 //Functions
 
 	/*Evolution*/
-Node[] Evolution::replication(Node parent_tree [], int number_of_child)
+Node* Evolution::replication(Node parent_tree [], int number_of_child)
 {
+	
 	return 0;
 };
 
-Node Evolution::mutation(Node parent, Node parent_tree [])
+void Evolution::mutation(Node parent, Node parent_tree [])
 {
-	return 0;
+	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
+	//Selon la probabilité, le node parent est copié et subit une des trois mutations:
+	if (prob = 0)
+	{
+		insertion(parent, parent_tree);
+	 }
+	else if (prob = 1) 
+	{
+		deletion(parent, parent_tree);
+	 }
+	else if (prob = 2)
+	{
+		replacement(parent);
+	 };
 };
 
 	/*Mutations*/
@@ -58,7 +73,7 @@ int Evolution::fitness(Node tree[ ])
 	return 0;
 };
 
-Node * Evolution::comparative_fitness (Node[] childre_tab, int number_of_child)
+Node* Evolution::comparative_fitness (Node[] childre_tab, int number_of_child)
 {
 	return 0;
 };
