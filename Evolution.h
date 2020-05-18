@@ -22,8 +22,8 @@ class Evolution
 		Node replacement(Node position, Node root);
 
 			/*Fitness*/
-		int fitness(Node tree[ ]);
-		Node * comparative_fitness (Node* children_tab, int number_of_child);
+		int fitness(Node tree, int* donnee);
+		Node comparative_fitness (Node root, Node* children_tab, int number_of_child, int* donnee);
 			
 	
 	protected :
