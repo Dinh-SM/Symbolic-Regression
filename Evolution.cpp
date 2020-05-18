@@ -28,7 +28,7 @@ Node empty(NULL, NULL, operand_false);
 //Functions
 
 	/*Evolution*/
-Node* Evolution::replication(Node parent_tree [], int number_of_child)
+Node* Evolution::replication(Node parent_tree, int number_of_child)
 {
 	
 	return 0;
@@ -69,18 +69,39 @@ Node Evolution::replacement(Node parent)
 };
 
 	/*Fitness*/
-int Evolution::fitness(Node tree[])
+int Evolution::fitness(Node tree, int* donnee)
 {
-	return 0;
+	int lenght = sizeof(donnee);
+	int fit = 0;
+
+	for ( int i = 0; i < lenght; i++){
+		fit += abs(tree.Node::node_result(/*val1[i], val2[i]*/) - donnee[ i ]);
+	}
+	return -fit;
+	
 };
 
-<<<<<<< HEAD
-Node * Evolution::comparative_fitness (Node[] children_tab, int number_of_child)
-=======
-Node* Evolution::comparative_fitness (Node* children_tab, int number_of_child)
->>>>>>> af3d2e3a2a6a6aca15951768024671eec514de94
+Node Evolution::comparative_fitness (Node parent_tree, Node* children_tab, int number_of_child, int* donnee)
 {
-	return &empty;
+	int fit, new_fit, best;
+	
+	fit = fitness(parent_tree, donnee);
+	best = number_of_child;
+
+	for ( int i = 0; i < number_of_child; i++){
+		new_fit = fitness(children_tab[ i ], donnee);
+		if (new_fit < fit){
+			fit = new_fit;
+			best = i;
+		}
+	}
+
+	if (best == number_of_child){
+		return parent_tree;
+	}
+	else{
+		return children_tab[best];
+	}
 };
 
 
