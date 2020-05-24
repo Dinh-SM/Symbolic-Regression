@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 //#include"Node.cpp"
-=======
-#include"Evolution.cpp"
->>>>>>> 3292e32a22ae8262bae4e078cf489dd96ffa1c8d
 #include<iostream>
 #include<string>
 #include"Evolution.cpp"
