@@ -59,6 +59,25 @@ void Evolution::mutation(Node parent, Node parent_tree)
 	/*Mutations*/
 Node Evolution::insertion(Node parent, Node parent_tree)
 {
+	Node Node_cp(parent); // creation of a copy of parent
+	Node OR(NULL,NULL, "OR");
+	Node NOT(NULL,NULL, "NOT");
+	Node AND(NULL,NULL, "AND");
+    
+    int Prob = rand() %3 ; // Prob prend la valeur 0, 1 ou 2
+	if(Prob==0){
+		parent = OR;
+	};
+	if(Prob==1){
+		parent = NOT;
+	};
+    if(Prob==2){
+		parent = AND;
+	};
+
+	parent.left_child()->deletion; // left child of the futur insertion becomes 0 or 1
+    parent.right_child() = Node_cp; // right child of the futur insertion becomes the parent node of the begining of this method.
+	
 	return empty;
 };
 
