@@ -83,6 +83,8 @@ void Node::set_value(std::string b){
 	value_ = b;
 };
 
+
+//Function
 int Node::node_result()
 {
 	if(value_.compare("AND") == 0)
