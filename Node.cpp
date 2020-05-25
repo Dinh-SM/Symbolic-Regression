@@ -52,6 +52,14 @@ Node::~Node()
 	value_.clear();
 };
 
+//Useful
+std::string operand_true("1");
+std::string operand_false("0");
+std::string operator_or("OR");
+std::string operator_and("AND");
+std::string operator_not("NOT");
+Node empty(NULL, NULL, operand_false);
+
 // Getters
 Node* Node::left_child()
 {
@@ -85,6 +93,35 @@ void Node::set_value(std::string b){
 
 
 //Function
+
+void Node::delete_blood(){
+	if (left_child_!=NULL && right_child_!=NULL){
+		left_child_->delete_blood();
+		right_child_->delete_blood();
+		delete left_child_;
+		left_child_==NULL;
+		delete right_child_;
+		right_child_==NULL;
+	}
+	else if (left_child_!=NULL && right_child_==NULL){
+		left_child_->delete_blood();
+		delete left_child_;
+		left_child_==NULL;
+	}
+	else if (left_child_==NULL && right_child_!=NULL){
+		right_child_->delete_blood();
+		delete right_child_;
+		right_child_==NULL;
+	};
+
+	int a = rand() % 2;
+	if (a==0){
+		set_value(operand_true);	
+	}else{
+		set_value(operand_false);
+	}
+};
+
 int Node::node_result()
 {
 	if(value_.compare("AND") == 0)

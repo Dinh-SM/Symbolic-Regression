@@ -18,13 +18,6 @@ Evolution::~Evolution()
 // Getters
 
 
-//Useful
-std::string operand_true("1");
-std::string operand_false("0");
-std::string operator_or("OR");
-std::string operator_and("AND");
-std::string operator_not("NOT");
-Node empty(NULL, NULL, operand_false);
 
 //Functions
 Node* Evolution::get_parent_node(Node position, Node root)
@@ -146,57 +139,8 @@ void Evolution::deletion(Node position)
 };
 
 
-void Evolution::replacement(Node position, Node root)
+void Evolution::replacement(Node* position, Node root)
 {
-
-	Node node_true(NULL, NULL, operand_true);
-	Node node_false(NULL, NULL, operand_true);
-
-	if ((position -> value() == operand_false) || (position-> value() == operand_true)){
-	
-		if (position -> value() == operand_true){
-			position -> set_value(operand_false);
-		}
-		else{
-			position -> set_value(operand_true);
-		}
-	}
-
-	else{
-
-		int n = rand() % 2;
-		int f = rand() % 2;
-	
-		if (position -> value() == operator_and){
-			if(n == 0){
-				position -> set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
-				position -> set_right_child(NULL);
-			}
-			else{
-				position -> set_value(operator_or);
-			}
-		}
-		else if(position -> value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
-			if(n){
-				position -> set_value(operator_or);
-				position -> set_right_child(&node_true);
-			
-			}
-			else{
-				position -> set_value(operator_and);
-				position -> set_right_child(&node_true);
-			}
-		}
-		else{
-			if(n == 0){
-				position -> set_value(operator_and);
-			}
-			else{
-				position -> set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
-				position -> set_right_child(NULL);
-			}
-		}
-	}*/
 };
 
 

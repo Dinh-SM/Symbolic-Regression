@@ -59,21 +59,27 @@ int main(int argc, char const *argv[])
 	std::cout << racine.node_formula() << std::endl;
 	
 	std::string s = droite.node_formula();*/
-	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
+/*	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
 	Evolution e;
 	e.deletion(droite);
 	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
+*/
 
+//Test delete_blood()
+	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
+	droite.delete_blood();
+	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
 	
-
+	
+	
 
 	/*Evolution evolution;
 	for (int i = 0; i < 100; ++i)
 	{
 		evolution.mutation(racine, racine);
-	}*/
+	}
 
-/*
+
 	// parcours à partir d'un string
 	// si le chemin mène à rien à un moment, il donne le dernier noeud sur le chemin
 	std::string path("gdg");
@@ -159,6 +165,7 @@ int main(int argc, char const *argv[])
 	std::cout << rep_node.node_result() << std::endl;=
 
 	return 0;
+*/
 }
 
 
