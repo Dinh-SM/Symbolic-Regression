@@ -150,47 +150,103 @@ void Evolution::replacement(Node* position, Node root)
 	Node node_true(NULL, NULL, operand_true);
 	Node node_false(NULL, NULL, operand_true);
 
+//Differenciation entre feuille et noeud
+	//Feuille
 	if ((position -> value() == operand_false) || (position-> value() == operand_true)){
-	
+	//Differenciation entre 1 et 0
+		//1
 		if (position -> value() == operand_true){
 			position -> set_value(operand_false);
 		}
+		//0
 		else{
 			position -> set_value(operand_true);
 		}
 	}
-
+	//Noeud
 	else{
 
-		int n = rand() % 2;
-		int f = rand() % 2;
+		int n = rand() % 3;		//choix au hasard de la transformation d'un noeud en noeud
+		int f = rand() % 2;		//choix au hasard de la feuille
 	
+	//Differenciation entre NOT, AND et OR
+		//AND
 		if (position -> value() == operator_and){
-			if(n == 0){
-				position -> set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
+		//Differenciation de la modification
+			//NOT
+			if(n){
+				position -> set_value(operator_not);
 				position -> set_right_child(NULL);
 			}
+			//Feuille
+			else if (n == 2){
+			//Differenciation de la feuille
+				//1
+				if(f){
+					position -> set_value(operand_true);
+					position -> set_right_child(NULL);
+					position -> set_left_child(NULL);
+				}
+				//0
+				else {
+					position -> set_value(operand_false);
+					position -> set_right_child(NULL);
+					position -> set_left_child(NULL);
+				}
+			}
+			//OR
 			else{
 				position -> set_value(operator_or);
 			}
 		}
+		//NOT
 		else if(position -> value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
 			if(n){
 				position -> set_value(operator_or);
 				position -> set_right_child(&node_true);
 			
 			}
+			else if (n == 2){
+				if(f){
+					position -> set_value(operand_true);
+					position -> set_left_child(NULL);
+				}
+				else {
+					position -> set_value(operand_false);
+					position -> set_left_child(NULL);
+				}
+			}
 			else{
 				position -> set_value(operator_and);
 				position -> set_right_child(&node_true);
 			}
 		}
+		//OR
 		else{
-			if(n == 0){
+		//Differenciation de la modification
+			//AND
+			if(n){
 				position -> set_value(operator_and);
 			}
+			//Feuille
+			else if (n == 2){
+			//Differenciation de la feuille
+				//1
+				if(f){
+					position -> set_value(operand_true);
+					position -> set_right_child(NULL);
+					position -> set_left_child(NULL);
+				}
+				//0
+				else {
+					position -> set_value(operand_false);
+					position -> set_right_child(NULL);
+					position -> set_left_child(NULL);
+				}
+			}
+			//NOT
 			else{
-				position -> set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
+				position -> set_value(operator_not);
 				position -> set_right_child(NULL);
 			}
 		}
