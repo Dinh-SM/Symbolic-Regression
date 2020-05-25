@@ -18,13 +18,6 @@ Evolution::~Evolution()
 // Getters
 
 
-//Useful
-std::string operand_true("1");
-std::string operand_false("0");
-std::string operator_or("OR");
-std::string operator_and("AND");
-std::string operator_not("NOT");
-Node empty(NULL, NULL, operand_false);
 
 //Functions
 Node* Evolution::get_parent_node(Node position, Node root)
@@ -74,7 +67,7 @@ void Evolution::mutation(Node position, Node root)
 
 /*Mutations*/
 void Evolution::insertion(Node position, Node root)
-{
+{/*
 	Node node_cp(position); // creation of a copy of position
 	Node test(NULL, NULL, operand_true);
 	Node or_(&test, &test, operator_or);
@@ -94,6 +87,7 @@ void Evolution::insertion(Node position, Node root)
 
 	deletion(*position.left_child()); // left child of the futur insertion becomes 0 or 1
     position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
+*/
 };
 
 void Evolution::deletion(Node position)
@@ -101,28 +95,28 @@ void Evolution::deletion(Node position)
 	Node * node_current = &position;
 	Node * node_p = &position;
 	while(position.left_child()!=NULL || position.right_child()!=NULL){
-		std::cout<<"entree boucle while"<<'\n';
+		//std::cout<<"entree boucle while"<<'\n';
 		if (node_current->left_child() !=NULL){//le but, c'est d'aller à gauche jusqu'à ce quon tombe sur une feuille
-			std::cout<<"if 1"<<"       ";
+			//std::cout<<"if 1"<<"       ";
 			node_p = node_current;
 			node_current = node_current->left_child();
 		}
 		else if(node_current->right_child() != NULL){//après, on regarde l'enfant à droite si il est null ou pas
-			std::cout<<"else if"<<"       ";
+			//std::cout<<"else if"<<"       ";
 			node_p = node_current;
 			node_current = node_current->right_child();
 		}
 		else{
-			std::cout<<"else"<<"           ";
+			//std::cout<<"else"<<"           ";
 			node_current = node_p;//on remonte
 			if(node_current->left_child()!=NULL){
 				delete node_current->left_child();
 				node_current->set_left_child(NULL);	
-				std::cout<<"delete left"<<"         ";
+				//std::cout<<"delete left"<<"         ";
 			}else if(node_current->right_child()!=NULL){
 				delete node_current->right_child();
 				node_current->set_right_child(NULL);
-				std::cout<<"delete right"<<"         ";
+				//std::cout<<"delete right"<<"         ";
 				node_p= &position; //on remonte au noeud muté (consommateur de temps et de ressources mais sûr)
 			}
 			
@@ -130,7 +124,7 @@ void Evolution::deletion(Node position)
 	}
 	
 	int a = rand() % 2;
-//	std::cout<<"value taken :"<<a<<'\n';
+	std::cout<<"value taken :"<<a<<'\n';
 	if (a==0){
 		position.set_value(operand_true);	
 	}else{
@@ -143,6 +137,7 @@ void Evolution::deletion(Node position)
 	}else{
 	}*/
 };
+
 
 void Evolution::replacement(Node* position, Node root)
 {

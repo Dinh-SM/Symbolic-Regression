@@ -25,6 +25,7 @@ int main(int argc, char const *argv[])
 
 	Node racine(&gauche, &droite, operator_or); // Niveau 1
 
+/*
 	std::cout << "Résultat arbre :" << std::endl;
 	std::cout << racine.node_result() << std::endl;
 
@@ -57,20 +58,26 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;
 	
-	std::string s = droite.node_formula();
-	std::cout<<"forumle originale :" <<droite.node_formula()<<'\n';
+	std::string s = droite.node_formula();*/
+/*	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
 	Evolution e;
 	e.deletion(droite);
 	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
+*/
 
+//Test delete_blood()
+	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
+	droite.delete_blood();
+	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
 	
-
+	
+	
 
 	/*Evolution evolution;
 	for (int i = 0; i < 100; ++i)
 	{
 		evolution.mutation(racine, racine);
-	}*/
+	}
 
 
 	// parcours à partir d'un string
@@ -143,6 +150,7 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre :" << std::endl;
 	std::cout << rep_node.node_formula() << std::endl;
 
+
 	std::cout << "Résultat arbre :" << std::endl;
 	std::cout << rep_node.node_result() << std::endl;
 
@@ -174,8 +182,8 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;
 
-
 	return 0;
+*/
 }
 
 
