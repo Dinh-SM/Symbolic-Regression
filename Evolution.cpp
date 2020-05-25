@@ -128,9 +128,9 @@ void Evolution::deletion(Node position, Node root)
 
 void Evolution::replacement(Node position, Node root)
 {
-if ((position == operand_false) || (position == operand_true)){
+if ((position.value() == operand_false) || (position.value() == operand_true)){
 	
-	if (position == operand_true){
+	if (position.value() == operand_true){
 		position.set_value(operand_false);
 	}
 	else{
@@ -142,7 +142,7 @@ else{
 
 	int n = rand() % 2;
 	
-	if (position == operator_and){
+	if (position.value() == operator_and){
 		if(n){
 			position.set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
 			delete position->right_child();
@@ -151,15 +151,15 @@ else{
 			position.set_value(operator_or);
 		}
 	}
-	else if(position == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
+	else if(position.value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
 		if(n){
 			position.set_value(operator_or);
-//			position.set_right_child(operand_true);
+			position -> right_child.set_value(operand_true);
 			
 		}
 		else{
 			position.set_value(operator_and);
-			position.set_right_child(operand_true);
+			position -> right_child.set_value(operand_true);
 		}
 	}
 	else{
