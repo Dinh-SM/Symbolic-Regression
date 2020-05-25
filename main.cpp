@@ -25,6 +25,7 @@ int main(int argc, char const *argv[])
 
 	Node racine(&gauche, &droite, operator_or); // Niveau 1
 
+/*
 	std::cout << "Résultat arbre :" << std::endl;
 	std::cout << racine.node_result() << std::endl;
 
@@ -57,8 +58,8 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;
 	
-	std::string s = droite.node_formula();
-	std::cout<<"forumle originale :" <<droite.node_formula()<<'\n';
+	std::string s = droite.node_formula();*/
+	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
 	Evolution e;
 	e.deletion(droite);
 	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
@@ -72,7 +73,7 @@ int main(int argc, char const *argv[])
 		evolution.mutation(racine, racine);
 	}*/
 
-
+/*
 	// parcours à partir d'un string
 	// si le chemin mène à rien à un moment, il donne le dernier noeud sur le chemin
 	std::string path("gdg");
@@ -139,7 +140,7 @@ int main(int argc, char const *argv[])
 	
 	std::cout << "Formule arbre :" << std::endl;
 	std::cout << rep_node.node_formula() << std::endl;
-
+*/
 
 	return 0;
 }
