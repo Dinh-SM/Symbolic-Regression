@@ -20,7 +20,7 @@ class Node
 		// Setters
 		void set_left_child(Node* lc);
 		void set_right_child(Node* rc);
-		void set_value(int b);
+		void set_value(std::string b);
 
 		//Fonction
 		int node_result();

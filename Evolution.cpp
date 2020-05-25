@@ -56,33 +56,31 @@ void Evolution::mutation(Node position, Node root)
 	};
 };
 
-	/*Mutations*/
-Node Evolution::insertion(Node position, Node root)
+/*Mutations*/
+void Evolution::insertion(Node position, Node root)
 {
-	Node Node_cp(position); // creation of a copy of position
+	Node node_cp(position); // creation of a copy of position
 	Node test(NULL, NULL, operand_true);
-	Node OR(&test,&test, "OR");
-	Node NOT(&test,&test, "NOT");
-	Node AND(&test,&test, "AND");
+	Node or_(&test,&test, "OR");
+	Node not_(&test,&test, "NOT");
+	Node and_(&test,&test, "AND");
     
-    int Prob = rand() %3 ; // Prob prend la valeur 0, 1 ou 2
-	if(Prob==0){
-		position = OR;
+    int prob = rand() %3 ; // Prob prend la valeur 0, 1 ou 2
+	if(prob==0){
+		position = or_;
 	};
-	if(Prob==1){
-		position = NOT;
+	if(prob==1){
+		position = not_;
 	};
-    if(Prob==2){
-		position = AND;
+    if(prob==2){
+		position = and_;
 	};
 
 	position.left_child()->deletion; // left child of the futur insertion becomes 0 or 1
-    position.right_child() = Node_cp; // right child of the futur insertion becomes the position node of the begining of this method.
-	
-	return empty;
+    position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
 };
 
-Node Evolution::deletion(Node position, Node root)
+void Evolution::deletion(Node position, Node root)
 {
 	Node * node_current = &position;
 	Node * node_p = &position;
@@ -109,6 +107,7 @@ Node Evolution::deletion(Node position, Node root)
 				delete node_current->right_child();
 				node_current->set_right_child(NULL);
 				std::cout<<"delete right"<<"         ";
+				node_p= &position; //on remonte au noeud muté (consommateur de temps et de ressources mais sûr)
 			}
 			
 		}
@@ -125,12 +124,10 @@ Node Evolution::deletion(Node position, Node root)
 	}else if(position.left_child!=NULL && position.right_child()==NULL){
 	}else{
 	}*/
-	return empty;
 };
 
 void Evolution::replacement(Node position, Node root)
 {
-
 if ((position == operand_false) || (position == operand_true)){
 	
 	if (position == operand_true){
@@ -177,7 +174,8 @@ else{
 }
 };
 
-	/*Fitness*/
+
+/*Fitness*/
 int Evolution::fitness(Node tree, int* donnee)
 {
 	int lenght = sizeof(donnee);
@@ -212,5 +210,3 @@ Node Evolution::comparative_fitness (Node root, Node* children_tab, int number_o
 		return children_tab[best];
 	}
 };
-
-

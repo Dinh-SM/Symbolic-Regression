@@ -66,11 +66,11 @@ int main(int argc, char const *argv[])
 	
 
 
-	Evolution evolution;
+	/*Evolution evolution;
 	for (int i = 0; i < 100; ++i)
 	{
 		evolution.mutation(racine, racine);
-	}
+	}*/
 
 
 	// parcours à partir d'un string
