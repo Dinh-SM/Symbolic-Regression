@@ -57,7 +57,7 @@ void Evolution::mutation(Node position, Node root)
 };
 
 	/*Mutations*/
-Node Evolution::insertion(Node position, Node root)
+void Evolution::insertion(Node position, Node root)
 {
 	Node Node_cp(position); // creation of a copy of position
 	Node test(NULL, NULL, operand_true);
@@ -78,11 +78,9 @@ Node Evolution::insertion(Node position, Node root)
 
 	position.left_child()->deletion; // left child of the futur insertion becomes 0 or 1
     position.right_child() = Node_cp; // right child of the futur insertion becomes the position node of the begining of this method.
-	
-	return empty;
 };
 
-Node Evolution::deletion(Node position, Node root)
+void Evolution::deletion(Node position, Node root)
 {
 	Node * node_current = &position;
 	Node * node_p = &position;
@@ -125,55 +123,55 @@ Node Evolution::deletion(Node position, Node root)
 	}else if(position.left_child!=NULL && position.right_child()==NULL){
 	}else{
 	}*/
-	return empty;
 };
 
-Node Evolution::replacement(Node position, Node root)
+void Evolution::replacement(Node position, Node root)
 {
 	Node children();
 
-if ((position == operand_false) || (position == operand_true)){
-	
-	if (position == operand_true){
-		return children = operand_false;
+	if ((position == operand_false) || (position == operand_true)){
+		
+		if (position == operand_true){
+			return children = operand_false;
+		}
+		else{
+			return children = operand_true;
+		}
 	}
-	else{
-		return children = operand_true;
-	}
-}
 
-else{
-
-	int n = random(0,1);
-	
-	if (position == operator_and){
-		if(n){
-			return children = operator_not;		//ATTENTION : il faudra retirer l’un des noeuds suivants
-		}
-		else{
-			return children = operator_or;
-		}
-	}
-	else if(position == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
-		if(n){
-			return children = operator_or;
-		}
-		else{
-			return children = operator_and;
-		}
-	}
 	else{
-		if(n){
-			return children = operator_and;
+
+		int n = random(0,1);
+		
+		if (position == operator_and){
+			if(n){
+				return children = operator_not;		//ATTENTION : il faudra retirer l’un des noeuds suivants
+			}
+			else{
+				return children = operator_or;
+			}
+		}
+		else if(position == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
+			if(n){
+				return children = operator_or;
+			}
+			else{
+				return children = operator_and;
+			}
 		}
 		else{
-			return children = operator_not;		//ATTENTION : il faudra retirer l’un des noeuds suivants
+			if(n){
+				return children = operator_and;
+			}
+			else{
+				return children = operator_not;		//ATTENTION : il faudra retirer l’un des noeuds suivants
+			}
 		}
 	}
-}
 };
 
-	/*Fitness*/
+
+/*Fitness*/
 int Evolution::fitness(Node tree, int* donnee)
 {
 	int lenght = sizeof(donnee);
@@ -208,5 +206,3 @@ Node Evolution::comparative_fitness (Node root, Node* children_tab, int number_o
 		return children_tab[best];
 	}
 };
-
-
