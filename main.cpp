@@ -122,11 +122,14 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;
 
+
 //Test replacement
 	
 	Node rep_node(racine);	
 	
 	std::cout << "Replacement!!" << std::endl;
+
+//	rep_node.set_value(operator_and);
 
 	std::cout << "Résultat arbre :" << std::endl;
 	std::cout << rep_node.node_result() << std::endl;
@@ -136,11 +139,24 @@ int main(int argc, char const *argv[])
 
 	std::cout << "Modification..." << std::endl;
 
-	e.Evolution::replacement(rep_node, rep_node);
+	e.Evolution::replacement(&rep_node, rep_node);
 	
 	std::cout << "Formule arbre :" << std::endl;
 	std::cout << rep_node.node_formula() << std::endl;
-*/
+
+
+	std::cout << "Résultat arbre :" << std::endl;
+	std::cout << rep_node.node_result() << std::endl;
+
+	std::cout << "Modification le retour..." << std::endl;
+
+	e.Evolution::replacement(&rep_node, rep_node);
+	
+	std::cout << "Formule arbre :" << std::endl;
+	std::cout << rep_node.node_formula() << std::endl;
+
+	std::cout << "Résultat arbre :" << std::endl;
+	std::cout << rep_node.node_result() << std::endl;=
 
 	return 0;
 }
