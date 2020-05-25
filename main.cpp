@@ -140,7 +140,6 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre :" << std::endl;
 	std::cout << rep_node.node_formula() << std::endl;
 
-
 	return 0;
 }
 
