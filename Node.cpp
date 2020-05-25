@@ -83,6 +83,8 @@ void Node::set_value(int b){
 	value_=b;
 }
 
+
+//Function
 int Node::node_result()
 {
 	if(std::strcmp(value_.c_str(), "AND") == 0)
