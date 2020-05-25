@@ -57,29 +57,27 @@ void Evolution::mutation(Node position, Node root)
 };
 
 	/*Mutations*/
-Node Evolution::insertion(Node position, Node root)
+void Evolution::insertion(Node position, Node root)
 {
-	Node Node_cp(position); // creation of a copy of position
+	Node node_cp(position); // creation of a copy of position
 	Node test(NULL, NULL, operand_true);
-	Node OR(&test,&test, "OR");
-	Node NOT(&test,&test, "NOT");
-	Node AND(&test,&test, "AND");
+	Node or_(&test,&test, "OR");
+	Node not_(&test,&test, "NOT");
+	Node and_(&test,&test, "AND");
     
-    int Prob = rand() %3 ; // Prob prend la valeur 0, 1 ou 2
-	if(Prob==0){
-		position = OR;
+    int prob = rand() %3 ; // Prob prend la valeur 0, 1 ou 2
+	if(prob==0){
+		position = or_;
 	};
-	if(Prob==1){
-		position = NOT;
+	if(prob==1){
+		position = not_;
 	};
-    if(Prob==2){
-		position = AND;
+    if(prob==2){
+		position = and_;
 	};
 
 	position.left_child()->deletion; // left child of the futur insertion becomes 0 or 1
-    position.right_child() = Node_cp; // right child of the futur insertion becomes the position node of the begining of this method.
-	
-	return empty;
+    position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
 };
 
 Node Evolution::deletion(Node position, Node root)
