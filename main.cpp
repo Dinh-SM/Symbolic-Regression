@@ -121,5 +121,27 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;
 
+//Test replacement
+	
+	Node rep_node(racine);	
+	
+	std::cout << "Replacement!!" << std::endl;
+
+	std::cout << "Résultat arbre :" << std::endl;
+	std::cout << rep_node.node_result() << std::endl;
+
+	std::cout << "Formule arbre :" << std::endl;
+	std::cout << rep_node.node_formula() << std::endl;
+
+	std::cout << "Modification..." << std::endl;
+
+	e.Evolution::replacement(rep_node, rep_node);
+	
+	std::cout << "Formule arbre :" << std::endl;
+	std::cout << rep_node.node_formula() << std::endl;
+
+
 	return 0;
 }
+
+

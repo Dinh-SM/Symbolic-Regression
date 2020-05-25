@@ -76,7 +76,7 @@ void Evolution::insertion(Node position, Node root)
 		position = and_;
 	};
 
-	position.left_child()->deletion; // left child of the futur insertion becomes 0 or 1
+//	position.left_child()->deletion; // left child of the futur insertion becomes 0 or 1
     position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
 };
 
@@ -113,10 +113,10 @@ void Evolution::deletion(Node position, Node root)
 		}
 	}
 	
-	int a = rand() % 2;
-	std::cout<<"value taken :"<<a<<'\n';
+//	int a = rand() % 2;
+//	std::cout<<"value taken :"<<a<<'\n';
 
-	position.set_value(a);	
+	position.set_value(operand_true);	
 
 	/*if (position.left_child()==NULL && position.right_child()==NULL){
 	
@@ -128,50 +128,55 @@ void Evolution::deletion(Node position, Node root)
 
 void Evolution::replacement(Node position, Node root)
 {
-if ((position.value() == operand_false) || (position.value() == operand_true)){
-	
-	if (position.value() == operand_true){
-		position.set_value(operand_false);
-	}
-	else{
-		position.set_value(operand_true);
-	}
-}
 
-else{
+	Node node_true(NULL, NULL, operand_true);
+	Node node_false(NULL, NULL, operand_true);
 
-	int n = rand() % 2;
+	if ((position.value() == operand_false) || (position.value() == operand_true)){
 	
-	if (position.value() == operator_and){
-		if(n){
-			position.set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
-			delete position->right_child();
+		if (position.value() == operand_true){
+			position.set_value(operand_false);
 		}
 		else{
-			position.set_value(operator_or);
+			position.set_value(operand_true);
 		}
 	}
-	else if(position.value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
-		if(n){
-			position.set_value(operator_or);
-			position -> right_child.set_value(operand_true);
+
+	else{
+
+		int n = rand() % 2;
+		int f = rand() % 2;
+	
+		if (position.value() == operator_and){
+			if(n){
+				position.set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
+				position.set_right_child(NULL);
+			}
+			else{
+				position.set_value(operator_or);
+			}
+		}
+		else if(position.value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
+			if(n){
+				position.set_value(operator_or);
+				position.set_right_child(&node_true);
 			
+			}
+			else{
+				position.set_value(operator_and);
+				position.set_right_child(&node_true);
+			}
 		}
 		else{
-			position.set_value(operator_and);
-			position -> right_child.set_value(operand_true);
+			if(n){
+				position.set_value(operator_and);
+			}
+			else{
+				position.set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
+				position.set_right_child(NULL);
+			}
 		}
 	}
-	else{
-		if(n){
-			position.set_value(operator_and);
-		}
-		else{
-			position.set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
-			delete position->right_child();
-		}
-	}
-}
 };
 
 
