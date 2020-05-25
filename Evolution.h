@@ -19,7 +19,7 @@ class Evolution
 			/*Mutations*/
 		Node insertion(Node position, Node root);
 		Node deletion(Node position, Node root);
-		Node replacement(Node position, Node root);
+		void replacement(Node position, Node root);
 
 			/*Fitness*/
 		int fitness(Node tree, int* donnee);

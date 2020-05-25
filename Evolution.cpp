@@ -128,46 +128,50 @@ Node Evolution::deletion(Node position, Node root)
 	return empty;
 };
 
-Node Evolution::replacement(Node position, Node root)
+void Evolution::replacement(Node position, Node root)
 {
-	Node children();
 
 if ((position == operand_false) || (position == operand_true)){
 	
 	if (position == operand_true){
-		return children = operand_false;
+		position.set_value(operand_false);
 	}
 	else{
-		return children = operand_true;
+		position.set_value(operand_true);
 	}
 }
 
 else{
 
-	int n = random(0,1);
+	int n = rand() % 2;
 	
 	if (position == operator_and){
 		if(n){
-			return children = operator_not;		//ATTENTION : il faudra retirer l’un des noeuds suivants
+			position.set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
+			delete position->right_child();
 		}
 		else{
-			return children = operator_or;
+			position.set_value(operator_or);
 		}
 	}
 	else if(position == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
 		if(n){
-			return children = operator_or;
+			position.set_value(operator_or);
+//			position.set_right_child(operand_true);
+			
 		}
 		else{
-			return children = operator_and;
+			position.set_value(operator_and);
+			position.set_right_child(operand_true);
 		}
 	}
 	else{
 		if(n){
-			return children = operator_and;
+			position.set_value(operator_and);
 		}
 		else{
-			return children = operator_not;		//ATTENTION : il faudra retirer l’un des noeuds suivants
+			position.set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
+			delete position->right_child();
 		}
 	}
 }
