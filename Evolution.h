@@ -12,6 +12,8 @@ class Evolution
 		// Getters
 
 		//Functions
+		Node* get_parent_node(Node position, Node root);
+
 			/*Evolution*/
 		Node* replication(Node root, int number_of_child);
 		void mutation(Node position, Node root);

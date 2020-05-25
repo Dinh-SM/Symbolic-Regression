@@ -27,6 +27,22 @@ std::string operator_not("NOT");
 Node empty(NULL, NULL, operand_false);
 
 //Functions
+Node* Evolution::get_parent_node(Node position, Node root)
+{
+	Node* parent_node = NULL;
+	Node* current_node = &root;
+	while(current_node != position){
+		if (current_node->left_child() !=NULL){
+			parent = current_node;
+			current_node = current_node->left_child();
+		}
+		else if(current_node->right_child() != NULL){
+			parent = current_node;
+			current_node = current_node->right_child();
+		}
+	}
+	return parent_node;
+};
 
 	/*Evolution*/
 Node* Evolution::replication(Node root, int number_of_child)
