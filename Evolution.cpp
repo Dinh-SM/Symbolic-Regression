@@ -18,13 +18,6 @@ Evolution::~Evolution()
 // Getters
 
 
-//Useful
-std::string operand_true("1");
-std::string operand_false("0");
-std::string operator_or("OR");
-std::string operator_and("AND");
-std::string operator_not("NOT");
-Node empty(NULL, NULL, operand_false);
 
 //Functions
 Node* Evolution::get_parent_node(Node position, Node root)
@@ -53,17 +46,17 @@ Node* Evolution::replication(Node root, int number_of_child)
 
 void Evolution::mutation(Node position, Node root)
 {
-	Node parent = get_parent_node(position, root);
+	Node* parent = get_parent_node(position, root);
 	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
 	//Selon la probabilité, le node position est copié et subit une des trois mutations:
 	if (prob == 0)
 	{
-		insertion(position, parent);
+		insertion(position, root);
 		std::cout << "insertion" << std::endl;
 	}
 	else if (prob == 1) 
 	{
-		deletion(position, parent);
+		deletion(position, root);
 		std::cout << "deletion" << std::endl;
 	}
 	else if (prob == 2)
@@ -74,8 +67,9 @@ void Evolution::mutation(Node position, Node root)
 };
 
 /*Mutations*/
-void Evolution::insertion(Node position, Node parent)
-{
+void Evolution::insertion(Node position, Node root)
+{/*
+>>>>>>> 0a3f51f2bb9a83aa467918c7362365f575fee0b5
 	Node node_cp(position); // creation of a copy of position
 	Node test(NULL, NULL, operand_true);
 	Node or_(&test, &test, operator_or);
@@ -95,6 +89,7 @@ void Evolution::insertion(Node position, Node parent)
 
 	deletion(*position.left_child()); // left child of the futur insertion becomes 0 or 1
     position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
+*/
 };
 
 void Evolution::deletion(Node position, Node root)
@@ -102,28 +97,28 @@ void Evolution::deletion(Node position, Node root)
 	Node * node_current = &position;
 	Node * node_p = &position;
 	while(position.left_child()!=NULL || position.right_child()!=NULL){
-		std::cout<<"entree boucle while"<<'\n';
+		//std::cout<<"entree boucle while"<<'\n';
 		if (node_current->left_child() !=NULL){//le but, c'est d'aller à gauche jusqu'à ce quon tombe sur une feuille
-			std::cout<<"if 1"<<"       ";
+			//std::cout<<"if 1"<<"       ";
 			node_p = node_current;
 			node_current = node_current->left_child();
 		}
 		else if(node_current->right_child() != NULL){//après, on regarde l'enfant à droite si il est null ou pas
-			std::cout<<"else if"<<"       ";
+			//std::cout<<"else if"<<"       ";
 			node_p = node_current;
 			node_current = node_current->right_child();
 		}
 		else{
-			std::cout<<"else"<<"           ";
+			//std::cout<<"else"<<"           ";
 			node_current = node_p;//on remonte
 			if(node_current->left_child()!=NULL){
 				delete node_current->left_child();
 				node_current->set_left_child(NULL);	
-				std::cout<<"delete left"<<"         ";
+				//std::cout<<"delete left"<<"         ";
 			}else if(node_current->right_child()!=NULL){
 				delete node_current->right_child();
 				node_current->set_right_child(NULL);
-				std::cout<<"delete right"<<"         ";
+				//std::cout<<"delete right"<<"         ";
 				node_p= &position; //on remonte au noeud muté (consommateur de temps et de ressources mais sûr)
 			}
 			
@@ -131,7 +126,7 @@ void Evolution::deletion(Node position, Node root)
 	}
 	
 	int a = rand() % 2;
-//	std::cout<<"value taken :"<<a<<'\n';
+	std::cout<<"value taken :"<<a<<'\n';
 	if (a==0){
 		position.set_value(operand_true);	
 	}else{
@@ -145,57 +140,9 @@ void Evolution::deletion(Node position, Node root)
 	}*/
 };
 
+
 void Evolution::replacement(Node* position, Node root)
 {
-
-	Node node_true(NULL, NULL, operand_true);
-	Node node_false(NULL, NULL, operand_true);
-
-	if ((position -> value() == operand_false) || (position-> value() == operand_true)){
-	
-		if (position -> value() == operand_true){
-			position -> set_value(operand_false);
-		}
-		else{
-			position -> set_value(operand_true);
-		}
-	}
-
-	else{
-
-		int n = rand() % 2;
-		int f = rand() % 2;
-	
-		if (position -> value() == operator_and){
-			if(n == 0){
-				position -> set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
-				position -> set_right_child(NULL);
-			}
-			else{
-				position -> set_value(operator_or);
-			}
-		}
-		else if(position -> value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
-			if(n){
-				position -> set_value(operator_or);
-				position -> set_right_child(&node_true);
-			
-			}
-			else{
-				position -> set_value(operator_and);
-				position -> set_right_child(&node_true);
-			}
-		}
-		else{
-			if(n == 0){
-				position -> set_value(operator_and);
-			}
-			else{
-				position -> set_value(operator_not);		//ATTENTION : il faudra retirer l’un des noeuds suivants
-				position -> set_right_child(NULL);
-			}
-		}
-	}
 };
 
 

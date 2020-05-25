@@ -23,6 +23,7 @@ class Node
 		void set_value(std::string b);
 
 		//Fonction
+		void delete_blood();
 		int node_result();
 		int node_result(int x1, int x2);
 		std::string node_formula();
