@@ -60,7 +60,7 @@ int main(int argc, char const *argv[])
 	std::string s = droite.node_formula();
 	std::cout<<"forumle originale :" <<droite.node_formula()<<'\n';
 	Evolution e;
-	e.deletion(droite,racine);
+	e.deletion(droite);
 	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
 
 	
