@@ -73,27 +73,85 @@ void Evolution::mutation(Node position, Node root)
 };
 
 /*Mutations*/
-void Evolution::insertion(Node position, Node root)
+void Evolution::insertion(Node position, Node parent)
 {
-	Node node_cp(position); // creation of a copy of position
-	Node test(NULL, NULL, operand_true);
-	Node or_(&test, &test, operator_or);
-	Node not_(&test, NULL, operator_not);
-	Node and_(&test, &test, operator_and);
+	// Node node_cp(position); // creation of a copy of position
+	// Node test(NULL, NULL, operand_true);
+	// Node or_(&test, &test, operator_or);
+	// Node not_(&test, NULL, operator_not);
+	// Node and_(&test, &test, operator_and);
     
-    int prob = rand() %3 ; // Prob prend la valeur 0, 1 ou 2
-	if(prob==0){
-		position = or_;
-	};
-	if(prob==1){
-		position = not_;
-	};
-    if(prob==2){
-		position = and_;
-	};
+ //    int prob = rand() %3 ; // prob prend la valeur 0, 1 ou 2
+	// if(prob==0){
+	// 	position = or_;
+	// };
+	// if(prob==1){
+	// 	position = not_;
+	// };
+ //    if(prob==2){
+	// 	position = and_;
+	// };
 
-	deletion(*position.left_child()); // left child of the futur insertion becomes 0 or 1
-    position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
+	// deletion(*position.left_child()); // left child of the futur insertion becomes 0 or 1
+ //    position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
+	
+	int prob = rand()%3 ; // prob prend la valeur 0, 1 ou 2
+	int prob2 = rand()%2; // prob prend la valeur 0 ou 1
+	Node one(NULL, NULL, operand_true);
+	Node zero(NULL, NULL, operand_false);
+
+	if(parent.left_child() == &position){
+		if(prob==0){
+			if(prob2 == 0){
+				Node node_to_insert(&position, &zero, operator_and);
+				parent.set_left_child(&node_to_insert);
+			}
+			else if(prob2 == 1){
+				Node node_to_insert(&position, &one, operator_and);
+				parent.set_left_child(&node_to_insert);
+			}
+		}
+		else if(prob==1){
+			if(prob2 == 0){
+				Node node_to_insert(&position, &zero, operator_or);
+				parent.set_left_child(&node_to_insert);
+			}
+			else if(prob2 == 1){
+				Node node_to_insert(&position, &one, operator_or);
+				parent.set_left_child(&node_to_insert);
+			}
+		}
+    	else if(prob==2){
+			Node node_to_insert(&position, NULL, operator_not);
+			parent.set_left_child(&node_to_insert);
+		}
+	}
+	else if(parent.right_child() == &position){
+		if(prob==0){
+			if(prob2 == 0){
+				Node node_to_insert(&zero, &position, operator_and);
+				parent.set_left_child(&node_to_insert);
+			}
+			else if(prob2 == 1){
+				Node node_to_insert(&one, &position, operator_and);
+				parent.set_left_child(&node_to_insert);
+			}
+		}
+		else if(prob==1){
+			if(prob2 == 0){
+				Node node_to_insert(&zero, &position, operator_or);
+				parent.set_left_child(&node_to_insert);
+			}
+			else if(prob2 == 1){
+				Node node_to_insert(&one, &position, operator_or);
+				parent.set_left_child(&node_to_insert);
+			}
+		}
+    	else if(prob==2){
+			Node node_to_insert(&position, NULL, operator_not);
+			parent.set_left_child(&node_to_insert);
+		}
+	}
 };
 
 void Evolution::deletion(Node position)
