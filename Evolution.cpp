@@ -129,11 +129,13 @@ void Evolution::deletion(Node position)
 		}
 	}
 	
-//	int a = rand() % 2;
+	int a = rand() % 2;
 //	std::cout<<"value taken :"<<a<<'\n';
-
-	position.set_value(operand_true);	
-
+	if (a==0){
+		position.set_value(operand_true);	
+	}else{
+		position.set_value(operand_false);
+	}
 	/*if (position.left_child()==NULL && position.right_child()==NULL){
 	
 	}else if (position.left_child()==NULL && position.right_child()!=NULL){
