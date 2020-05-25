@@ -57,9 +57,15 @@ void Evolution::mutation(Node position, Node root)
 };
 
 	/*Mutations*/
+<<<<<<< HEAD
 void Evolution::insertion(Node position, Node root)
 {
 	Node node_cp(position); // creation of a copy of position
+=======
+Node Evolution::insertion(Node position, Node root)
+{/*
+	Node Node_cp(position); // creation of a copy of position
+>>>>>>> fd78808924b7976773dd7a32acec9c9bad9934a4
 	Node test(NULL, NULL, operand_true);
 	Node or_(&test,&test, "OR");
 	Node not_(&test,&test, "NOT");
@@ -77,7 +83,13 @@ void Evolution::insertion(Node position, Node root)
 	};
 
 	position.left_child()->deletion; // left child of the futur insertion becomes 0 or 1
+<<<<<<< HEAD
     position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
+=======
+    position.right_child() = Node_cp; // right child of the futur insertion becomes the position node of the begining of this method.
+*/	
+	return empty;
+>>>>>>> fd78808924b7976773dd7a32acec9c9bad9934a4
 };
 
 Node Evolution::deletion(Node position, Node root)
@@ -107,6 +119,7 @@ Node Evolution::deletion(Node position, Node root)
 				delete node_current->right_child();
 				node_current->set_right_child(NULL);
 				std::cout<<"delete right"<<"         ";
+				node_p= &position; //on remonte au noeud muté (consommateur de temps et de ressources mais sûr)
 			}
 			
 		}
@@ -125,9 +138,9 @@ Node Evolution::deletion(Node position, Node root)
 	}*/
 	return empty;
 };
-
+ 
 Node Evolution::replacement(Node position, Node root)
-{
+{/*
 	Node children();
 
 if ((position == operand_false) || (position == operand_true)){
@@ -168,8 +181,8 @@ else{
 			return children = operator_not;		//ATTENTION : il faudra retirer l’un des noeuds suivants
 		}
 	}
-}
-};
+}*/
+}; 
 
 	/*Fitness*/
 int Evolution::fitness(Node tree, int* donnee)
