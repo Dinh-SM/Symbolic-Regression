@@ -96,7 +96,7 @@ void Evolution::insertion(Node position, Node root)
     position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
 };
 
-void Evolution::deletion(Node position)
+void Evolution::deletion(Node position, Node root)
 {
 	Node * node_current = &position;
 	Node * node_p = &position;
