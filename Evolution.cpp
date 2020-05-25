@@ -46,6 +46,7 @@ Node* Evolution::replication(Node root, int number_of_child)
 
 void Evolution::mutation(Node position, Node root)
 {
+	Node* parent = get_parent_node(position, root);
 	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
 	//Selon la probabilité, le node position est copié et subit une des trois mutations:
 	if (prob == 0)
@@ -55,7 +56,7 @@ void Evolution::mutation(Node position, Node root)
 	}
 	else if (prob == 1) 
 	{
-		deletion(position);
+		deletion(position, root);
 		std::cout << "deletion" << std::endl;
 	}
 	else if (prob == 2)
@@ -68,6 +69,7 @@ void Evolution::mutation(Node position, Node root)
 /*Mutations*/
 void Evolution::insertion(Node position, Node root)
 {/*
+>>>>>>> 0a3f51f2bb9a83aa467918c7362365f575fee0b5
 	Node node_cp(position); // creation of a copy of position
 	Node test(NULL, NULL, operand_true);
 	Node or_(&test, &test, operator_or);
@@ -90,7 +92,7 @@ void Evolution::insertion(Node position, Node root)
 */
 };
 
-void Evolution::deletion(Node position)
+void Evolution::deletion(Node position, Node root)
 {
 	Node * node_current = &position;
 	Node * node_p = &position;
