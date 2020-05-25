@@ -85,15 +85,15 @@ void Node::set_value(std::string b){
 
 int Node::node_result()
 {
-	if(std::strcmp(value_.c_str(), "AND") == 0)
+	if(value_.compare("AND") == 0)
 	{
 		return left_child_->node_result() && right_child_->node_result();
 	}
-	else if(std::strcmp(value_.c_str(), "OR") == 0)
+	else if(value_.compare("OR") == 0)
 	{
 		return left_child_->node_result() || right_child_->node_result();
 	}
-	else if(std::strcmp(value_.c_str(), "NOT") == 0)
+	else if(value_.compare("NOT") == 0)
 	{
 		return !left_child_->node_result();
 	}
@@ -105,23 +105,23 @@ int Node::node_result()
 
 int Node::node_result(int x1, int x2)
 {
-	if(std::strcmp(value_.c_str(), "AND") == 0)
+	if(value_.compare("AND") == 0)
 	{
 		return left_child_->node_result() && right_child_->node_result();
 	}
-	else if(std::strcmp(value_.c_str(), "OR") == 0)
+	else if(value_.compare("OR") == 0)
 	{
 		return left_child_->node_result() || right_child_->node_result();
 	}
-	else if(std::strcmp(value_.c_str(), "NOT") == 0)
+	else if(value_.compare("NOT") == 0)
 	{
 		return !left_child_->node_result();
 	}
-	else if(std::strcmp(value_.c_str(), std::to_string(x1).c_str()) == 0)
+	else if(value_.compare(std::to_string(x1)) == 0)
 	{
 		return x1;
 	}
-	else if(std::strcmp(value_.c_str(), std::to_string(x2).c_str()) == 0)
+	else if(value_.compare(std::to_string(x2)) == 0)
 	{
 		return x2;
 	}
@@ -133,15 +133,15 @@ int Node::node_result(int x1, int x2)
 
 std::string Node::node_formula()
 {
-	if(std::strcmp(value_.c_str(), "AND") == 0)
+	if(value_.compare("AND") == 0)
 	{
 		return '(' + left_child_->node_formula() + " " + value_ + " " + right_child_->node_formula() + ')';
 	}
-	else if(std::strcmp(value_.c_str(), "OR") == 0)
+	else if(value_.compare("OR") == 0)
 	{
 		return '(' + left_child_->node_formula() + " " + value_ + " " + right_child_->node_formula() + ')';
 	}
-	else if(std::strcmp(value_.c_str(), "NOT") == 0)
+	else if(value_.compare("NOT") == 0)
 	{
 		return '(' + value_ + " " + left_child_->node_formula() + ')';
 	}
