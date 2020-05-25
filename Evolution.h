@@ -18,7 +18,7 @@ class Evolution
 
 			/*Mutations*/
 		void insertion(Node position, Node root);
-		void deletion(Node position, Node root);
+		void deletion(Node position);
 		void replacement(Node position, Node root);
 
 			/*Fitness*/

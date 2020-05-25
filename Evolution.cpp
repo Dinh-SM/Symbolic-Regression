@@ -46,7 +46,7 @@ void Evolution::mutation(Node position, Node root)
 	}
 	else if (prob == 1) 
 	{
-		deletion(position, root);
+		deletion(position);
 		std::cout << "deletion" << std::endl;
 	}
 	else if (prob == 2)
@@ -61,9 +61,9 @@ void Evolution::insertion(Node position, Node root)
 {
 	Node node_cp(position); // creation of a copy of position
 	Node test(NULL, NULL, operand_true);
-	Node or_(&test,&test, "OR");
-	Node not_(&test,&test, "NOT");
-	Node and_(&test,&test, "AND");
+	Node or_(&test,&test, operator_or);
+	Node not_(&test,NULL, operator_not);
+	Node and_(&test,&test, operator_and);
     
     int prob = rand() %3 ; // Prob prend la valeur 0, 1 ou 2
 	if(prob==0){
@@ -76,11 +76,11 @@ void Evolution::insertion(Node position, Node root)
 		position = and_;
 	};
 
-	position.left_child()->deletion; // left child of the futur insertion becomes 0 or 1
+	deletion(*position.left_child()); // left child of the futur insertion becomes 0 or 1
     position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
 };
 
-void Evolution::deletion(Node position, Node root)
+void Evolution::deletion(Node position)
 {
 	Node * node_current = &position;
 	Node * node_p = &position;
