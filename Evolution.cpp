@@ -107,6 +107,7 @@ void Evolution::deletion(Node position, Node root)
 				delete node_current->right_child();
 				node_current->set_right_child(NULL);
 				std::cout<<"delete right"<<"         ";
+				node_p=parent; //on remonte au noeud muté (consommateur de temps et de ressources mais sur)
 			}
 			
 		}
