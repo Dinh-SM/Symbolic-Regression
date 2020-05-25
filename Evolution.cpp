@@ -61,9 +61,9 @@ void Evolution::insertion(Node position, Node root)
 {
 	Node node_cp(position); // creation of a copy of position
 	Node test(NULL, NULL, operand_true);
-	Node or_(&test,&test, "OR");
-	Node not_(&test,&test, "NOT");
-	Node and_(&test,&test, "AND");
+	Node or_(&test, &test, operator_or);
+	Node not_(&test, NULL, operator_not);
+	Node and_(&test, &test, operator_and);
     
     int prob = rand() %3 ; // Prob prend la valeur 0, 1 ou 2
 	if(prob==0){
