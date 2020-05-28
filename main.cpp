@@ -5,82 +5,38 @@
 
 int main(int argc, char const *argv[])
 {
-	std::string operand_true("1");
-	std::string operand_false("0");
-	std::string operator_or("OR");
-	std::string operator_and("AND");
-	std::string operator_not("NOT");
+	const std::string operand_true("1");
+	const std::string operand_false("0");
+	const std::string operator_or("OR");
+	const std::string operator_and("AND");
+	const std::string operator_not("NOT");
+	const std::string operand_x1("x1");
+	const std::string operand_x2("x2");
 	
-	Node gdg(NULL, NULL, operand_false); //Niveau4
-	Node gauchedroite(&gdg, NULL, operator_not); // Niveau 3
-	Node ggg(NULL, NULL, operand_true); //Niveau 4
-	Node ggd(NULL, NULL, operand_true); //Niveau 4
-	Node gauchegauche(&ggg, &ggd, operator_and); // Niveau 3
-	Node gauche(&gauchegauche, &gauchedroite, operator_and); // Niveau 2
+	Node* gdg = new Node(NULL, NULL, operand_false); //Niveau4
+	Node* gd = new Node(gdg, NULL, operator_not); // Niveau 3
+	Node* ggg = new Node(NULL, NULL, operand_true); //Niveau 4
+	Node* ggd = new Node(NULL, NULL, operand_true); //Niveau 4
+	Node* gg = new Node(ggg, ggd, operator_and); // Niveau 3
+	Node* g = new Node(gg, gd, operator_and); // Niveau 2
 
-	Node dgg(NULL, NULL, operand_true); //Niveau 4
-	Node dgd(NULL, NULL, operand_false); //Niveau 4
-	Node droitegauche(&dgg, &dgd, operator_or); // Niveau 3
-	Node droite(&droitegauche, NULL, operator_not); // Niveau 2
+	Node* dgg = new Node(NULL, NULL, operand_true); //Niveau 4
+	Node* dgd = new Node(NULL, NULL, operand_false); //Niveau 4
+	Node* dg = new Node(dgg, dgd, operator_or); // Niveau 3
+	Node* d = new Node(dg, NULL, operator_not); // Niveau 2
 
-	Node racine(&gauche, &droite, operator_or); // Niveau 1
+	Node* racine = new Node(g, d, operator_or); // Niveau 1
 
 	Evolution e;
 
-/*
-	std::cout << "Résultat arbre :" << std::endl;
-	std::cout << racine.node_result() << std::endl;
-
-	std::cout << "Résultat noeud gauche :" << std::endl;
-	std::cout << gauche.node_result() << std::endl;
-
-	std::cout << "Résultat noeud droite :" << std::endl;
-	std::cout << droite.node_result() << std::endl;
-
-	std::cout << "Formule arbre :" << std::endl;
-	std::cout << racine.node_formula() << std::endl;
-
-
-	Node copy(racine);
-	Node dgd2(NULL, NULL, operand_true); //Niveau 4
-	copy.right_child()->left_child()->set_right_child(&dgd2);
-
-	std::cout << "Résultat arbre copié :" << std::endl;
-	std::cout << copy.node_result() << std::endl;
-
-	std::cout << "Résultat noeud gauche copié :" << std::endl;
-	std::cout << copy.left_child()->node_result() << std::endl;
-
-	std::cout << "Résultat noeud droite copié :" << std::endl;
-	std::cout << copy.right_child()->node_result() << std::endl;
-
-	std::cout << "Formule arbre copié :" << std::endl;
-	std::cout << copy.node_formula() << std::endl;
+	/*
+	//Test delete_blood()
+		std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
+		droite.delete_blood();
+		std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
+	*/	
 	
-	std::cout << "Formule arbre de base :" << std::endl;
-	std::cout << racine.node_formula() << std::endl;
-	
-	std::string s = droite.node_formula();*/
-/*	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
-	e.deletion(droite);
-	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
-*/
-/*
-//Test delete_blood()
-	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
-	droite.delete_blood();
-	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
-*/	
-	
-	
-
-	/*Evolution evolution;
-	for (int i = 0; i < 100; ++i)
-	{
-		evolution.mutation(racine, racine);
-	}
-
-
+	/*
 	// parcours à partir d'un string
 	// si le chemin mène à rien à un moment, il donne le dernier noeud sur le chemin
 	std::string path("gdg");
@@ -102,9 +58,6 @@ int main(int argc, char const *argv[])
 	}
 	std::cout << current_node->value() << std::endl;
 
-
-	std::string operand_x1("x1");
-	std::string operand_x2("x2");
 	Node gdg3(NULL, NULL, operand_x1); //Niveau4
 	Node gd3(&gdg3, NULL, operator_not); // Niveau 3
 	Node ggg3(NULL, NULL, operand_x2); //Niveau 4
@@ -130,7 +83,7 @@ int main(int argc, char const *argv[])
 	std::cout << racine.node_formula() << std::endl;
 */
 
-//Test replacement
+/*//Test replacement
 	
 	Node rep_node(racine);	
 	
@@ -181,7 +134,25 @@ int main(int argc, char const *argv[])
 	std::cout << gauche.node_formula() << std::endl;
 	
 	std::cout << "Formule arbre :" << std::endl;
-	std::cout << racine.node_formula() << std::endl;
+	std::cout << racine.node_formula() << std::endl;*/
+
+	std::cout << "Formule arbre de base :" << std::endl;
+	std::cout << racine->node_formula() << std::endl;
+	e.insertion(racine->left_child()->left_child(), racine->left_child());
+	std::cout << "Formule arbre après insertion :" << std::endl;
+	std::cout << racine->node_formula() << std::endl;
+	e.deletion(racine->left_child()->left_child(), racine->left_child());
+	std::cout << "Formule arbre après délétion :" << std::endl;
+	std::cout << racine->node_formula() << std::endl;
+
+	std::cout << "EXECUTE ORDER 66" << std::endl;
+	std::vector<Node*> children(5);
+	children = e.replication(racine, 5);
+	/*for (int i = 0; i < 5; ++i)
+	{
+		std::cout << "Formule arbre #" << i << " :" << std::endl;
+		std::cout << children[i]->node_formula() << std::endl;
+	}*/
 
 	return 0;
 

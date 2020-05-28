@@ -3,6 +3,14 @@
 #include <cstdlib>
 #include<string>
 
+// Default Constructor
+Node::Node()
+{
+	left_child_ = NULL;
+	right_child_ = NULL;
+	value_ = '\0';
+};
+
 // Constructor
 Node::Node(Node* lc, Node* rc, std::string v)
 {
@@ -46,20 +54,6 @@ Node::Node(Node &root)
 	}
 };
 
-// Destructor
-Node::~Node()
-{
-	value_.clear();
-};
-
-//Useful
-std::string operand_true("1");
-std::string operand_false("0");
-std::string operator_or("OR");
-std::string operator_and("AND");
-std::string operator_not("NOT");
-Node empty(NULL, NULL, operand_false);
-
 // Getters
 Node* Node::left_child()
 {
@@ -85,16 +79,16 @@ void Node::set_left_child(Node* lc)
 void Node::set_right_child(Node* rc)
 {
 	right_child_ = rc;
+	std::cout << "Test 4.5 " << right_child_->value() << std::endl;
 };
 
-void Node::set_value(std::string b){
+/*void Node::set_value(std::string b){
 	value_ = b;
-};
+};*/
 
 
 //Function
-
-void Node::delete_blood(){
+/*void Node::delete_blood(){
 	if (left_child_!=NULL && right_child_!=NULL){
 		left_child_->delete_blood();
 		right_child_->delete_blood();
@@ -120,7 +114,7 @@ void Node::delete_blood(){
 	}else{
 		set_value(operand_false);
 	}
-};
+};*/
 
 int Node::node_result()
 {
@@ -191,7 +185,7 @@ std::string Node::node_formula()
 };
 
 
-//Operator
+/*//Operator
 	//==
 bool Node::operator== (const Node* second) const {
 	if (this->value_ == second->value_){
@@ -224,7 +218,6 @@ bool Node::operator== (const Node* second) const {
 	}
 };
 
-
 	//!=
 bool Node::operator!= (const Node* second) const {
 	if (this->value_ != second->value_){
@@ -255,4 +248,4 @@ bool Node::operator!= (const Node* second) const {
 		return false;
 
 	}
-};
+};*/

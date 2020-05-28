@@ -3,14 +3,14 @@
 class Node
 {
 	public:
+		// Default Constructor
+		Node();
+
 		// Constructor
 		Node(Node* lc, Node* rc, std::string v);
 
 		// Copy Constructor
 		Node(Node &root);
-
-		// Destructor
-		~Node();
 		
 		// Getters
 		Node* left_child();

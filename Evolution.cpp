@@ -1,30 +1,26 @@
 #include "Evolution.h"
 #include<iostream>
 
+//Constants, variables
+const std::string operand_true("1");
+const std::string operand_false("0");
+const std::string operator_or("OR");
+const std::string operator_and("AND");
+const std::string operator_not("NOT");
+Node empty(NULL, NULL, operand_false);
+
 //Constructor
 Evolution::Evolution()
 {
 
 };
 
-
-//Destructor
-Evolution::~Evolution()
-{
-
-};
-
-
-// Getters
-
-
-
 //Functions
-Node* Evolution::get_parent_node(Node position, Node root)
+Node* Evolution::get_parent_node_(Node* position, Node* root)
 {
 	Node* parent_node = NULL;
-	Node* current_node = &root;
-	while(current_node != &position){
+	Node* current_node = root;
+	while(current_node != position){
 		if (current_node->left_child() !=NULL){
 			parent_node = current_node;
 			current_node = current_node->left_child();
@@ -37,115 +33,146 @@ Node* Evolution::get_parent_node(Node position, Node root)
 	return parent_node;
 };
 
-	/*Evolution*/
-Node* Evolution::replication(Node root, int number_of_child)
+// returns 0 if left_child or 1 if right_child, -1 if neither (error)
+int Evolution::left_or_right_child_(Node* position, Node* parent)
 {
-	
-	return 0;
+	if(parent->left_child() == position)
+	{
+		return 0;
+	}
+	else if(parent->right_child() == position)
+	{
+		return 1;
+	}
+
+	return -1;
 };
 
-void Evolution::mutation(Node position, Node root)
+void Evolution::delete_tree_(Node* node)
 {
-	Node* parent = get_parent_node(position, root);
+	if(node == NULL)
+	{
+		return;
+	}
+
+	if(node->left_child() != NULL)
+	{
+		delete_tree_(node->left_child());
+	}
+	else if(node->right_child() != NULL)
+	{
+		delete_tree_(node->right_child());
+	}
+
+	delete node;
+};
+
+	/*Evolution*/
+std::vector<Node*> Evolution::replication(Node* root, int number_of_children)
+{
+	std::vector<Node*> children;
+	for(int i = 0; i < number_of_children; ++i)
+	{
+		Node* child = new Node(*root);
+		children.push_back(child);
+	}
+	return children;
+};
+
+void Evolution::mutation(Node* position, Node* root)
+{
+	Node* parent = get_parent_node_(position, root);
+
+	srand(time(NULL));
 	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
 	//Selon la probabilité, le node position est copié et subit une des trois mutations:
 	if (prob == 0)
 	{
 		insertion(position, root);
-		std::cout << "insertion" << std::endl;
+		std::cout << "INSERTION" << std::endl;
 	}
 	else if (prob == 1) 
 	{
 		deletion(position);
-		std::cout << "deletion" << std::endl;
+		std::cout << "DELETION" << std::endl;
 	}
 	else if (prob == 2)
 	{
-		replacement(&position, root);
-		std::cout << "replacement" << std::endl;
+		replacement(position, root);
+		std::cout << "REPLACEMENT" << std::endl;
 	};
 };
 
 /*Mutations*/
-void Evolution::insertion(Node position, Node parent)
+void Evolution::insertion(Node* position, Node* parent)
 {
-	// Node node_cp(position); // creation of a copy of position
-	// Node test(NULL, NULL, operand_true);
-	// Node or_(&test, &test, operator_or);
-	// Node not_(&test, NULL, operator_not);
-	// Node and_(&test, &test, operator_and); 
- //    int prob = rand() %3 ; // prob prend la valeur 0, 1 ou 2
-	// if(prob==0){
-	// 	position = or_;
-	// };
-	// if(prob==1){
-	// 	position = not_;
-	// };
- //    if(prob==2){
-	// 	position = and_;
-	// };
-	// deletion(*position.left_child()); // left child of the futur insertion becomes 0 or 1
- //    position.set_right_child(&node_cp) ; // right child of the futur insertion becomes the position node of the begining of this method.
-	
+	srand(time(NULL));
 	int prob = rand()%3 ; // prob prend la valeur 0, 1 ou 2
+	srand(time(NULL));
 	int prob2 = rand()%2; // prob prend la valeur 0 ou 1
-	Node one(NULL, NULL, operand_true);
-	Node zero(NULL, NULL, operand_false);
+	Node* one = new Node(NULL, NULL, operand_true);
+	Node* zero = new Node(NULL, NULL, operand_false);
 
-	if(parent.left_child() == &position){
+	int lr = left_or_right_child_(position, parent);
+	if(lr == 0){
 		if(prob==0){
 			if(prob2 == 0){
-				Node node_to_insert(&position, &zero, operator_and);
-				parent.set_left_child(&node_to_insert);
+				Node* node_to_insert = new Node(position, zero, operator_and);
+				parent->set_left_child(node_to_insert);
 			}
 			else if(prob2 == 1){
-				Node node_to_insert(&position, &one, operator_and);
-				parent.set_left_child(&node_to_insert);
+				Node* node_to_insert = new Node(position, one, operator_and);
+				parent->set_left_child(node_to_insert);
 			}
 		}
 		else if(prob==1){
 			if(prob2 == 0){
-				Node node_to_insert(&position, &zero, operator_or);
-				parent.set_left_child(&node_to_insert);
+				Node* node_to_insert = new Node(position, zero, operator_or);
+				parent->set_left_child(node_to_insert);
 			}
 			else if(prob2 == 1){
-				Node node_to_insert(&position, &one, operator_or);
-				parent.set_left_child(&node_to_insert);
+				Node* node_to_insert = new Node(position, one, operator_or);
+				parent->set_left_child(node_to_insert);
 			}
 		}
     	else if(prob==2){
-			Node node_to_insert(&position, NULL, operator_not);
-			parent.set_left_child(&node_to_insert);
+			Node* node_to_insert = new Node(position, NULL, operator_not);
+			parent->set_left_child(node_to_insert);
 		}
 	}
-	else if(parent.right_child() == &position){
+	else if(lr == 1){
 		if(prob==0){
 			if(prob2 == 0){
-				Node node_to_insert(&zero, &position, operator_and);
-				parent.set_left_child(&node_to_insert);
+				Node* node_to_insert = new Node(zero, position, operator_and);
+				parent->set_right_child(node_to_insert);
 			}
 			else if(prob2 == 1){
-				Node node_to_insert(&one, &position, operator_and);
-				parent.set_left_child(&node_to_insert);
+				Node* node_to_insert = new Node(one, position, operator_and);
+				parent->set_right_child(node_to_insert);
 			}
 		}
 		else if(prob==1){
 			if(prob2 == 0){
-				Node node_to_insert(&zero, &position, operator_or);
-				parent.set_left_child(&node_to_insert);
+				Node* node_to_insert = new Node(zero, position, operator_or);
+				parent->set_right_child(node_to_insert);
 			}
 			else if(prob2 == 1){
-				Node node_to_insert(&one, &position, operator_or);
-				parent.set_left_child(&node_to_insert);
+				Node* node_to_insert = new Node(one, position, operator_or);
+				parent->set_right_child(node_to_insert);
 			}
 		}
     	else if(prob==2){
-			Node node_to_insert(&position, NULL, operator_not);
-			parent.set_left_child(&node_to_insert);
+			Node* node_to_insert = new Node(position, NULL, operator_not);
+			parent->set_right_child(node_to_insert);
 		}
+	}
+	else
+	{
+		std::cout << "Error: maybe not corresponding parent-child nodes" << std::endl;
 	}
 };
 
+/*
 void Evolution::deletion(Node position)
 {
 	Node * node_current = &position;
@@ -186,16 +213,47 @@ void Evolution::deletion(Node position)
 	}else{
 		position.set_value(operand_false);
 	}
-	/*if (position.left_child()==NULL && position.right_child()==NULL){
+	if (position.left_child()==NULL && position.right_child()==NULL){
 	
 	}else if (position.left_child()==NULL && position.right_child()!=NULL){
 	}else if(position.left_child!=NULL && position.right_child()==NULL){
 	}else{
-	}*/
+	}
+};*/
+
+// Version Michel
+void Evolution::deletion(Node* position, Node* parent)
+{
+	Node* new_node;
+	srand(time(NULL));
+	int a = rand() % 2;
+	if(a == 0)
+	{
+		new_node = new Node(NULL, NULL, operand_true);
+	}
+	else
+	{
+		new_node = new Node(NULL, NULL, operand_false);
+	}
+
+	int lr = left_or_right_child_(position, parent);
+	if(lr == 0)
+	{
+		delete_tree_(parent->left_child());
+		parent->set_left_child(new_node);
+	}
+	else if(lr == 1)
+	{
+		delete_tree_(parent->right_child());
+		parent->set_right_child(new_node);
+	}
+	else
+	{
+		std::cout << "Error: maybe not corresponding parent-child nodes" << std::endl;
+	}
 };
 
-
-void Evolution::replacement(Node* position, Node root)
+/*void Evolution::replacement(Node* position, Node root)
 {
 
 	Node node_true(NULL, NULL, operand_true);
@@ -245,7 +303,7 @@ void Evolution::replacement(Node* position, Node root)
 				if(n){
 					position -> set_value(operator_not);
 					position -> set_right_child(NULL);
-				}
+				}*/
 				//Feuille
 			/*	else if (n == 2){
 				//Differenciaton de la valeur de la feuille
@@ -261,14 +319,14 @@ void Evolution::replacement(Node* position, Node root)
 					}
 				}*/
 				//OR
-				else{
+				/*else{
 					position -> set_value(operator_or);
 				}
 
 			}			
-		}
+		}*/
 		//NOT
-		else if(position -> value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant  (ereur de segmentation)
+		/*else if(position -> value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant  (ereur de segmentation)
 		//Racine ou noeud?
 			if (position != &root){
 			//Differenciation de la modification
@@ -293,7 +351,7 @@ void Evolution::replacement(Node* position, Node root)
 					position -> set_value(operator_or);
 					position -> set_right_child(&node_true);
 				
-				}
+				}*/
 				//Feuille
 /*				else if (n == 2){
 				//Differenciaton de la valeur de la feuille
@@ -309,7 +367,7 @@ void Evolution::replacement(Node* position, Node root)
 					}
 				}*/
 				//And
-				else{
+				/*else{
 					position -> set_value(operator_and);
 					position -> set_right_child(&node_true);
 				}
@@ -339,7 +397,7 @@ void Evolution::replacement(Node* position, Node root)
 				//And
 				if(n){
 					position -> set_value(operator_and);
-				}
+				}*/
 				//Feuille
 			/*	else if (n == 2){
 				//Differenciation de la feuille
@@ -357,7 +415,7 @@ void Evolution::replacement(Node* position, Node root)
 					}
 				}*/
 				//NOT
-				else{
+				/*else{
 					position -> set_value(operator_not);
 					position -> set_right_child(NULL);
 				}
@@ -365,7 +423,7 @@ void Evolution::replacement(Node* position, Node root)
 
 		}
 	}
-};
+};*/
 
 
 /*Fitness*/
@@ -381,14 +439,14 @@ int Evolution::fitness(Node tree, int* donnee)
 	
 };
 
-Node Evolution::comparative_fitness (Node root, Node* children_tab, int number_of_child, int* donnee)
+Node Evolution::comparative_fitness (Node root, Node* children_tab, int number_of_children, int* donnee)
 {
 	int fit, new_fit, best;
 	
 	fit = fitness(root, donnee);
-	best = number_of_child;
+	best = number_of_children;
 
-	for ( int i = 0; i < number_of_child; i++){
+	for ( int i = 0; i < number_of_children; i++){
 		new_fit = fitness(children_tab[ i ], donnee);
 		if (new_fit < fit){
 			fit = new_fit;
@@ -396,7 +454,7 @@ Node Evolution::comparative_fitness (Node root, Node* children_tab, int number_o
 		}
 	}
 
-	if (best == number_of_child){
+	if (best == number_of_children){
 		return root;
 	}
 	else{
