@@ -25,6 +25,8 @@ int main(int argc, char const *argv[])
 
 	Node racine(&gauche, &droite, operator_or); // Niveau 1
 
+	Evolution e;
+
 /*
 	std::cout << "Résultat arbre :" << std::endl;
 	std::cout << racine.node_result() << std::endl;
@@ -60,16 +62,15 @@ int main(int argc, char const *argv[])
 	
 	std::string s = droite.node_formula();*/
 /*	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
-	Evolution e;
 	e.deletion(droite);
 	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
 */
-
+/*
 //Test delete_blood()
 	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
 	droite.delete_blood();
 	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
-	
+*/	
 	
 	
 
@@ -127,7 +128,7 @@ int main(int argc, char const *argv[])
 	std::cout << racine.node_result() << std::endl;
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;
-
+*/
 
 //Test replacement
 	
@@ -183,7 +184,7 @@ int main(int argc, char const *argv[])
 	std::cout << racine.node_formula() << std::endl;
 
 	return 0;
-*/
+
 }
 
 
