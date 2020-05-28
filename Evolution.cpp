@@ -201,25 +201,151 @@ void Evolution::replacement(Node* position, Node root)
 	Node node_true(NULL, NULL, operand_true);
 	Node node_false(NULL, NULL, operand_true);
 
+	int n = rand() % 4;		//choix au hasard de la transformation d'un noeud en noeud
+	int fd = rand() % 2;		//choix au hasard de la feuille de droite
+	int fg = rand() % 2;		//choix au hasard de la feuille de gauche
+
 //Differenciation entre feuille et noeud
 	//Feuille
 	if ((position -> value() == operand_false) || (position-> value() == operand_true)){
 	//Differenciation entre 1 et 0
 		//1
 		if (position -> value() == operand_true){
-			position -> set_value(operand_false);
+		//Diferenciation de la modification
+			//And
+			if(n){
+
+				position -> set_value(operator_and);
+			//Differenciaton de la valeur de la feuille droite ajoutée
+				//1
+				if(fd){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			}
+			//Or
+			else if(n == 2){
+				position -> set_value(operator_or);
+			//Differenciaton de la valeur de la feuille droite ajoutée
+				//1
+				if(fd){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			}
+			//Feuille
+			else if(n == 3){
+				position -> set_value(operand_false);
+			}
+			//Not
+			else{
+				position -> set_value(operator_not);
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			}
 		}
+
 		//0
 		else{
-			position -> set_value(operand_true);
+		//Diferenciation de la modification
+			//And
+			if(n){
+
+				position -> set_value(operator_and);
+			//Differenciaton de la valeur de la feuille droite ajoutée
+				//1
+				if(fd){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			}
+			//Or
+			else if(n == 2){
+				position -> set_value(operator_or);
+			//Differenciaton de la valeur de la feuille droite ajoutée
+				//1
+				if(fd){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			}
+			//Feuille
+			else if(n == 3){
+				position -> set_value(operand_true);
+			}
+			//Not
+			else{
+				position -> set_value(operator_not);
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg){
+					position -> set_right_child(&node_true);
+				}
+				//0
+				else {
+					position -> set_right_child(&node_false);
+				}
+			}
 		}
 	}
+
 	//Noeud
 	else{
-
-		int n = rand() % 3;		//choix au hasard de la transformation d'un noeud en noeud
-		int f = rand() % 2;		//choix au hasard de la feuille
-	
 	//Differenciation entre NOT, AND et OR
 		//AND
 		if (position -> value() != operator_and){
@@ -246,19 +372,17 @@ void Evolution::replacement(Node* position, Node root)
 					position -> set_value(operator_not);
 					position -> set_right_child(NULL);
 				}
-				//Feuille
+				//Feuille - 1
 			/*	else if (n == 2){
-				//Differenciaton de la valeur de la feuille
-					//1
-					if(f){
-						position -> set_value(operand_true);
-						position -> set_left_child(NULL);
-					}
-					//0
-					else {
-						position -> set_value(operand_false);
-						position -> set_left_child(NULL);
-					}
+					position -> set_value(operand_true);
+					position -> set_right_child(NULL);
+					position -> set_left_child(NULL);
+				}
+				//Feuille - 0
+				else if (n == 3) {
+					position -> set_value(operand_false);
+					position -> set_right_child(NULL);
+					position -> set_left_child(NULL);
 				}*/
 				//OR
 				else{
@@ -267,6 +391,7 @@ void Evolution::replacement(Node* position, Node root)
 
 			}			
 		}
+
 		//NOT
 		else if(position -> value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant  (ereur de segmentation)
 		//Racine ou noeud?
@@ -278,7 +403,7 @@ void Evolution::replacement(Node* position, Node root)
 					position -> set_value(operator_or);
 				//Differenciaton de la valeur de la feuille ajoutée
 					//1
-					if(f){
+					if(fg){
 						position -> set_right_child(&node_true);
 					}
 					//0
@@ -292,7 +417,7 @@ void Evolution::replacement(Node* position, Node root)
 					position -> set_value(operator_and);
 				//Differenciaton de la valeur de la feuille ajoutée
 					//1
-					if(f){
+					if(fd){
 						position -> set_right_child(&node_true);
 					}
 					//0
@@ -309,7 +434,7 @@ void Evolution::replacement(Node* position, Node root)
 					position -> set_value(operator_or);
 				//Differenciaton de la valeur de la feuille ajoutée
 					//1
-					if(f){
+					if(fd){
 						position -> set_right_child(&node_true);
 					}
 					//0
@@ -318,26 +443,22 @@ void Evolution::replacement(Node* position, Node root)
 					}
 				
 				}
-				//Feuille
-/*				else if (n == 2){
-				//Differenciaton de la valeur de la feuille
-					//1
-					if(f){
-						position -> set_value(operand_true);
-						position -> set_left_child(NULL);
-					}
-					//0
-					else {
-						position -> set_value(operand_false);
-						position -> set_left_child(NULL);
-					}
+				//Feuille - 1
+			/*	else if (n == 2){
+					position -> set_value(operand_true);
+					position -> set_left_child(NULL);
+				}
+				//Feuille - 0
+				else if (n == 3) {
+					position -> set_value(operand_false);
+					position -> set_left_child(NULL);
 				}*/
 				//And
 				else{
 					position -> set_value(operator_and);
 				//Differenciaton de la valeur de la feuille ajoutée
 					//1
-					if(f){
+					if(fg){
 						position -> set_right_child(&node_true);
 					}
 					//0
@@ -348,6 +469,7 @@ void Evolution::replacement(Node* position, Node root)
 
 			}
 		}
+
 		//OR
 		else{
 		//Racine ou noeud?
@@ -372,21 +494,17 @@ void Evolution::replacement(Node* position, Node root)
 				if(n){
 					position -> set_value(operator_and);
 				}
-				//Feuille
+				//Feuille - 1
 			/*	else if (n == 2){
-				//Differenciation de la feuille
-					//1
-					if(f){
-						position -> set_value(operand_true);
-						position -> set_right_child(NULL);
-						position -> set_left_child(NULL);
-					}
-					//0
-					else {
-						position -> set_value(operand_false);
-						position -> set_right_child(NULL);
-						position -> set_left_child(NULL);
-					}
+					position -> set_value(operand_true);
+					position -> set_right_child(NULL);
+					position -> set_left_child(NULL);
+				}
+				//Feuille - 0
+				else if (n == 3) {
+					position -> set_value(operand_false);
+					position -> set_right_child(NULL);
+					position -> set_left_child(NULL);
 				}*/
 				//NOT
 				else{
