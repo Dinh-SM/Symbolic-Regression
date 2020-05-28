@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
 	Node* dg = new Node(dgg, dgd, operator_or); // Niveau 3
 	Node* d = new Node(dg, NULL, operator_not); // Niveau 2
 
-	Node* racine = new Node(g, d, operator_and); // Niveau 1
+	Node* racine = new Node(g, d, operator_or); // Niveau 1
 
 	Evolution e(racine);
 
@@ -148,9 +148,9 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine->node_formula() << std::endl;
 	std::vector<Node*> children;
-	children = e.evolution(1, 18);
+	children = e.evolution(1000, 5);
 
-	for (int i = 0; i < 18; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
 		std::cout << "Formule arbre mutant #" << i << " :" << std::endl;
 		std::cout << children[i]->node_formula() << std::endl;

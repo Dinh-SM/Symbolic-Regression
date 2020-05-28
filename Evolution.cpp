@@ -136,12 +136,14 @@ std::string Evolution::generate_path_()
 std::vector<Node*> Evolution::evolution(int number_of_cycles, int number_of_children)
 {
 	mutant_children_ = replication_(number_of_children);
-	path_ = generate_path_();
-	std::cout << path_ << std::endl;
 
-	for (int i = 0; i < number_of_children; ++i)
+	for (int j = 0; j < number_of_cycles; ++j)
 	{
-		mutation_(node_at_path_(mutant_children_[i], path_), mutant_children_[i]);
+		path_ = generate_path_();
+		for (int i = 0; i < number_of_children; ++i)
+		{
+			mutation_(node_at_path_(mutant_children_[i], path_), mutant_children_[i]);
+		}
 	}
 
 	return mutant_children_;
@@ -172,17 +174,14 @@ void Evolution::mutation_(Node* position, Node* root)
 	if (prob == 0)
 	{
 		insertion_(position, parent);
-		std::cout << "INSERTION" << std::endl;
 	}
 	else if (prob == 1)
 	{
 		deletion_(position, parent);
-		std::cout << "DELETION" << std::endl;
 	}
 	else if (prob == 2)
 	{
 		replacement_(position);
-		std::cout << "REPLACEMENT" << std::endl;
 	};
 };
 
