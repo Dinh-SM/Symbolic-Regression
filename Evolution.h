@@ -5,29 +5,33 @@ class Evolution
 {
 	public : 
 		//Constructor
-		Evolution();
+		Evolution(Node* node);
 
 		//Functions
-			/*Evolution*/
-		std::vector<Node*> replication(Node* root, int number_of_children);
-		void mutation(Node* position, Node* root);
-
-			/*Mutations*/
-		void insertion(Node* position, Node* parent);
-		//void deletion(Node position);
-		// Version Michel
-		void deletion(Node* position, Node* parent);
-		void replacement(Node* position, Node root);
-
-			/*Fitness*/
-		int fitness(Node tree, int* donnee);
-		Node comparative_fitness (Node root, Node* children_tab, int number_of_children, int* donnee);
+		Node* evolution(int number_of_cycles, int number_of_children);
 			
 	
 	protected :
+		std::vector<Node*> replication_(int number_of_children);
+		void mutation_(Node* position);
+
+			/*Mutations*/
+		void insertion_(Node* position, Node* parent);
+		//void deletion(Node position);
+		// Version Michel
+		void deletion_(Node* position, Node* parent);
+		void replacement_(Node* position);
+
+			/*Fitness*/
+		int fitness_(int* donnee);
+		Node comparate_fitness_(Node* children_tab, int number_of_children, int* donnee);
+
 		void delete_tree_(Node* node);
-		Node* get_parent_node_(Node* position, Node* root);
+		Node* get_parent_node_(Node* position);
 		int left_or_right_child_(Node* position, Node* parent);
+
+		std::vector<Node*> mutant_children;
+		Node* root_;
 
 };
 

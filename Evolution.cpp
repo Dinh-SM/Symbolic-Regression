@@ -2,24 +2,24 @@
 #include<iostream>
 
 //Constants, variables
-const std::string operand_true("1");
-const std::string operand_false("0");
+const std::string operand_x1("x1");
+const std::string operand_x2("x2");
 const std::string operator_or("OR");
 const std::string operator_and("AND");
 const std::string operator_not("NOT");
-Node empty(NULL, NULL, operand_false);
+Node empty(NULL, NULL, operand_x2);
 
 //Constructor
-Evolution::Evolution()
+Evolution::Evolution(Node* node)
 {
-
+	root_ = node;
 };
 
 //Functions
-Node* Evolution::get_parent_node_(Node* position, Node* root)
+Node* Evolution::get_parent_node_(Node* position)
 {
 	Node* parent_node = NULL;
-	Node* current_node = root;
+	Node* current_node = root_;
 	while(current_node != position){
 		if (current_node->left_child() !=NULL){
 			parent_node = current_node;
@@ -68,70 +68,76 @@ void Evolution::delete_tree_(Node* node)
 };
 
 	/*Evolution*/
-std::vector<Node*> Evolution::replication(Node* root, int number_of_children)
+
+Node* Evolution::evolution(int number_of_cycles, int number_of_children)
+{
+	return NULL;
+};
+
+std::vector<Node*> Evolution::replication_(int number_of_children)
 {
 	std::vector<Node*> children;
 	for(int i = 0; i < number_of_children; ++i)
 	{
-		Node* child = new Node(*root);
+		Node* child = new Node(*root_);
 		children.push_back(child);
 	}
 	return children;
 };
 
-void Evolution::mutation(Node* position, Node* root)
+void Evolution::mutation_(Node* position)
 {
-	Node* parent = get_parent_node_(position, root);
+	Node* parent = get_parent_node_(position);
 
 	srand(time(NULL));
 	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
 	//Selon la probabilité, le node position est copié et subit une des trois mutations:
 	if (prob == 0)
 	{
-		insertion(position, root);
+		insertion_(position, parent);
 		std::cout << "INSERTION" << std::endl;
 	}
-	else if (prob == 1) 
+	else if (prob == 1)
 	{
-		deletion(position);
+		deletion_(position, parent);
 		std::cout << "DELETION" << std::endl;
 	}
 	else if (prob == 2)
 	{
-		replacement(position, root);
+		replacement_(position);
 		std::cout << "REPLACEMENT" << std::endl;
 	};
 };
 
 /*Mutations*/
-void Evolution::insertion(Node* position, Node* parent)
+void Evolution::insertion_(Node* position, Node* parent)
 {
 	srand(time(NULL));
 	int prob = rand()%3 ; // prob prend la valeur 0, 1 ou 2
 	srand(time(NULL));
 	int prob2 = rand()%2; // prob prend la valeur 0 ou 1
-	Node* one = new Node(NULL, NULL, operand_true);
-	Node* zero = new Node(NULL, NULL, operand_false);
+	Node* x1 = new Node(NULL, NULL, operand_x1);
+	Node* x2 = new Node(NULL, NULL, operand_x2);
 
 	int lr = left_or_right_child_(position, parent);
 	if(lr == 0){
 		if(prob==0){
 			if(prob2 == 0){
-				Node* node_to_insert = new Node(position, zero, operator_and);
+				Node* node_to_insert = new Node(position, x2, operator_and);
 				parent->set_left_child(node_to_insert);
 			}
 			else if(prob2 == 1){
-				Node* node_to_insert = new Node(position, one, operator_and);
+				Node* node_to_insert = new Node(position, x1, operator_and);
 				parent->set_left_child(node_to_insert);
 			}
 		}
 		else if(prob==1){
 			if(prob2 == 0){
-				Node* node_to_insert = new Node(position, zero, operator_or);
+				Node* node_to_insert = new Node(position, x2, operator_or);
 				parent->set_left_child(node_to_insert);
 			}
 			else if(prob2 == 1){
-				Node* node_to_insert = new Node(position, one, operator_or);
+				Node* node_to_insert = new Node(position, x1, operator_or);
 				parent->set_left_child(node_to_insert);
 			}
 		}
@@ -143,21 +149,21 @@ void Evolution::insertion(Node* position, Node* parent)
 	else if(lr == 1){
 		if(prob==0){
 			if(prob2 == 0){
-				Node* node_to_insert = new Node(zero, position, operator_and);
+				Node* node_to_insert = new Node(x2, position, operator_and);
 				parent->set_right_child(node_to_insert);
 			}
 			else if(prob2 == 1){
-				Node* node_to_insert = new Node(one, position, operator_and);
+				Node* node_to_insert = new Node(x1, position, operator_and);
 				parent->set_right_child(node_to_insert);
 			}
 		}
 		else if(prob==1){
 			if(prob2 == 0){
-				Node* node_to_insert = new Node(zero, position, operator_or);
+				Node* node_to_insert = new Node(x2, position, operator_or);
 				parent->set_right_child(node_to_insert);
 			}
 			else if(prob2 == 1){
-				Node* node_to_insert = new Node(one, position, operator_or);
+				Node* node_to_insert = new Node(x1, position, operator_or);
 				parent->set_right_child(node_to_insert);
 			}
 		}
@@ -209,9 +215,9 @@ void Evolution::deletion(Node position)
 	int a = rand() % 2;
 	std::cout<<"value taken :"<<a<<'\n';
 	if (a==0){
-		position.set_value(operand_true);	
+		position.set_value(operand_x1);	
 	}else{
-		position.set_value(operand_false);
+		position.set_value(operand_x2);
 	}
 	if (position.left_child()==NULL && position.right_child()==NULL){
 	
@@ -222,18 +228,18 @@ void Evolution::deletion(Node position)
 };*/
 
 // Version Michel
-void Evolution::deletion(Node* position, Node* parent)
+void Evolution::deletion_(Node* position, Node* parent)
 {
 	Node* new_node;
 	srand(time(NULL));
 	int a = rand() % 2;
 	if(a == 0)
 	{
-		new_node = new Node(NULL, NULL, operand_true);
+		new_node = new Node(NULL, NULL, operand_x1);
 	}
 	else
 	{
-		new_node = new Node(NULL, NULL, operand_false);
+		new_node = new Node(NULL, NULL, operand_x2);
 	}
 
 	int lr = left_or_right_child_(position, parent);
@@ -253,201 +259,573 @@ void Evolution::deletion(Node* position, Node* parent)
 	}
 };
 
-/*void Evolution::replacement(Node* position, Node root)
+void Evolution::replacement_(Node* position)
 {
 
-	Node node_true(NULL, NULL, operand_true);
-	Node node_false(NULL, NULL, operand_true);
+	Node* node_true = new Node(NULL, NULL, operand_x1);
+	Node* node_false = new Node(NULL, NULL, operand_x1);
+
+	srand(time(NULL));
+	int n = rand() % 4;
+
+	//choix au hasard de la transformation d'un noeud en noeud
+	int fd = rand() % 2;		//choix au hasard de la feuille de droite
+
+	srand(time(NULL));
+	int fg = rand() % 2;		//choix au hasard de la feuille de gauche
+
+	std::cout << n << fd << fg << std::endl;
 
 //Differenciation entre feuille et noeud
 	//Feuille
-	if ((position -> value() == operand_false) || (position-> value() == operand_true)){
+	if((position->value().compare(operand_x2) == 0) 
+		|| (position->value().compare(operand_x1) == 0))
+	{
 	//Differenciation entre 1 et 0
 		//1
-		if (position -> value() == operand_true){
-			position -> set_value(operand_false);
-		}
-		//0
-		else{
-			position -> set_value(operand_true);
-		}
-	}
-	//Noeud
-	else{
+		if(position->value().compare(operand_x1) == 0)
+		{
+		//Diferenciation de la modification
+			//And
+			if(n == 1)
+			{
+				position -> set_value(operator_and);
+			//Differenciaton de la valeur de la feuille droite ajoutée
+				//1
+				if(fd)
+				{
+					position -> set_right_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_right_child(new Node(*node_false));
+				}
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg)
+				{
+					position -> set_left_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_left_child(new Node(*node_false));
+				}
+			}
+			//Or
+			else if(n == 2)
+			{
+				position -> set_value(operator_or);
+			//Differenciaton de la valeur de la feuille droite ajoutée
+				//1
+				if(fd)
+				{
+					position -> set_right_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_right_child(new Node(*node_false));
+				}
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg)
+				{
+					position -> set_left_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_left_child(new Node(*node_false));
+				}
+			}
+			//Feuille
+			else if(n == 3)
+			{
+				position -> set_value(operand_x2);
 
-		int n = rand() % 3;		//choix au hasard de la transformation d'un noeud en noeud
-		int f = rand() % 2;		//choix au hasard de la feuille
-	
-	//Differenciation entre NOT, AND et OR
-		//AND
-		if (position -> value() != operator_and){
-		//Racine ou noeud?
-			
-			if (position == &root){
-			//Differenciation de la modification
-				std::cout << "Nous sommes égaux ou pas!" << std::endl;
-				//NOT
-				if(n){
-					position -> set_value(operator_not);
+				if(position->left_child() != NULL)
+				{
+					delete_tree_(position->left_child());
+					position -> set_left_child(NULL);
+				}
+
+				if(position->right_child() != NULL)
+				{
+					delete_tree_(position->right_child());
 					position -> set_right_child(NULL);
 				}
+			}
+			//Not
+			else
+			{
+				position -> set_value(operator_not);
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg)
+				{
+					position -> set_left_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_left_child(new Node(*node_false));
+				}
+
+				if(position->right_child() != NULL)
+				{
+					delete_tree_(position->right_child());
+					position -> set_right_child(NULL);
+				}
+			}
+		}
+
+		//0
+		else
+		{
+		//Diferenciation de la modification
+			//And
+			if(n == 1)
+			{
+				position -> set_value(operator_and);
+			//Differenciaton de la valeur de la feuille droite ajoutée
+				//1
+				if(fd)
+				{
+					position -> set_right_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_right_child(new Node(*node_false));
+				}
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg)
+				{
+					position -> set_left_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_left_child(new Node(*node_false));
+				}
+			}
+			//Or
+			else if(n == 2)
+			{
+				position -> set_value(operator_or);
+			//Differenciaton de la valeur de la feuille droite ajoutée
+				//1
+				if(fd)
+				{
+					position -> set_right_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_right_child(new Node(*node_false));
+				}
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg)
+				{
+					position -> set_left_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_left_child(new Node(*node_false));
+				}
+			}
+			//Feuille
+			else if(n == 3)
+			{
+				position -> set_value(operand_x1);
+
+				if(position->left_child() != NULL)
+				{
+					delete_tree_(position->left_child());
+					position -> set_left_child(NULL);
+				}
+
+				if(position->right_child() != NULL)
+				{
+					delete_tree_(position->right_child());
+					position -> set_right_child(NULL);
+				}
+			}
+			//Not
+			else
+			{
+				position -> set_value(operator_not);
+			//Differenciaton de la valeur de la feuille gauche ajoutée
+				//1
+				if(fg)
+				{
+					position -> set_left_child(new Node(*node_true));
+				}
+				//0
+				else
+				{
+					position -> set_left_child(new Node(*node_false));
+				}
+
+				if(position->right_child() != NULL)
+				{
+					delete_tree_(position->right_child());
+					position -> set_right_child(NULL);
+				}
+			}
+		}
+	}
+
+	//Noeud
+	else
+	{
+	//Differenciation entre NOT, AND et OR
+		//AND
+		if(position->value().compare(operator_and) == 0)
+		{
+		//Racine ou noeud?
+			if(position == root_)
+			{
+			//Differenciation de la modification
+				//NOT
+				if(n == 1 || n == 3)
+				{
+					position -> set_value(operator_not);
+
+					if(fg == fd)
+					{
+						if(position->right_child() != NULL)
+						{
+							delete_tree_(position->right_child());
+							position -> set_right_child(NULL);
+						}
+					}
+					else
+					{
+						position -> set_left_child(new Node(*position->right_child()));
+
+						if(position->right_child() != NULL)
+						{
+							delete_tree_(position->right_child());
+							position -> set_right_child(NULL);
+						}
+					}
+				}
 				//OR
-				else{
+				else if(n == 0 || n == 2)
+				{
 					position -> set_value(operator_or);
 				}
 			}
-			else{
+			else
+			{
 			//Differenciation de la modification
-				std::cout << "Nous sommes différents..." << std::endl;
 				//NOT
-				if(n){
+				if(n == 1)
+				{
 					position -> set_value(operator_not);
-					position -> set_right_child(NULL);
-				}*/
-				//Feuille
-			/*	else if (n == 2){
-				//Differenciaton de la valeur de la feuille
-					//1
-					if(f){
-						position -> set_value(operand_true);
+
+					if(fg == fd)
+					{
+						if(position->right_child() != NULL)
+						{
+							delete_tree_(position->right_child());
+							position -> set_right_child(NULL);
+						}
+					}
+					else
+					{
+						position -> set_left_child(new Node(*position->right_child()));
+
+						if(position->right_child() != NULL)
+						{
+							delete_tree_(position->right_child());
+							position -> set_right_child(NULL);
+						}
+					}
+				}
+				//Feuille - 1
+				else if (n == 2)
+				{
+					position -> set_value(operand_x1);
+
+					if(position->left_child() != NULL)
+					{
+						delete_tree_(position->left_child());
 						position -> set_left_child(NULL);
 					}
-					//0
-					else {
-						position -> set_value(operand_false);
+
+					if(position->right_child() != NULL)
+					{
+						delete_tree_(position->right_child());
+						position -> set_right_child(NULL);
+					}
+				}
+				//Feuille - 0
+				else if (n == 3)
+				{
+					position -> set_value(operand_x2);
+					
+					if(position->left_child() != NULL)
+					{
+						delete_tree_(position->left_child());
 						position -> set_left_child(NULL);
 					}
-				}*/
+
+					if(position->right_child() != NULL)
+					{
+						delete_tree_(position->right_child());
+						position -> set_right_child(NULL);
+					}
+				}
 				//OR
-				/*else{
+				else
+				{
 					position -> set_value(operator_or);
 				}
 
 			}			
-		}*/
+		}
 		//NOT
-		/*else if(position -> value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant  (ereur de segmentation)
+		else if(position->value().compare(operator_not) == 0)
+		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant  (ereur de segmentation)
+		{
 		//Racine ou noeud?
-			if (position != &root){
+			if(position == root_)
+			{
 			//Differenciation de la modification
-				std::cout << "Nous sommes égaux ou pas!" << std::endl;
 				//Or
-				if(n){
+				if(n == 1 || n == 3)
+				{
 					position -> set_value(operator_or);
-					position -> set_right_child(&node_true);
-				
-				}
-				//And
-				else{
-					position -> set_value(operator_and);
-					position -> set_right_child(&node_true);
-				}
-			}
-			else{
-			//Differenciation de la modification
-				std::cout << "Nous sommes différents..." << std::endl;
-				//Or
-				if(n){
-					position -> set_value(operator_or);
-					position -> set_right_child(&node_true);
-				
-				}*/
-				//Feuille
-/*				else if (n == 2){
-				//Differenciaton de la valeur de la feuille
+				//Differenciaton de la valeur de la feuille ajoutée
 					//1
-					if(f){
-						position -> set_value(operand_true);
-						position -> set_left_child(NULL);
+					if(fd)
+					{
+						position -> set_right_child(new Node(*node_true));
 					}
 					//0
-					else {
-						position -> set_value(operand_false);
+					else
+					{
+						position -> set_right_child(new Node(*node_false));
+					}
+				
+				}
+				//And
+				else if(n == 0 || n == 2)
+				{
+					position -> set_value(operator_and);
+				//Differenciaton de la valeur de la feuille ajoutée
+					//1
+					if(fd)
+					{
+						position -> set_right_child(new Node(*node_true));
+					}
+					//0
+					else
+					{
+						position -> set_right_child(new Node(*node_false));
+					}
+				}
+			}
+			else
+			{
+			//Differenciation de la modification
+				//Or
+				if(n == 1)
+				{
+					position -> set_value(operator_or);
+				//Differenciaton de la valeur de la feuille ajoutée
+					//1
+					if(fd)
+					{
+						position -> set_right_child(new Node(*node_true));
+					}
+					//0
+					else
+					{
+						position -> set_right_child(new Node(*node_false));
+					}
+				
+				}
+				//Feuille - 1
+				else if (n == 2)
+				{
+					position -> set_value(operand_x1);
+
+					if(position->left_child() != NULL)
+					{
+						delete_tree_(position->left_child());
 						position -> set_left_child(NULL);
 					}
-				}*/
+				}
+				//Feuille - 0
+				else if (n == 3)
+				{
+					position -> set_value(operand_x2);
+
+					if(position->left_child() != NULL)
+					{
+						delete_tree_(position->left_child());
+						position -> set_left_child(NULL);
+					}
+				}
 				//And
-				/*else{
+				else
+				{
 					position -> set_value(operator_and);
-					position -> set_right_child(&node_true);
+				//Differenciaton de la valeur de la feuille ajoutée
+					//1
+					if(fd)
+					{
+						position -> set_right_child(new Node(*node_true));
+					}
+					//0
+					else
+					{
+						position -> set_right_child(new Node(*node_false));
+					}
 				}
 
 			}
 		}
+
 		//OR
-		else{
+		else
+		{
 		//Racine ou noeud?
-
-			if (position != &root){
+			if (position == root_)
+			{
 			//Differenciation de la modification
-				std::cout << "Nous sommes égaux ou pas!" << std::endl;
 				//AND
-				if(n){
+				if(n == 1 || n == 3)
+				{
 					position -> set_value(operator_and);
 				}
 				//NOT
-				else{
+				else if(n == 0 || n == 2)
+				{
 					position -> set_value(operator_not);
-					position -> set_right_child(NULL);
-				}
-			}
-			else{
-			//Differenciation de la modification
-				std::cout << "Nous sommes différents..." << std::endl;
-				//And
-				if(n){
-					position -> set_value(operator_and);
-				}*/
-				//Feuille
-			/*	else if (n == 2){
-				//Differenciation de la feuille
-					//1
-					if(f){
-						position -> set_value(operand_true);
-						position -> set_right_child(NULL);
-						position -> set_left_child(NULL);
-					}
-					//0
-					else {
-						position -> set_value(operand_false);
-						position -> set_right_child(NULL);
-						position -> set_left_child(NULL);
-					}
-				}*/
-				//NOT
-				/*else{
-					position -> set_value(operator_not);
-					position -> set_right_child(NULL);
-				}
-			}
 
+					if(fg == fd)
+					{
+						if(position->right_child() != NULL)
+						{
+							delete_tree_(position->right_child());
+							position -> set_right_child(NULL);
+						}
+					}
+					else
+					{
+						position -> set_left_child(new Node(*position->right_child()));
+
+						if(position->right_child() != NULL)
+						{
+							delete_tree_(position->right_child());
+							position -> set_right_child(NULL);
+						}
+					}
+				}
+			}
+			else
+			{
+			//Differenciation de la modification
+				//And
+				if(n == 1)
+				{
+					position -> set_value(operator_and);
+				}
+				//Feuille - 1
+				else if (n == 2)
+				{
+					position -> set_value(operand_x1);
+
+					if(position->left_child() != NULL)
+					{
+						delete_tree_(position->left_child());
+						position -> set_left_child(NULL);
+					}
+
+					if(position->right_child() != NULL)
+					{
+						delete_tree_(position->right_child());
+						position -> set_right_child(NULL);
+					}
+				}
+				//Feuille - 0
+				else if (n == 3)
+				{
+					position -> set_value(operand_x2);
+
+					if(position->left_child() != NULL)
+					{
+						delete_tree_(position->left_child());
+						position -> set_left_child(NULL);
+					}
+
+					if(position->right_child() != NULL)
+					{
+						delete_tree_(position->right_child());
+						position -> set_right_child(NULL);
+					}
+				}
+				//NOT
+				else
+				{
+					position -> set_value(operator_not);
+
+					if(fg == fd)
+					{
+						if(position->right_child() != NULL)
+						{
+							delete_tree_(position->right_child());
+							position -> set_right_child(NULL);
+						}
+					}
+					else
+					{
+						position -> set_left_child(new Node(*position->right_child()));
+
+						if(position->right_child() != NULL)
+						{
+							delete_tree_(position->right_child());
+							position -> set_right_child(NULL);
+						}
+					}
+				}
+			}
 		}
 	}
-};*/
+};
 
 
 /*Fitness*/
-int Evolution::fitness(Node tree, int* donnee)
+int Evolution::fitness_(int* donnee)
 {
-	int lenght = sizeof(donnee);
-	int fit = 0;
+	//int lenght = sizeof(donnee);
+	//int fit = 0;
 
-	for ( int i = 0; i < lenght; i++){
-		fit += abs(tree.Node::node_result(/*val1[i], val2[i]*/) - donnee[ i ]);
-	}
-	return -fit;
+	//for ( int i = 0; i < lenght; i++){
+	//	fit += abs(tree.Node::node_result(/*val1[i], val2[i]*/) - donnee[ i ]);
+	//}
+	return 0;
 	
 };
 
-Node Evolution::comparative_fitness (Node root, Node* children_tab, int number_of_children, int* donnee)
+Node Evolution::comparate_fitness_(Node* children_tab, int number_of_children, int* donnee)
 {
-	int fit, new_fit, best;
+	/*int fit, new_fit, best;
 	
-	fit = fitness(root, donnee);
+	fit = fitness_(donnee);
 	best = number_of_children;
 
 	for ( int i = 0; i < number_of_children; i++){
-		new_fit = fitness(children_tab[ i ], donnee);
+		new_fit = fitness_(children_tab[ i ], donnee);
 		if (new_fit < fit){
 			fit = new_fit;
 			best = i;
@@ -455,15 +833,10 @@ Node Evolution::comparative_fitness (Node root, Node* children_tab, int number_o
 	}
 
 	if (best == number_of_children){
-		return root;
+		return *root_;
 	}
 	else{
 		return children_tab[best];
-	}
+	}*/
+	return *root_;
 };
-
-
-
-
-
-

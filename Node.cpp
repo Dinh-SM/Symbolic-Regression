@@ -79,12 +79,11 @@ void Node::set_left_child(Node* lc)
 void Node::set_right_child(Node* rc)
 {
 	right_child_ = rc;
-	std::cout << "Test 4.5 " << right_child_->value() << std::endl;
 };
 
-/*void Node::set_value(std::string b){
-	value_ = b;
-};*/
+void Node::set_value(std::string s){
+	value_ = s;
+};
 
 
 //Function

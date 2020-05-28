@@ -13,21 +13,21 @@ int main(int argc, char const *argv[])
 	const std::string operand_x1("x1");
 	const std::string operand_x2("x2");
 	
-	Node* gdg = new Node(NULL, NULL, operand_false); //Niveau4
+	Node* gdg = new Node(NULL, NULL, operand_x2); //Niveau4
 	Node* gd = new Node(gdg, NULL, operator_not); // Niveau 3
-	Node* ggg = new Node(NULL, NULL, operand_true); //Niveau 4
-	Node* ggd = new Node(NULL, NULL, operand_true); //Niveau 4
+	Node* ggg = new Node(NULL, NULL, operand_x1); //Niveau 4
+	Node* ggd = new Node(NULL, NULL, operand_x1); //Niveau 4
 	Node* gg = new Node(ggg, ggd, operator_and); // Niveau 3
 	Node* g = new Node(gg, gd, operator_and); // Niveau 2
 
-	Node* dgg = new Node(NULL, NULL, operand_true); //Niveau 4
-	Node* dgd = new Node(NULL, NULL, operand_false); //Niveau 4
+	Node* dgg = new Node(NULL, NULL, operand_x1); //Niveau 4
+	Node* dgd = new Node(NULL, NULL, operand_x2); //Niveau 4
 	Node* dg = new Node(dgg, dgd, operator_or); // Niveau 3
 	Node* d = new Node(dg, NULL, operator_not); // Niveau 2
 
-	Node* racine = new Node(g, d, operator_or); // Niveau 1
+	Node* racine = new Node(g, d, operator_and); // Niveau 1
 
-	Evolution e;
+	Evolution e(racine);
 
 	/*
 	//Test delete_blood()
@@ -136,19 +136,10 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre :" << std::endl;
 	std::cout << racine.node_formula() << std::endl;*/
 
-	std::cout << "Formule arbre de base :" << std::endl;
-	std::cout << racine->node_formula() << std::endl;
-	e.insertion(racine->left_child()->left_child(), racine->left_child());
-	std::cout << "Formule arbre après insertion :" << std::endl;
-	std::cout << racine->node_formula() << std::endl;
-	e.deletion(racine->left_child()->left_child(), racine->left_child());
-	std::cout << "Formule arbre après délétion :" << std::endl;
-	std::cout << racine->node_formula() << std::endl;
-
-	std::cout << "EXECUTE ORDER 66" << std::endl;
+	/*std::cout << "EXECUTE ORDER 66" << std::endl;
 	std::vector<Node*> children(5);
-	children = e.replication(racine, 5);
-	/*for (int i = 0; i < 5; ++i)
+	children = e.replication_(5);
+	for (int i = 0; i < 5; ++i)
 	{
 		std::cout << "Formule arbre #" << i << " :" << std::endl;
 		std::cout << children[i]->node_formula() << std::endl;
