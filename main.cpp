@@ -145,6 +145,18 @@ int main(int argc, char const *argv[])
 		std::cout << children[i]->node_formula() << std::endl;
 	}*/
 
+	std::cout << "Formule arbre de base :" << std::endl;
+	std::cout << racine->node_formula() << std::endl;
+	std::vector<Node*> children;
+	children = e.evolution(1, 18);
+
+	for (int i = 0; i < 18; ++i)
+	{
+		std::cout << "Formule arbre mutant #" << i << " :" << std::endl;
+		std::cout << children[i]->node_formula() << std::endl;
+		std::cout << children[i]->node_result(1, 0) << std::endl;
+	}
+
 	return 0;
 
 }

@@ -8,12 +8,18 @@ class Evolution
 		Evolution(Node* node);
 
 		//Functions
-		Node* evolution(int number_of_cycles, int number_of_children);
+		std::vector<Node*> evolution(int number_of_cycles, int number_of_children);
+
+		//Getters
+		std::vector<Node*> mutant_children();
+
+		//Setters
+		void set_node(Node* node);
 			
 	
 	protected :
 		std::vector<Node*> replication_(int number_of_children);
-		void mutation_(Node* position);
+		void mutation_(Node* position, Node* root);
 
 			/*Mutations*/
 		void insertion_(Node* position, Node* parent);
@@ -27,11 +33,14 @@ class Evolution
 		Node comparate_fitness_(Node* children_tab, int number_of_children, int* donnee);
 
 		void delete_tree_(Node* node);
-		Node* get_parent_node_(Node* position);
+		Node* get_parent_node_(Node* position, Node* root);
 		int left_or_right_child_(Node* position, Node* parent);
+		Node* node_at_path_(Node* node, std::string path);
+		std::string generate_path_();
 
-		std::vector<Node*> mutant_children;
+		std::vector<Node*> mutant_children_;
 		Node* root_;
+		std::string path_;
 
 };
 

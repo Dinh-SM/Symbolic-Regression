@@ -1,5 +1,5 @@
 #include "Evolution.h"
-#include<iostream>
+#include<iostream> 
 
 //Constants, variables
 const std::string operand_x1("x1");
@@ -13,24 +13,50 @@ Node empty(NULL, NULL, operand_x2);
 Evolution::Evolution(Node* node)
 {
 	root_ = node;
+	srand(time(NULL));
+};
+
+//Getters
+std::vector<Node*> Evolution::mutant_children()
+{
+	return mutant_children_;
+};
+
+//Setters
+void Evolution::set_node(Node* node){
+	root_ = node;
+	path_ = "";
 };
 
 //Functions
-Node* Evolution::get_parent_node_(Node* position)
+Node* Evolution::get_parent_node_(Node* position, Node* root)
 {
-	Node* parent_node = NULL;
-	Node* current_node = root_;
-	while(current_node != position){
-		if (current_node->left_child() !=NULL){
-			parent_node = current_node;
-			current_node = current_node->left_child();
-		}
-		else if(current_node->right_child() != NULL){
-			parent_node = current_node;
-			current_node = current_node->right_child();
-		}
+	if(root->left_child() == position || root->right_child() == position)
+		return root;
+
+	Node* n = NULL;
+
+	if (root->left_child() != NULL)
+	{
+		n = get_parent_node_(position, root->left_child());
 	}
-	return parent_node;
+	
+	if (n != NULL)
+	{
+		return n;
+	}
+	
+	if (root->right_child() != NULL)
+	{
+		n = get_parent_node_(position, root->right_child());
+	}
+	
+	if (n != NULL)
+	{
+		return n;
+	}
+
+	return NULL;
 };
 
 // returns 0 if left_child or 1 if right_child, -1 if neither (error)
@@ -67,11 +93,58 @@ void Evolution::delete_tree_(Node* node)
 	delete node;
 };
 
-	/*Evolution*/
-
-Node* Evolution::evolution(int number_of_cycles, int number_of_children)
+Node* Evolution::node_at_path_(Node* node, std::string path)
 {
-	return NULL;
+	Node* current_node = node;
+	for (int i = 0; i < path.length(); ++i)
+	{
+		if(path.c_str()[i] == 'l' && current_node->left_child() != NULL)
+		{
+			current_node = current_node->left_child();
+		}
+		else if(path.c_str()[i] == 'r' && current_node->right_child() != NULL)
+		{
+			current_node = current_node->right_child();
+		}
+		else
+		{
+			break;
+		}
+	}
+	return current_node;
+};
+
+std::string Evolution::generate_path_()
+{
+	std::string path("");
+	int j = rand()%18+1;
+	for (int i = 0; i < j; ++i)
+	{
+		if(rand()%2)
+		{
+			path = path + 'l';
+		}
+		else
+		{
+			path = path + 'r';
+		}
+	}
+	return path;
+};
+
+	/*Evolution*/
+std::vector<Node*> Evolution::evolution(int number_of_cycles, int number_of_children)
+{
+	mutant_children_ = replication_(number_of_children);
+	path_ = generate_path_();
+	std::cout << path_ << std::endl;
+
+	for (int i = 0; i < number_of_children; ++i)
+	{
+		mutation_(node_at_path_(mutant_children_[i], path_), mutant_children_[i]);
+	}
+
+	return mutant_children_;
 };
 
 std::vector<Node*> Evolution::replication_(int number_of_children)
@@ -85,12 +158,16 @@ std::vector<Node*> Evolution::replication_(int number_of_children)
 	return children;
 };
 
-void Evolution::mutation_(Node* position)
+void Evolution::mutation_(Node* position, Node* root)
 {
-	Node* parent = get_parent_node_(position);
+	Node* parent = get_parent_node_(position, root);
+	if(parent == NULL)
+	{
+		std::cout << "Parent pas trouvé : Mission avortée" << std::endl;
+		return;
+	}
 
-	srand(time(NULL));
-	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
+	int prob = std::rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
 	//Selon la probabilité, le node position est copié et subit une des trois mutations:
 	if (prob == 0)
 	{
@@ -112,9 +189,7 @@ void Evolution::mutation_(Node* position)
 /*Mutations*/
 void Evolution::insertion_(Node* position, Node* parent)
 {
-	srand(time(NULL));
 	int prob = rand()%3 ; // prob prend la valeur 0, 1 ou 2
-	srand(time(NULL));
 	int prob2 = rand()%2; // prob prend la valeur 0 ou 1
 	Node* x1 = new Node(NULL, NULL, operand_x1);
 	Node* x2 = new Node(NULL, NULL, operand_x2);
@@ -212,7 +287,7 @@ void Evolution::deletion(Node position)
 		}
 	}
 	
-	int a = rand() % 2;
+	int a = std::rand() % 2;
 	std::cout<<"value taken :"<<a<<'\n';
 	if (a==0){
 		position.set_value(operand_x1);	
@@ -231,8 +306,7 @@ void Evolution::deletion(Node position)
 void Evolution::deletion_(Node* position, Node* parent)
 {
 	Node* new_node;
-	srand(time(NULL));
-	int a = rand() % 2;
+	int a = std::rand() % 2;
 	if(a == 0)
 	{
 		new_node = new Node(NULL, NULL, operand_x1);
@@ -265,16 +339,12 @@ void Evolution::replacement_(Node* position)
 	Node* node_true = new Node(NULL, NULL, operand_x1);
 	Node* node_false = new Node(NULL, NULL, operand_x1);
 
-	srand(time(NULL));
-	int n = rand() % 4;
+	int n = std::rand() % 4;
 
 	//choix au hasard de la transformation d'un noeud en noeud
-	int fd = rand() % 2;		//choix au hasard de la feuille de droite
+	int fd = std::rand() % 2;		//choix au hasard de la feuille de droite
 
-	srand(time(NULL));
-	int fg = rand() % 2;		//choix au hasard de la feuille de gauche
-
-	std::cout << n << fd << fg << std::endl;
+	int fg = std::rand() % 2;		//choix au hasard de la feuille de gauche
 
 //Differenciation entre feuille et noeud
 	//Feuille
