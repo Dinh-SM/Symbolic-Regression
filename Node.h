@@ -28,6 +28,10 @@ class Node
 		int node_result(int x1, int x2);
 		std::string node_formula();
 
+		//Operator
+		bool operator== (const Node* second) const;
+		bool operator!= (const Node* second) const;
+
 	protected:
 		Node* left_child_;
 		Node* right_child_;

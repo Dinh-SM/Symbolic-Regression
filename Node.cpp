@@ -189,3 +189,70 @@ std::string Node::node_formula()
 		return value_;
 	}
 };
+
+
+//Operator
+	//==
+bool Node::operator== (const Node* second) const {
+	if (this->value_ == second->value_){
+
+		if(this->left_child_ == second->left_child_){
+	
+			if(this->right_child_ == second->right_child_){
+
+				return true;
+
+			}
+			else{
+
+				return false;
+			
+			}
+
+		}
+		else{
+
+			return false;
+
+		} 
+
+	}
+	else{
+
+		return false;
+
+	}
+};
+
+
+	//!=
+bool Node::operator!= (const Node* second) const {
+	if (this->value_ != second->value_){
+
+		if(this->left_child_ != second->left_child_){
+	
+			if(this->right_child_ != second->right_child_){
+
+				return true;
+
+			}
+			else{
+
+				return false;
+			
+			}
+
+		}
+		else{
+
+			return false;
+
+		} 
+
+	}
+	else{
+
+		return false;
+
+	}
+};
