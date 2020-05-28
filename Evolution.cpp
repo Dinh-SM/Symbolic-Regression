@@ -56,7 +56,7 @@ void Evolution::mutation(Node position, Node root)
 	}
 	else if (prob == 1) 
 	{
-		deletion(position, root);
+		deletion(position);
 		std::cout << "deletion" << std::endl;
 	}
 	else if (prob == 2)
@@ -146,7 +146,7 @@ void Evolution::insertion(Node position, Node parent)
 	}
 };
 
-void Evolution::deletion(Node position, Node root)
+void Evolution::deletion(Node position)
 {
 	Node * node_current = &position;
 	Node * node_p = &position;
@@ -222,84 +222,147 @@ void Evolution::replacement(Node* position, Node root)
 	
 	//Differenciation entre NOT, AND et OR
 		//AND
-		if (position -> value() == operator_and){
-		//Differenciation de la modification
-			//NOT
-			if(n){
-				position -> set_value(operator_not);
-				position -> set_right_child(NULL);
-			}
-			//Feuille
-			else if (n == 2){
-			//Differenciation de la feuille
-				//1
-				if(f){
-					position -> set_value(operand_true);
+		if (position -> value() != operator_and){
+		//Racine ou noeud?
+			
+			if (position == &root){
+			//Differenciation de la modification
+				std::cout << "Nous sommes égaux ou pas!" << std::endl;
+				//NOT
+				if(n){
+					position -> set_value(operator_not);
 					position -> set_right_child(NULL);
-					position -> set_left_child(NULL);
 				}
-				//0
-				else {
-					position -> set_value(operand_false);
-					position -> set_right_child(NULL);
-					position -> set_left_child(NULL);
+				//OR
+				else{
+					position -> set_value(operator_or);
 				}
 			}
-			//OR
 			else{
-				position -> set_value(operator_or);
-			}
+			//Differenciation de la modification
+				std::cout << "Nous sommes différents..." << std::endl;
+				//NOT
+				if(n){
+					position -> set_value(operator_not);
+					position -> set_right_child(NULL);
+				}
+				//Feuille
+			/*	else if (n == 2){
+				//Differenciaton de la valeur de la feuille
+					//1
+					if(f){
+						position -> set_value(operand_true);
+						position -> set_left_child(NULL);
+					}
+					//0
+					else {
+						position -> set_value(operand_false);
+						position -> set_left_child(NULL);
+					}
+				}*/
+				//OR
+				else{
+					position -> set_value(operator_or);
+				}
+
+			}			
 		}
 		//NOT
-		else if(position -> value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant
-			if(n){
-				position -> set_value(operator_or);
-				position -> set_right_child(&node_true);
-			
-			}
-			else if (n == 2){
-				if(f){
-					position -> set_value(operand_true);
-					position -> set_left_child(NULL);
+		else if(position -> value() == operator_not){		//ATTENTION : il faudra ajouter un noeuds à l’étage suivant  (ereur de segmentation)
+		//Racine ou noeud?
+			if (position != &root){
+			//Differenciation de la modification
+				std::cout << "Nous sommes égaux ou pas!" << std::endl;
+				//Or
+				if(n){
+					position -> set_value(operator_or);
+					position -> set_right_child(&node_true);
+				
 				}
-				else {
-					position -> set_value(operand_false);
-					position -> set_left_child(NULL);
+				//And
+				else{
+					position -> set_value(operator_and);
+					position -> set_right_child(&node_true);
 				}
 			}
 			else{
-				position -> set_value(operator_and);
-				position -> set_right_child(&node_true);
+			//Differenciation de la modification
+				std::cout << "Nous sommes différents..." << std::endl;
+				//Or
+				if(n){
+					position -> set_value(operator_or);
+					position -> set_right_child(&node_true);
+				
+				}
+				//Feuille
+/*				else if (n == 2){
+				//Differenciaton de la valeur de la feuille
+					//1
+					if(f){
+						position -> set_value(operand_true);
+						position -> set_left_child(NULL);
+					}
+					//0
+					else {
+						position -> set_value(operand_false);
+						position -> set_left_child(NULL);
+					}
+				}*/
+				//And
+				else{
+					position -> set_value(operator_and);
+					position -> set_right_child(&node_true);
+				}
+
 			}
 		}
 		//OR
 		else{
-		//Differenciation de la modification
-			//AND
-			if(n){
-				position -> set_value(operator_and);
-			}
-			//Feuille
-			else if (n == 2){
-			//Differenciation de la feuille
-				//1
-				if(f){
-					position -> set_value(operand_true);
-					position -> set_right_child(NULL);
-					position -> set_left_child(NULL);
+		//Racine ou noeud?
+
+			if (position != &root){
+			//Differenciation de la modification
+				std::cout << "Nous sommes égaux ou pas!" << std::endl;
+				//AND
+				if(n){
+					position -> set_value(operator_and);
 				}
-				//0
-				else {
-					position -> set_value(operand_false);
+				//NOT
+				else{
+					position -> set_value(operator_not);
 					position -> set_right_child(NULL);
-					position -> set_left_child(NULL);
 				}
 			}
-			//NOT
 			else{
-				position -> set_value(operator_not);
-				position -> set_right_child(NULL);
+			//Differenciation de la modification
+				std::cout << "Nous sommes différents..." << std::endl;
+				//And
+				if(n){
+					position -> set_value(operator_and);
+				}
+				//Feuille
+			/*	else if (n == 2){
+				//Differenciation de la feuille
+					//1
+					if(f){
+						position -> set_value(operand_true);
+						position -> set_right_child(NULL);
+						position -> set_left_child(NULL);
+					}
+					//0
+					else {
+						position -> set_value(operand_false);
+						position -> set_right_child(NULL);
+						position -> set_left_child(NULL);
+					}
+				}*/
+				//NOT
+				else{
+					position -> set_value(operator_not);
+					position -> set_right_child(NULL);
+				}
 			}
+
 		}
 	}
 };
@@ -340,3 +403,9 @@ Node Evolution::comparative_fitness (Node root, Node* children_tab, int number_o
 		return children_tab[best];
 	}
 };
+
+
+
+
+
+
