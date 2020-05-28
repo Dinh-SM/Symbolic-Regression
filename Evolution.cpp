@@ -276,13 +276,29 @@ void Evolution::replacement(Node* position, Node root)
 				//Or
 				if(n){
 					position -> set_value(operator_or);
-					position -> set_right_child(&node_true);
+				//Differenciaton de la valeur de la feuille ajoutée
+					//1
+					if(f){
+						position -> set_right_child(&node_true);
+					}
+					//0
+					else {
+						position -> set_right_child(&node_false);
+					}
 				
 				}
 				//And
 				else{
 					position -> set_value(operator_and);
-					position -> set_right_child(&node_true);
+				//Differenciaton de la valeur de la feuille ajoutée
+					//1
+					if(f){
+						position -> set_right_child(&node_true);
+					}
+					//0
+					else {
+						position -> set_right_child(&node_false);
+					}
 				}
 			}
 			else{
@@ -291,7 +307,15 @@ void Evolution::replacement(Node* position, Node root)
 				//Or
 				if(n){
 					position -> set_value(operator_or);
-					position -> set_right_child(&node_true);
+				//Differenciaton de la valeur de la feuille ajoutée
+					//1
+					if(f){
+						position -> set_right_child(&node_true);
+					}
+					//0
+					else {
+						position -> set_right_child(&node_false);
+					}
 				
 				}
 				//Feuille
@@ -311,7 +335,15 @@ void Evolution::replacement(Node* position, Node root)
 				//And
 				else{
 					position -> set_value(operator_and);
-					position -> set_right_child(&node_true);
+				//Differenciaton de la valeur de la feuille ajoutée
+					//1
+					if(f){
+						position -> set_right_child(&node_true);
+					}
+					//0
+					else {
+						position -> set_right_child(&node_false);
+					}
 				}
 
 			}
