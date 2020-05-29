@@ -1,18 +1,23 @@
 #include "Evolution.h"
-#include<iostream> 
+#include<iostream>
+#include<fstream>
+#include<sstream>
 
 //Constants, variables
+std::vector<std::string> operands;
+std::vector<std::string> used_operands;
 const std::string operand_x1("x1");
 const std::string operand_x2("x2");
 const std::string operator_or("OR");
 const std::string operator_and("AND");
 const std::string operator_not("NOT");
-Node empty(NULL, NULL, operand_x2);
 
 //Constructor
-Evolution::Evolution(Node* node)
+Evolution::Evolution(Node* node, std::string data)
 {
 	root_ = node;
+	data_ = parse_data_(data);
+	generate_operands_();
 	srand(time(NULL));
 };
 
@@ -20,6 +25,11 @@ Evolution::Evolution(Node* node)
 std::vector<Node*> Evolution::mutant_children()
 {
 	return mutant_children_;
+};
+
+std::vector<std::vector<int>> Evolution::data()
+{
+	return data_;
 };
 
 //Setters
@@ -32,7 +42,9 @@ void Evolution::set_node(Node* node){
 Node* Evolution::get_parent_node_(Node* position, Node* root)
 {
 	if(root->left_child() == position || root->right_child() == position)
+	{
 		return root;
+	}
 
 	Node* n = NULL;
 
@@ -130,6 +142,14 @@ std::string Evolution::generate_path_()
 		}
 	}
 	return path;
+};
+
+void Evolution::generate_operands_()
+{
+	for (int i = 0; i < data_[0].size(); ++i)
+	{
+		operands.push_back(std::to_string(i+1));
+	}
 };
 
 	/*Evolution*/
@@ -872,6 +892,28 @@ void Evolution::replacement_(Node* position)
 	}
 };
 
+std::vector<std::vector<int>> Evolution::parse_data_(std::string data_to_parse)
+{
+	std::ifstream  data(data_to_parse);
+    std::string line;
+	getline(data, line, '\n');
+    std::vector<std::vector<int>> parsed_csv;
+    while(std::getline(data,line))
+    {
+        std::stringstream line_stream(line);
+        std::string cell;
+        getline(line_stream, cell, ',');
+        std::vector<int> parsed_row;
+        while(std::getline(line_stream,cell,','))
+        {
+            parsed_row.push_back(std::atoi(cell.c_str()));
+        }
+
+        parsed_csv.push_back(parsed_row);
+    }
+
+    return parsed_csv;
+};
 
 /*Fitness*/
 int Evolution::fitness_(int* donnee)

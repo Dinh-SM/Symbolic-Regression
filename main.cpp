@@ -1,6 +1,8 @@
 //#include"Node.cpp"
 #include<iostream>
 #include<string>
+#include<fstream>
+#include<sstream>
 #include"Evolution.cpp"
 
 int main(int argc, char const *argv[])
@@ -12,6 +14,7 @@ int main(int argc, char const *argv[])
 	const std::string operator_not("NOT");
 	const std::string operand_x1("x1");
 	const std::string operand_x2("x2");
+	const std::string data("./binary_gene_expression_ACE2_tfs.csv");
 	
 	Node* gdg = new Node(NULL, NULL, operand_x2); //Niveau4
 	Node* gd = new Node(gdg, NULL, operator_not); // Niveau 3
@@ -27,7 +30,7 @@ int main(int argc, char const *argv[])
 
 	Node* racine = new Node(g, d, operator_or); // Niveau 1
 
-	Evolution e(racine);
+	Evolution e(racine, data);
 
 	/*
 	//Test delete_blood()
@@ -145,7 +148,7 @@ int main(int argc, char const *argv[])
 		std::cout << children[i]->node_formula() << std::endl;
 	}*/
 
-	std::cout << "Formule arbre de base :" << std::endl;
+	/*std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine->node_formula() << std::endl;
 	std::vector<Node*> children;
 	children = e.evolution(1000000, 5);
@@ -155,7 +158,52 @@ int main(int argc, char const *argv[])
 		std::cout << "Formule arbre mutant #" << i << " :" << std::endl;
 		std::cout << children[i]->node_formula() << std::endl;
 		std::cout << children[i]->node_result(1, 0) << std::endl;
+	}*/
+
+	std::vector<std::vector<int>> parsedCsv = e.data();
+    std::cout << parsedCsv.size() << ", " << parsedCsv[0].size() << std::endl;
+
+    /*for (int i = 0; i < parsedCsv.size(); ++i)
+	{
+		for (int j = 0; j < parsedCsv[i].size(); ++j)
+		{
+			std::cout << parsedCsv[i][j] << " ";
+		}
+	}*/
+
+    std::vector<int> test;
+
+    test.push_back(3);
+    for (int i = 0; i < test.size(); ++i)
+	{
+		std::cout << test[i] << " ";
 	}
+	std::cout << std::endl;
+
+    test.push_back(4);
+    for (int i = 0; i < test.size(); ++i)
+	{
+		std::cout << test[i] << " ";
+	}
+	std::cout << std::endl;
+
+    test.pop_back();
+    for (int i = 0; i < test.size(); ++i)
+	{
+		std::cout << test[i] << " ";
+	}
+	std::cout << std::endl;
+
+	test.push_back(3);
+	test.push_back(4);
+	test.push_back(5);
+	test.erase(test.begin());
+	test.erase(test.begin());
+    for (int i = 0; i < test.size(); ++i)
+	{
+		std::cout << test[i] << " ";
+	}
+	std::cout << std::endl;
 
 	return 0;
 

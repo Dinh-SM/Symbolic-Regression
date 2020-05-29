@@ -1,4 +1,5 @@
 #include<string>
+#include <vector>
 
 class Node
 {
@@ -24,8 +25,7 @@ class Node
 
 		//Fonction
 		void delete_blood();
-		int node_result();
-		int node_result(int x1, int x2);
+		int node_result(std::vector<int> x);
 		std::string node_formula();
 
 		//Operator

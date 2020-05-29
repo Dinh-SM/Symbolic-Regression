@@ -115,51 +115,23 @@ void Node::set_value(std::string s){
 	}
 };*/
 
-int Node::node_result()
+int Node::node_result(std::vector<int> x)
 {
 	if(value_.compare("AND") == 0)
 	{
-		return left_child_->node_result() && right_child_->node_result();
+		return left_child_->node_result(x) && right_child_->node_result(x);
 	}
 	else if(value_.compare("OR") == 0)
 	{
-		return left_child_->node_result() || right_child_->node_result();
+		return left_child_->node_result(x) || right_child_->node_result(x);
 	}
 	else if(value_.compare("NOT") == 0)
 	{
-		return !left_child_->node_result();
+		return !left_child_->node_result(x);
 	}
 	else
 	{
-		return std::atoi(value_.c_str());
-	}
-};
-
-int Node::node_result(int x1, int x2)
-{
-	if(value_.compare("AND") == 0)
-	{
-		return left_child_->node_result() && right_child_->node_result();
-	}
-	else if(value_.compare("OR") == 0)
-	{
-		return left_child_->node_result() || right_child_->node_result();
-	}
-	else if(value_.compare("NOT") == 0)
-	{
-		return !left_child_->node_result();
-	}
-	else if(value_.compare(std::to_string(x1)) == 0)
-	{
-		return x1;
-	}
-	else if(value_.compare(std::to_string(x2)) == 0)
-	{
-		return x2;
-	}
-	else
-	{
-		return std::atoi(value_.c_str());
+		return x[std::atoi(value_.c_str())-1];
 	}
 };
 
