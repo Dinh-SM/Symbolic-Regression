@@ -32,7 +32,7 @@ class Evolution
 		int fitness_(int* donnee);
 		Node comparate_fitness_(Node* children_tab, int number_of_children, int* donnee);
 
-		void delete_tree_(Node* node);
+		void apoptosis_(Node* node);
 		Node* get_parent_node_(Node* position, Node* root);
 		int left_or_right_child_(Node* position, Node* parent);
 		Node* node_at_path_(Node* node, std::string path);

@@ -148,7 +148,7 @@ int main(int argc, char const *argv[])
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine->node_formula() << std::endl;
 	std::vector<Node*> children;
-	children = e.evolution(1000, 5);
+	children = e.evolution(1000000, 5);
 
 	for (int i = 0; i < 5; ++i)
 	{

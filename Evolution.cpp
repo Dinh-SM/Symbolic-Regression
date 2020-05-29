@@ -74,7 +74,7 @@ int Evolution::left_or_right_child_(Node* position, Node* parent)
 	return -1;
 };
 
-void Evolution::delete_tree_(Node* node)
+void Evolution::apoptosis_(Node* node)
 {
 	if(node == NULL)
 	{
@@ -83,11 +83,11 @@ void Evolution::delete_tree_(Node* node)
 
 	if(node->left_child() != NULL)
 	{
-		delete_tree_(node->left_child());
+		apoptosis_(node->left_child());
 	}
 	else if(node->right_child() != NULL)
 	{
-		delete_tree_(node->right_child());
+		apoptosis_(node->right_child());
 	}
 
 	delete node;
@@ -318,12 +318,12 @@ void Evolution::deletion_(Node* position, Node* parent)
 	int lr = left_or_right_child_(position, parent);
 	if(lr == 0)
 	{
-		delete_tree_(parent->left_child());
+		apoptosis_(parent->left_child());
 		parent->set_left_child(new_node);
 	}
 	else if(lr == 1)
 	{
-		delete_tree_(parent->right_child());
+		apoptosis_(parent->right_child());
 		parent->set_right_child(new_node);
 	}
 	else
@@ -416,13 +416,13 @@ void Evolution::replacement_(Node* position)
 
 				if(position->left_child() != NULL)
 				{
-					delete_tree_(position->left_child());
+					apoptosis_(position->left_child());
 					position -> set_left_child(NULL);
 				}
 
 				if(position->right_child() != NULL)
 				{
-					delete_tree_(position->right_child());
+					apoptosis_(position->right_child());
 					position -> set_right_child(NULL);
 				}
 			}
@@ -444,7 +444,7 @@ void Evolution::replacement_(Node* position)
 
 				if(position->right_child() != NULL)
 				{
-					delete_tree_(position->right_child());
+					apoptosis_(position->right_child());
 					position -> set_right_child(NULL);
 				}
 			}
@@ -515,13 +515,13 @@ void Evolution::replacement_(Node* position)
 
 				if(position->left_child() != NULL)
 				{
-					delete_tree_(position->left_child());
+					apoptosis_(position->left_child());
 					position -> set_left_child(NULL);
 				}
 
 				if(position->right_child() != NULL)
 				{
-					delete_tree_(position->right_child());
+					apoptosis_(position->right_child());
 					position -> set_right_child(NULL);
 				}
 			}
@@ -543,7 +543,7 @@ void Evolution::replacement_(Node* position)
 
 				if(position->right_child() != NULL)
 				{
-					delete_tree_(position->right_child());
+					apoptosis_(position->right_child());
 					position -> set_right_child(NULL);
 				}
 			}
@@ -570,7 +570,7 @@ void Evolution::replacement_(Node* position)
 					{
 						if(position->right_child() != NULL)
 						{
-							delete_tree_(position->right_child());
+							apoptosis_(position->right_child());
 							position -> set_right_child(NULL);
 						}
 					}
@@ -580,7 +580,7 @@ void Evolution::replacement_(Node* position)
 
 						if(position->right_child() != NULL)
 						{
-							delete_tree_(position->right_child());
+							apoptosis_(position->right_child());
 							position -> set_right_child(NULL);
 						}
 					}
@@ -603,7 +603,7 @@ void Evolution::replacement_(Node* position)
 					{
 						if(position->right_child() != NULL)
 						{
-							delete_tree_(position->right_child());
+							apoptosis_(position->right_child());
 							position -> set_right_child(NULL);
 						}
 					}
@@ -613,7 +613,7 @@ void Evolution::replacement_(Node* position)
 
 						if(position->right_child() != NULL)
 						{
-							delete_tree_(position->right_child());
+							apoptosis_(position->right_child());
 							position -> set_right_child(NULL);
 						}
 					}
@@ -625,13 +625,13 @@ void Evolution::replacement_(Node* position)
 
 					if(position->left_child() != NULL)
 					{
-						delete_tree_(position->left_child());
+						apoptosis_(position->left_child());
 						position -> set_left_child(NULL);
 					}
 
 					if(position->right_child() != NULL)
 					{
-						delete_tree_(position->right_child());
+						apoptosis_(position->right_child());
 						position -> set_right_child(NULL);
 					}
 				}
@@ -642,13 +642,13 @@ void Evolution::replacement_(Node* position)
 					
 					if(position->left_child() != NULL)
 					{
-						delete_tree_(position->left_child());
+						apoptosis_(position->left_child());
 						position -> set_left_child(NULL);
 					}
 
 					if(position->right_child() != NULL)
 					{
-						delete_tree_(position->right_child());
+						apoptosis_(position->right_child());
 						position -> set_right_child(NULL);
 					}
 				}
@@ -729,7 +729,7 @@ void Evolution::replacement_(Node* position)
 
 					if(position->left_child() != NULL)
 					{
-						delete_tree_(position->left_child());
+						apoptosis_(position->left_child());
 						position -> set_left_child(NULL);
 					}
 				}
@@ -740,7 +740,7 @@ void Evolution::replacement_(Node* position)
 
 					if(position->left_child() != NULL)
 					{
-						delete_tree_(position->left_child());
+						apoptosis_(position->left_child());
 						position -> set_left_child(NULL);
 					}
 				}
@@ -785,7 +785,7 @@ void Evolution::replacement_(Node* position)
 					{
 						if(position->right_child() != NULL)
 						{
-							delete_tree_(position->right_child());
+							apoptosis_(position->right_child());
 							position -> set_right_child(NULL);
 						}
 					}
@@ -795,7 +795,7 @@ void Evolution::replacement_(Node* position)
 
 						if(position->right_child() != NULL)
 						{
-							delete_tree_(position->right_child());
+							apoptosis_(position->right_child());
 							position -> set_right_child(NULL);
 						}
 					}
@@ -816,13 +816,13 @@ void Evolution::replacement_(Node* position)
 
 					if(position->left_child() != NULL)
 					{
-						delete_tree_(position->left_child());
+						apoptosis_(position->left_child());
 						position -> set_left_child(NULL);
 					}
 
 					if(position->right_child() != NULL)
 					{
-						delete_tree_(position->right_child());
+						apoptosis_(position->right_child());
 						position -> set_right_child(NULL);
 					}
 				}
@@ -833,13 +833,13 @@ void Evolution::replacement_(Node* position)
 
 					if(position->left_child() != NULL)
 					{
-						delete_tree_(position->left_child());
+						apoptosis_(position->left_child());
 						position -> set_left_child(NULL);
 					}
 
 					if(position->right_child() != NULL)
 					{
-						delete_tree_(position->right_child());
+						apoptosis_(position->right_child());
 						position -> set_right_child(NULL);
 					}
 				}
@@ -852,7 +852,7 @@ void Evolution::replacement_(Node* position)
 					{
 						if(position->right_child() != NULL)
 						{
-							delete_tree_(position->right_child());
+							apoptosis_(position->right_child());
 							position -> set_right_child(NULL);
 						}
 					}
@@ -862,7 +862,7 @@ void Evolution::replacement_(Node* position)
 
 						if(position->right_child() != NULL)
 						{
-							delete_tree_(position->right_child());
+							apoptosis_(position->right_child());
 							position -> set_right_child(NULL);
 						}
 					}
