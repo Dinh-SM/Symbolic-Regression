@@ -1,7 +1,7 @@
 #include "Node.h"
 #include <cstring>
 #include <cstdlib>
-#include<string>
+#include <string>
 
 // Default Constructor
 Node::Node()
@@ -151,7 +151,7 @@ std::string Node::node_formula()
 	}
 	else
 	{
-		return value_;
+		return 'x' + value_;
 	}
 };
 

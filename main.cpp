@@ -1,8 +1,4 @@
-//#include"Node.cpp"
-#include<iostream>
-#include<string>
-#include<fstream>
-#include<sstream>
+#include <string>
 #include"Evolution.cpp"
 
 int main(int argc, char const *argv[])
@@ -12,19 +8,22 @@ int main(int argc, char const *argv[])
 	const std::string operator_or("OR");
 	const std::string operator_and("AND");
 	const std::string operator_not("NOT");
-	const std::string operand_x1("x1");
-	const std::string operand_x2("x2");
+	const std::string operand_x1("1");
+	const std::string operand_x2("2");
+	const std::string operand_x42("42");
+	const std::string operand_x69("69");
+	const std::string operand_x18("18");
 	const std::string data("./binary_gene_expression_ACE2_tfs.csv");
 	
 	Node* gdg = new Node(NULL, NULL, operand_x2); //Niveau4
 	Node* gd = new Node(gdg, NULL, operator_not); // Niveau 3
 	Node* ggg = new Node(NULL, NULL, operand_x1); //Niveau 4
-	Node* ggd = new Node(NULL, NULL, operand_x1); //Niveau 4
+	Node* ggd = new Node(NULL, NULL, operand_x42); //Niveau 4
 	Node* gg = new Node(ggg, ggd, operator_and); // Niveau 3
 	Node* g = new Node(gg, gd, operator_and); // Niveau 2
 
-	Node* dgg = new Node(NULL, NULL, operand_x1); //Niveau 4
-	Node* dgd = new Node(NULL, NULL, operand_x2); //Niveau 4
+	Node* dgg = new Node(NULL, NULL, operand_x69); //Niveau 4
+	Node* dgd = new Node(NULL, NULL, operand_x18); //Niveau 4
 	Node* dg = new Node(dgg, dgd, operator_or); // Niveau 3
 	Node* d = new Node(dg, NULL, operator_not); // Niveau 2
 
@@ -148,20 +147,16 @@ int main(int argc, char const *argv[])
 		std::cout << children[i]->node_formula() << std::endl;
 	}*/
 
-	/*std::cout << "Formule arbre de base :" << std::endl;
+	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine->node_formula() << std::endl;
 	std::vector<Node*> children;
-	children = e.evolution(1000000, 5);
+	children = e.evolution(40, 5);
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < children.size(); ++i)
 	{
 		std::cout << "Formule arbre mutant #" << i << " :" << std::endl;
 		std::cout << children[i]->node_formula() << std::endl;
-		std::cout << children[i]->node_result(1, 0) << std::endl;
-	}*/
-
-	std::vector<std::vector<int>> parsedCsv = e.data();
-    std::cout << parsedCsv.size() << ", " << parsedCsv[0].size() << std::endl;
+	}
 
     /*for (int i = 0; i < parsedCsv.size(); ++i)
 	{
@@ -170,40 +165,6 @@ int main(int argc, char const *argv[])
 			std::cout << parsedCsv[i][j] << " ";
 		}
 	}*/
-
-    std::vector<int> test;
-
-    test.push_back(3);
-    for (int i = 0; i < test.size(); ++i)
-	{
-		std::cout << test[i] << " ";
-	}
-	std::cout << std::endl;
-
-    test.push_back(4);
-    for (int i = 0; i < test.size(); ++i)
-	{
-		std::cout << test[i] << " ";
-	}
-	std::cout << std::endl;
-
-    test.pop_back();
-    for (int i = 0; i < test.size(); ++i)
-	{
-		std::cout << test[i] << " ";
-	}
-	std::cout << std::endl;
-
-	test.push_back(3);
-	test.push_back(4);
-	test.push_back(5);
-	test.erase(test.begin());
-	test.erase(test.begin());
-    for (int i = 0; i < test.size(); ++i)
-	{
-		std::cout << test[i] << " ";
-	}
-	std::cout << std::endl;
 
 	return 0;
 
