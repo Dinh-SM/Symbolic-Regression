@@ -149,20 +149,12 @@ int main(int argc, char const *argv[])
 
 	std::cout << "Formule arbre de base :" << std::endl;
 	std::cout << racine->node_formula() << std::endl;
+	std::cout << std::endl;
 	std::vector<Node*> children;
-	children = e.evolution(40, 5);
-	std::vector<float> fitnesses;
-	fitnesses = e.fitnesses();
+	children = e.evolution(180, 5); //180 cycles avec 5 enfants
 
-	for (int i = 0; i < children.size(); ++i)
-	{
-		std::cout << "Formule arbre mutant #" << i << " :" << std::endl;
-		std::cout << children[i]->node_formula() << std::endl;
-		std::cout << fitnesses[i] << std::endl;
-	}
+	std::cout << "Meilleure formule arbre après exécution :" << std::endl;
+	std::cout << e.root()->node_formula() << std::endl;
 
 	return 0;
-
-}
-
-
+};
