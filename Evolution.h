@@ -13,6 +13,7 @@ class Evolution
 		//Getters
 		std::vector<Node*> mutant_children();
 		std::vector<std::vector<int>> data();
+		std::vector<float> fitnesses();
 
 		//Setters
 		void set_node(Node* node);
@@ -39,8 +40,8 @@ class Evolution
 												int index_1, int index_2, int n);
 
 			/*Fitness*/
-		int fitness_(int* donnee);
-		Node comparate_fitness_(Node* children_tab, int number_of_children, int* donnee);
+		float compute_fitness_(Node* node);
+		Node* comparate_fitness_();
 
 		void apoptosis_(Node* node);
 		Node* get_parent_node_(Node* position, Node* root);
@@ -59,6 +60,7 @@ class Evolution
 		Node* root_;
 		std::string path_;
 		std::vector<std::vector<int>> data_;
+		std::vector<float> fitnesses_;
 };
 
 

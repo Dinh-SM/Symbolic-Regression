@@ -31,6 +31,11 @@ std::vector<std::vector<int>> Evolution::data()
 	return data_;
 };
 
+std::vector<float> Evolution::fitnesses()
+{
+	return fitnesses_;
+};
+
 //Setters
 void Evolution::set_node(Node* node){
 	root_ = node;
@@ -259,6 +264,7 @@ void Evolution::reused_to_operands_(Node* node)
 std::vector<Node*> Evolution::evolution(int number_of_cycles, int number_of_children)
 {
 	mutant_children_ = replication_(number_of_children);
+	fitnesses_.clear();
 
 	for (int j = 0; j < number_of_cycles; ++j)
 	{
@@ -266,6 +272,7 @@ std::vector<Node*> Evolution::evolution(int number_of_cycles, int number_of_chil
 		for (int i = 0; i < number_of_children; ++i)
 		{
 			mutation_(node_at_path_(mutant_children_[i], path_), mutant_children_[i]);
+			fitnesses_.push_back(compute_fitness_(mutant_children_[i]));
 		}
 	}
 
@@ -1043,19 +1050,26 @@ std::vector<std::vector<int>> Evolution::parse_data_(std::string data_to_parse)
 };
 
 /*Fitness*/
-int Evolution::fitness_(int* donnee)
+float Evolution::compute_fitness_(Node* node)
 {
-	//int lenght = sizeof(donnee);
-	//int fit = 0;
-
-	//for ( int i = 0; i < lenght; i++){
-	//	fit += abs(tree.Node::node_result(/*val1[i], val2[i]*/) - donnee[ i ]);
-	//}
-	return 0;
+	int lenght = data_.size();
+	float fit = 0;
+	int i = 0;
 	
+	for (i = 0; i < lenght; ++i)
+	{
+		if(node->node_result(data_[i]) == data_[i][data_[i].size()-1])
+		{
+			fit += 1;
+		}
+	}
+
+	fit /= i;
+
+	return fit;
 };
 
-Node Evolution::comparate_fitness_(Node* children_tab, int number_of_children, int* donnee)
+Node* Evolution::comparate_fitness_()
 {
 	/*int fit, new_fit, best;
 	
@@ -1076,5 +1090,5 @@ Node Evolution::comparate_fitness_(Node* children_tab, int number_of_children, i
 	else{
 		return children_tab[best];
 	}*/
-	return *root_;
+	return root_;
 };

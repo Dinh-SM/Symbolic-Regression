@@ -15,19 +15,19 @@ int main(int argc, char const *argv[])
 	const std::string operand_x18("18");
 	const std::string data("./binary_gene_expression_ACE2_tfs.csv");
 	
-	Node* gdg = new Node(NULL, NULL, operand_x2); //Niveau4
-	Node* gd = new Node(gdg, NULL, operator_not); // Niveau 3
-	Node* ggg = new Node(NULL, NULL, operand_x1); //Niveau 4
-	Node* ggd = new Node(NULL, NULL, operand_x42); //Niveau 4
-	Node* gg = new Node(ggg, ggd, operator_and); // Niveau 3
-	Node* g = new Node(gg, gd, operator_and); // Niveau 2
+	//Node* gdg = new Node(NULL, NULL, operand_x2); //Niveau4
+	//Node* gd = new Node(gdg, NULL, operator_not); // Niveau 3
+	//Node* ggg = new Node(NULL, NULL, operand_x1); //Niveau 4
+	//Node* ggd = new Node(NULL, NULL, operand_x42); //Niveau 4
+	//Node* gg = new Node(ggg, ggd, operator_and); // Niveau 3
+	Node* g = new Node(NULL, NULL, operand_x42); // Niveau 2
 
-	Node* dgg = new Node(NULL, NULL, operand_x69); //Niveau 4
-	Node* dgd = new Node(NULL, NULL, operand_x18); //Niveau 4
-	Node* dg = new Node(dgg, dgd, operator_or); // Niveau 3
-	Node* d = new Node(dg, NULL, operator_not); // Niveau 2
+	//Node* dgg = new Node(NULL, NULL, operand_x69); //Niveau 4
+	//Node* dgd = new Node(NULL, NULL, operand_x18); //Niveau 4
+	//Node* dg = new Node(dgg, dgd, operator_or); // Niveau 3
+	Node* d = new Node(NULL, NULL, operand_x69); // Niveau 2
 
-	Node* racine = new Node(g, d, operator_or); // Niveau 1
+	Node* racine = new Node(g, d, operator_and); // Niveau 1
 
 	Evolution e(racine, data);
 
@@ -151,20 +151,15 @@ int main(int argc, char const *argv[])
 	std::cout << racine->node_formula() << std::endl;
 	std::vector<Node*> children;
 	children = e.evolution(40, 5);
+	std::vector<float> fitnesses;
+	fitnesses = e.fitnesses();
 
 	for (int i = 0; i < children.size(); ++i)
 	{
 		std::cout << "Formule arbre mutant #" << i << " :" << std::endl;
 		std::cout << children[i]->node_formula() << std::endl;
+		std::cout << fitnesses[i] << std::endl;
 	}
-
-    /*for (int i = 0; i < parsedCsv.size(); ++i)
-	{
-		for (int j = 0; j < parsedCsv[i].size(); ++j)
-		{
-			std::cout << parsedCsv[i][j] << " ";
-		}
-	}*/
 
 	return 0;
 
