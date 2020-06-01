@@ -7,62 +7,65 @@
 //Constants, variables
 std::vector<std::vector<std::string>> operands;
 std::vector<std::vector<std::string>> used_operands;
-const std::string operator_or("OR");
-const std::string operator_and("AND");
-const std::string operator_not("NOT");
 
 //Constructor
 Evolution::Evolution(Node* node, std::string data)
 {
 	root_ = node;
 	data_ = parse_data_(data);
-	srand(time(NULL));
+	srand(time(NULL)); // sets the seed at current time for the randomization
 };
 
 //Getters
+// returns the current base Node of the future mutants
 Node* Evolution::root()
 {
 	return root_;
 };
 
+// returns the vector of mutants
 std::vector<Node*> Evolution::mutant_children()
 {
 	return mutant_children_;
 };
 
+// returns the vector containing the data of the csv file
 std::vector<std::vector<int>> Evolution::data()
 {
 	return data_;
 };
 
+// returns the vector of computed fitnesses per mutants
 std::vector<float> Evolution::fitnesses()
 {
 	return fitnesses_;
 };
 
 //Setters
+// changes the base Node of the future mutants
 void Evolution::set_node(Node* node){
 	root_ = node;
-	path_ = "";
 };
 
+// changes the csv file
 void Evolution::set_data(std::string data){
 	data_ = parse_data_(data);
 };
 
 //Functions
+// returns a pointer pointing on the parent of the Node position
 Node* Evolution::get_parent_node_(Node* position, Node* root)
 {
-	if(root->left_child() == position || root->right_child() == position)
+	if(root->left_child() == position || root->right_child() == position) // if one of the child of this Node is the Node position, it means that Node is its parent Node
 	{
 		return root;
 	}
 
 	Node* n = NULL;
 
-	if (root->left_child() != NULL)
+	if (root->left_child() != NULL) // if there's a left child, checks the left child
 	{
-		n = get_parent_node_(position, root->left_child());
+		n = get_parent_node_(position, root->left_child()); // recursive call on the left child
 	}
 	
 	if (n != NULL)
@@ -70,9 +73,9 @@ Node* Evolution::get_parent_node_(Node* position, Node* root)
 		return n;
 	}
 	
-	if (root->right_child() != NULL)
+	if (root->right_child() != NULL) // if there's a right child, checks the right child
 	{
-		n = get_parent_node_(position, root->right_child());
+		n = get_parent_node_(position, root->right_child()); // recursive call on the right child
 	}
 	
 	if (n != NULL)
@@ -83,7 +86,7 @@ Node* Evolution::get_parent_node_(Node* position, Node* root)
 	return NULL;
 };
 
-// returns 0 if left_child or 1 if right_child, -1 if neither (error)
+// returns -1 if the Node position isn't a child, 0 if the Node position is a left child and 1 if the Node position is a right child
 int Evolution::left_or_right_child_(Node* position, Node* parent)
 {
 	if(parent == NULL)
@@ -102,23 +105,25 @@ int Evolution::left_or_right_child_(Node* position, Node* parent)
 	return -1;
 };
 
+// deletes a Node with its children
 void Evolution::apoptosis_(Node* node, int id)
 {
-	if(node == NULL)
+	if(node == NULL) // stops if the Node is NULL
 	{
 		return;
 	}
 
-	if(node->left_child() != NULL)
+	if(node->left_child() != NULL) // if there's a left child, deletes the left child
 	{
-		apoptosis_(node->left_child(), id);
+		apoptosis_(node->left_child(), id); // recursive call on the left child
 	}
 	
-	if(node->right_child() != NULL)
+	if(node->right_child() != NULL) // if there's a right child, deletes the right child
 	{
-		apoptosis_(node->right_child(), id);
+		apoptosis_(node->right_child(), id); // recursive call on the right child
 	}
 
+	// if the value of the Node to be deleted is a gene, transfer the gene to the corresponding vector of usable genes
 	if(node->value().compare(operator_and) != 0
 		&& node->value().compare(operator_or) != 0
 		&& node->value().compare(operator_not) != 0)
@@ -132,37 +137,42 @@ void Evolution::apoptosis_(Node* node, int id)
 			}
 		}
 	}
+
+	// Node deletion
 	delete node;
 };
 
+// returns the Node on which the mutation will occur
 Node* Evolution::node_at_path_(Node* node, std::string path)
 {
 	Node* current_node = node;
 	for (int i = 0; i < path.length(); ++i)
 	{
-		if(path.c_str()[i] == 'l' && current_node->left_child() != NULL)
+		if(path.c_str()[i] == 'l' && current_node->left_child() != NULL) // if path says "l", go to the left
 		{
 			current_node = current_node->left_child();
 		}
-		else if(path.c_str()[i] == 'r' && current_node->right_child() != NULL)
+		else if(path.c_str()[i] == 'r' && current_node->right_child() != NULL) // if path says "r", go to the right
 		{
 			current_node = current_node->right_child();
 		}
-		else
+		else // if path says something but you can't do it, stop
 		{
 			break;
 		}
 	}
+
 	return current_node;
 };
 
+// generates and returns a randomly generated path to the Node on which the mutation will occur
 std::string Evolution::generate_path_()
 {
 	std::string path("");
-	int j = rand()%100;
+	int j = rand()%100; // path of random size from 0 to 99
 	for (int i = 0; i < j; ++i)
 	{
-		if(rand()%2)
+		if(rand()%2) // randomly choses between l for left and r for right
 		{
 			path = path + 'l';
 		}
@@ -171,11 +181,14 @@ std::string Evolution::generate_path_()
 			path = path + 'r';
 		}
 	}
+
 	return path;
 };
 
+// generates a vector of vector of unusable genes for each future mutant (only one copy of the gene for one formula)
 void Evolution::generate_used_operands_(Node* root, std::vector<std::string> &sub_used_operands)
 {
+	// adds the value of the Node to the vector of used genes
 	if(root->value().compare(operator_and) != 0
 		&& root->value().compare(operator_or) != 0
 		&& root->value().compare(operator_not) != 0)
@@ -188,25 +201,27 @@ void Evolution::generate_used_operands_(Node* root, std::vector<std::string> &su
 
 	if(root->left_child() != NULL)
 	{
-		generate_used_operands_(root->left_child(), sub_used_operands);
+		generate_used_operands_(root->left_child(), sub_used_operands); // recursive call on left child
 	}
 
 	if(root->right_child() != NULL)
 	{
-		generate_used_operands_(root->right_child(), sub_used_operands);
+		generate_used_operands_(root->right_child(), sub_used_operands); // recursive call on right child
 	}
 
-	if(root->left_child() == NULL && root->right_child() == NULL)
+	if(root->left_child() == NULL && root->right_child() == NULL) // if leaf, stops
 	{
 		return;
 	}
 };
 
+// generates a vector of vector of usable genes for each future mutant
 void Evolution::generate_operands_(int number)
 {
-	operands.clear();
-	used_operands.clear();
+	operands.clear(); // resets usable genes
+	used_operands.clear(); // resets unusable genes
 
+	// fills the vector of unusable genes for each mutant
 	for (int i = 0; i < number; ++i)
 	{
 		std::vector<std::string> sub_used_operands;
@@ -214,7 +229,7 @@ void Evolution::generate_operands_(int number)
 		used_operands.push_back(sub_used_operands);
 	}
 	
-
+	// fills the vector of usable genes for each mutant
 	for (int k = 0; k < number; ++k)
 	{
 		std::vector<std::string> sub_operands;
@@ -229,19 +244,22 @@ void Evolution::generate_operands_(int number)
 	}
 };
 
+// when a gene is used, it is transfered to the corresponding vector of no more usable genes
 void Evolution::operands_to_used_(int index, int id)
 {
 	used_operands[id].push_back(operands[id][index]);
 	operands[id].erase(operands[id].begin()+index);
 };
 
+// when a Node is deleted, its genes are transfered to the corresponding vector of usable genes
 void Evolution::used_to_operands_(int index, int id)
 {
 	operands[id].push_back(used_operands[id][index]);
 	used_operands[id].erase(used_operands[id].begin()+index);
 };
 
-void Evolution::reused_to_operands_(Node* node, int id)
+// same as operands_to_used_ but with a Node as parameter
+void Evolution::re_operands_to_used_(Node* node, int id)
 {
 	if(node == NULL)
 	{
@@ -250,14 +268,15 @@ void Evolution::reused_to_operands_(Node* node, int id)
 
 	if(node->left_child() != NULL)
 	{
-		reused_to_operands_(node->left_child(), id);
+		re_operands_to_used_(node->left_child(), id); // recursive call on left child
 	}
 	
 	if(node->right_child() != NULL)
 	{
-		reused_to_operands_(node->right_child(), id);
+		re_operands_to_used_(node->right_child(), id); // recursive call on right child
 	}
 
+	// adds the value of the Node to the vector of unusable genes
 	if(node->value().compare(operator_and) != 0
 		&& node->value().compare(operator_or) != 0
 		&& node->value().compare(operator_not) != 0)
@@ -276,58 +295,66 @@ void Evolution::reused_to_operands_(Node* node, int id)
 };
 
 	/*Evolution*/
-std::vector<Node*> Evolution::evolution(int number_of_cycles, int number_of_children)
+// starts the whole algorithm of symbolic regression
+std::vector<float> Evolution::evolution(int number_of_cycles, int number_of_children)
 {
+	std::vector<float> fitness_progression;
+	fitness_progression.push_back(compute_fitness_(root_));
 	for (int j = 0; j < number_of_cycles; ++j)
 	{
-		mutant_children_ = replication_(number_of_children);
-		path_ = generate_path_();
-		generate_operands_(number_of_children);
-		fitnesses_.clear();
+		mutant_children_ = replication_(number_of_children); // makes the clones of the base Node
+		path_ = generate_path_(); // generates the path for this cycle
+		generate_operands_(number_of_children); // generates the usable and unusable genes
+		fitnesses_.clear(); // resets the vector of fitnesses
 
-		for (int i = 0; i < used_operands.size(); ++i)
+		// if the vector of usable genes is empty (all genes were used), stops the process
+		if(operands[0].empty())
 		{
-			if(used_operands[i].empty())
-			{
-				goto exit;
-			}
+			break;
 		}
 
+		// mutation and fitness computing for each clone
 		for (int i = 0; i < number_of_children; ++i)
 		{
 			mutation_(node_at_path_(mutant_children_[i], path_), mutant_children_[i], i);
 			fitnesses_.push_back(compute_fitness_(mutant_children_[i]));
 		}
 
-		comparate_fitness_();
+		// compares fitnesses and changes the base Node if necessary
+		compare_fitness_();
+		fitness_progression.push_back(compute_fitness_(root_));
 	}
 
-exit:
+	// writes the best formula obtained and its fitness at the and of the cycles into a file named "formula.out"
 	std::ofstream myfile;
 	myfile.open("formula.out", std::ios_base::app);
 	myfile << root_->node_formula() << "\t" << compute_fitness_(root_) <<"\n\n";
 	myfile.close();
 
-	return mutant_children_;
+	return fitness_progression;
 };
 
+// makes a vector of clones from the base Node
 std::vector<Node*> Evolution::replication_(int number_of_children)
 {
 	std::vector<Node*> children;
 	for(int i = 0; i < number_of_children; ++i)
 	{
-		Node* child = new Node(*root_);
+		Node* child = new Node(*root_); // use of the copy constructor to make independant clones
 		children.push_back(child);
 	}
+
 	return children;
 };
 
+	/*Mutations*/
+// makes a mutation on a future mutant
 void Evolution::mutation_(Node* position, Node* root, int id)
 {
 	Node* parent = get_parent_node_(position, root);
 
-	int prob = rand() % 3; //Normalement (j'ai dit normalement), produit un entier compris entre 0 et 2
-	//Selon la probabilité, le node position est copié et subit une des trois mutations:
+	int prob = rand() % 3; //Normalement, produit un entier compris entre 0 et 2
+	//Selon la probabilité, le node position subit une des trois mutations:
 	if (prob == 0 && position != root)
 	{
 		insertion_(position, parent, id);
@@ -339,14 +366,14 @@ void Evolution::mutation_(Node* position, Node* root, int id)
 	else if (prob == 2)
 	{
 		replacement_(position, parent, id);
-	};
+	}
 };
 
-/*Mutations*/
+// makes a mutation of type insertion on a future mutant
 void Evolution::insertion_(Node* position, Node* parent, int id)
 {
-	int prob = rand()%3 ; // prob prend la valeur 0, 1 ou 2
-	int prob2 = rand() % operands[id].size();
+	int prob = rand()%3 ; // prob prend la valeur 0, 1 ou 2 pour choisir entre AND, OR et NOT
+	int prob2 = rand() % operands[id].size(); // prob2 prend une valeur entre 0 et 118 pour choisir le gène
 	
 	Node* x = new Node(NULL, NULL, std::string(operands[id][prob2]));
 
@@ -389,56 +416,7 @@ void Evolution::insertion_(Node* position, Node* parent, int id)
 	}
 };
 
-/*
-void Evolution::deletion(Node position)
-{
-	Node * node_current = &position;
-	Node * node_p = &position;
-	while(position.left_child()!=NULL || position.right_child()!=NULL){
-		//std::cout<<"entree boucle while"<<'\n';
-		if (node_current->left_child() !=NULL){//le but, c'est d'aller à gauche jusqu'à ce quon tombe sur une feuille
-			//std::cout<<"if 1"<<"       ";
-			node_p = node_current;
-			node_current = node_current->left_child();
-		}
-		else if(node_current->right_child() != NULL){//après, on regarde l'enfant à droite si il est null ou pas
-			//std::cout<<"else if"<<"       ";
-			node_p = node_current;
-			node_current = node_current->right_child();
-		}
-		else{
-			//std::cout<<"else"<<"           ";
-			node_current = node_p;//on remonte
-			if(node_current->left_child()!=NULL){
-				delete node_current->left_child();
-				node_current->set_left_child(NULL);	
-				//std::cout<<"delete left"<<"         ";
-			}else if(node_current->right_child()!=NULL){
-				delete node_current->right_child();
-				node_current->set_right_child(NULL);
-				//std::cout<<"delete right"<<"         ";
-				node_p= &position; //on remonte au noeud muté (consommateur de temps et de ressources mais sûr)
-			}
-			
-		}
-	}
-	
-	int a = rand() % 2;
-	std::cout<<"value taken :"<<a<<'\n';
-	if (a==0){
-		position.set_value(operand_1);	
-	}else{
-		position.set_value(operand_2);
-	}
-	if (position.left_child()==NULL && position.right_child()==NULL){
-	
-	}else if (position.left_child()==NULL && position.right_child()!=NULL){
-	}else if(position.left_child!=NULL && position.right_child()==NULL){
-	}else{
-	}
-};*/
-
-// Version Michel
+// makes a mutation of type deletion on a future mutant
 void Evolution::deletion_(Node* position, Node* parent, int id)
 {
 	int a = rand() % operands[id].size();
@@ -448,13 +426,13 @@ void Evolution::deletion_(Node* position, Node* parent, int id)
 	int lr = left_or_right_child_(position, parent);
 	if(lr == 0)
 	{
-		apoptosis_(parent->left_child(), id);
-		parent->set_left_child(new_node);
+		apoptosis_(parent->left_child(), id); // recursive call on left child
+		parent->set_left_child(new_node); // node replaced by a leaf which cuts everything underneath
 	}
 	else if(lr == 1)
 	{
-		apoptosis_(parent->right_child(), id);
-		parent->set_right_child(new_node);
+		apoptosis_(parent->right_child(), id); // recursive call on right child
+		parent->set_right_child(new_node); // node replaced by a leaf which cuts everything underneath
 	}
 	else
 	{
@@ -462,6 +440,7 @@ void Evolution::deletion_(Node* position, Node* parent, int id)
 	}
 };
 
+// makes a mutation of type replacement on a future mutant
 void Evolution::replacement_(Node* position, Node* parent, int id)
 {
 	int n = rand() % 4;
@@ -497,8 +476,9 @@ void Evolution::replacement_(Node* position, Node* parent, int id)
 	}
 };
 
+// auxiliary function to manage a replacement on a leaf Node
 void Evolution::replacement_leaf_management_(Node* position, Node* parent, Node* new_node_1, Node* new_node_2,
-												int index_1, int index_2, int n, int id)
+											int index_1, int index_2, int n, int id)
 {
 	for (int i = 0; i < used_operands[id].size(); ++i)
 	{
@@ -535,10 +515,12 @@ void Evolution::replacement_leaf_management_(Node* position, Node* parent, Node*
 	else if(n == 2)
 	{
 		position -> set_value(operator_or);
-	//Differenciaton de la valeur de la feuille droite ajoutée
+		
+		//Differenciaton de la valeur de la feuille droite ajoutée
 		position -> set_right_child(new_node_1);
 		operands_to_used_(index_1, id);
-	//Differenciaton de la valeur de la feuille gauche ajoutée
+		
+		//Differenciaton de la valeur de la feuille gauche ajoutée
 		position -> set_left_child(new_node_2);
 		if(index_1 > index_2)
 		{
@@ -641,8 +623,9 @@ void Evolution::replacement_leaf_management_(Node* position, Node* parent, Node*
 	}
 };
 
+// auxiliary function to manage a replacement on an AND Node
 void Evolution::replacement_and_management_(Node* position, Node* parent, Node* new_node_1, Node* new_node_2,
-												int index_1, int index_2, int n, int id)
+											int index_1, int index_2, int n, int id)
 {
 	//Racine ou noeud?
 	if(parent == NULL)
@@ -667,14 +650,14 @@ void Evolution::replacement_and_management_(Node* position, Node* parent, Node* 
 				{
 					new_node_not = new Node(new Node(*position->left_child()), NULL, operator_not);
 					apoptosis_(parent->left_child(), id);
-					reused_to_operands_(new_node_not, id);
+					re_operands_to_used_(new_node_not, id);
 					parent->set_left_child(new_node_not);
 				}
 				else
 				{
 					new_node_not = new Node(new Node(*position->right_child()), NULL, operator_not);
 					apoptosis_(parent->left_child(), id);
-					reused_to_operands_(new_node_not, id);
+					re_operands_to_used_(new_node_not, id);
 					parent->set_left_child(new_node_not);
 				}
 			}
@@ -684,14 +667,14 @@ void Evolution::replacement_and_management_(Node* position, Node* parent, Node* 
 				{
 					new_node_not = new Node(new Node(*position->left_child()), NULL, operator_not);
 					apoptosis_(parent->right_child(), id);
-					reused_to_operands_(new_node_not, id);
+					re_operands_to_used_(new_node_not, id);
 					parent->set_right_child(new_node_not);
 				}
 				else
 				{
 					new_node_not = new Node(new Node(*position->right_child()), NULL, operator_not);
 					apoptosis_(parent->right_child(), id);
-					reused_to_operands_(new_node_not, id);
+					re_operands_to_used_(new_node_not, id);
 					parent->set_right_child(new_node_not);
 				}
 			}
@@ -753,8 +736,9 @@ void Evolution::replacement_and_management_(Node* position, Node* parent, Node* 
 	}
 };
 
+// auxiliary function to manage a replacement on an OR Node
 void Evolution::replacement_or_management_(Node* position, Node* parent, Node* new_node_1, Node* new_node_2,
-												int index_1, int index_2, int n, int id)
+											int index_1, int index_2, int n, int id)
 {
 	//Racine ou noeud?
 	if(parent == NULL)
@@ -779,14 +763,14 @@ void Evolution::replacement_or_management_(Node* position, Node* parent, Node* n
 				{
 					new_node_not = new Node(new Node(*position->left_child()), NULL, operator_not);
 					apoptosis_(parent->left_child(), id);
-					reused_to_operands_(new_node_not, id);
+					re_operands_to_used_(new_node_not, id);
 					parent->set_left_child(new_node_not);
 				}
 				else
 				{
 					new_node_not = new Node(new Node(*position->right_child()), NULL, operator_not);
 					apoptosis_(parent->left_child(), id);
-					reused_to_operands_(new_node_not, id);
+					re_operands_to_used_(new_node_not, id);
 					parent->set_left_child(new_node_not);
 				}
 			}
@@ -796,14 +780,14 @@ void Evolution::replacement_or_management_(Node* position, Node* parent, Node* n
 				{
 					new_node_not = new Node(new Node(*position->left_child()), NULL, operator_not);
 					apoptosis_(parent->right_child(), id);
-					reused_to_operands_(new_node_not, id);
+					re_operands_to_used_(new_node_not, id);
 					parent->set_right_child(new_node_not);
 				}
 				else
 				{
 					new_node_not = new Node(new Node(*position->right_child()), NULL, operator_not);
 					apoptosis_(parent->right_child(), id);
-					reused_to_operands_(new_node_not, id);
+					re_operands_to_used_(new_node_not, id);
 					parent->set_right_child(new_node_not);
 				}
 			}
@@ -865,8 +849,9 @@ void Evolution::replacement_or_management_(Node* position, Node* parent, Node* n
 	}
 };
 
+// auxiliary function to manage a replacement on a NOT Node
 void Evolution::replacement_not_management_(Node* position, Node* parent, Node* new_node_1, Node* new_node_2,
-												int index_1, int index_2, int n, int id)
+											int index_1, int index_2, int n, int id)
 {
 	//Racine ou noeud?
 	if(parent == NULL)
@@ -926,7 +911,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 					operands_to_used_(index_1, id);
 					new_node_or = new Node(new Node(*position->left_child()), new_node_1, operator_or);
 					apoptosis_(parent->left_child(), id);
-					reused_to_operands_(new_node_or, id);
+					re_operands_to_used_(new_node_or, id);
 					parent->set_left_child(new_node_or);
 				}
 				else
@@ -934,7 +919,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 					operands_to_used_(index_2, id);
 					new_node_or = new Node(new Node(*position->left_child()), new_node_2, operator_or);
 					apoptosis_(parent->left_child(), id);
-					reused_to_operands_(new_node_or, id);
+					re_operands_to_used_(new_node_or, id);
 					parent->set_left_child(new_node_or);
 				}
 			}
@@ -945,7 +930,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 					operands_to_used_(index_1, id);
 					new_node_or = new Node(new Node(*position->left_child()), new_node_1, operator_or);
 					apoptosis_(parent->right_child(), id);
-					reused_to_operands_(new_node_or, id);
+					re_operands_to_used_(new_node_or, id);
 					parent->set_right_child(new_node_or);
 				}
 				else
@@ -953,7 +938,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 					operands_to_used_(index_2, id);
 					new_node_or = new Node(new Node(*position->left_child()), new_node_2, operator_or);
 					apoptosis_(parent->right_child(), id);
-					reused_to_operands_(new_node_or, id);
+					re_operands_to_used_(new_node_or, id);
 					parent->set_right_child(new_node_or);
 				}
 			}
@@ -1022,7 +1007,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 					operands_to_used_(index_1, id);
 					new_node_and = new Node(new Node(*position->left_child()), new_node_1, operator_and);
 					apoptosis_(parent->left_child(), id);
-					reused_to_operands_(new_node_and, id);
+					re_operands_to_used_(new_node_and, id);
 					parent->set_left_child(new_node_and);
 				}
 				else
@@ -1030,7 +1015,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 					operands_to_used_(index_2, id);
 					new_node_and = new Node(new Node(*position->left_child()), new_node_2, operator_and);
 					apoptosis_(parent->left_child(), id);
-					reused_to_operands_(new_node_and, id);
+					re_operands_to_used_(new_node_and, id);
 					parent->set_left_child(new_node_and);
 				}
 			}
@@ -1041,7 +1026,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 					operands_to_used_(index_1, id);
 					new_node_and = new Node(new Node(*position->left_child()), new_node_1, operator_and);
 					apoptosis_(parent->right_child(), id);
-					reused_to_operands_(new_node_and, id);
+					re_operands_to_used_(new_node_and, id);
 					parent->set_right_child(new_node_and);
 				}
 				else
@@ -1049,7 +1034,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 					operands_to_used_(index_2, id);
 					new_node_and = new Node(new Node(*position->left_child()), new_node_2, operator_and);
 					apoptosis_(parent->right_child(), id);
-					reused_to_operands_(new_node_and, id);
+					re_operands_to_used_(new_node_and, id);
 					parent->set_right_child(new_node_and);
 				}
 			}
@@ -1061,6 +1046,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 	}
 };
 
+// generates and returns a vector containing the data of the csv file
 std::vector<std::vector<int>> Evolution::parse_data_(std::string data_to_parse)
 {
 	std::ifstream  data(data_to_parse);
@@ -1085,29 +1071,32 @@ std::vector<std::vector<int>> Evolution::parse_data_(std::string data_to_parse)
 };
 
 /*Fitness*/
+// computes and returns the fitness for one Node
 float Evolution::compute_fitness_(Node* node)
 {
-	int lenght = data_.size();
+	int length = data_.size();
 	float fit = 0;
 	int i = 0;
 	
-	for (i = 0; i < lenght; ++i)
+	for (i = 0; i < length; ++i)
 	{
-		if(node->node_result(data_[i]) == data_[i][data_[i].size()-1])
+		if(node->node_result(data_[i]) == data_[i][data_[i].size()-1]) // if the results of the formula is equal to the last column, adds 1 to the score of fitness
 		{
 			fit += 1;
 		}
 	}
 
-	fit /= i;
+	fit /= i; // average
 
 	return fit;
 };
 
-void Evolution::comparate_fitness_()
+// compares all mutants fitnesses and if one of them has a better fitness than the base Node, it becomes the new base Node for the following cycle
+void Evolution::compare_fitness_()
 {
 	int index_of_best = 0;
 
+	// Max fitness search
 	for (int i = 0; i < fitnesses_.size()-1; ++i)
 	{
 		if(fitnesses_[i] < fitnesses_[i+1])
@@ -1116,6 +1105,7 @@ void Evolution::comparate_fitness_()
 		}
 	}
 
+	// if the max fitness found is higher than the base Node's fitness, the base Node becomes the Node which has the max fitness
 	if(compute_fitness_(mutant_children_[index_of_best]) > compute_fitness_(root_))
 	{
 		root_ = mutant_children_[index_of_best];
