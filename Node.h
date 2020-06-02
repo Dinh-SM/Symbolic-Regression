@@ -11,24 +11,39 @@ class Node
 		Node(Node* lc, Node* rc, std::string v);
 
 		// Copy Constructor
-		Node(Node &root); // makes a deep copy of the Node including its children
-		
+		//! Makes a deep copy of the Node including its children
+		Node(Node &root);
+
 		// Getters
-		Node* left_child(); // returns the pointer on the left child
-		Node* right_child(); // returns the pointer on the right child
-		std::string value(); // returns the value of the Node
+		//! Returns the pointer on the left child
+		Node* left_child();
+		
+		//! Returns the pointer on the right child
+		Node* right_child();
+		
+		//! Returns the value of the Node
+		std::string value();
 
 		// Setters
-		void set_left_child(Node* lc); // changes the pointer pointing on the left child
-		void set_right_child(Node* rc); // changes the pointer pointing on the right child
-		void set_value(std::string s); // changes the value of the current Node
+		//! Changes the pointer pointing on the left child
+		void set_left_child(Node* lc);
+
+		//! Changes the pointer pointing on the right child
+		void set_right_child(Node* rc);
+
+		//! Changes the value of the current Node
+		void set_value(std::string s);
 
 		//Fonctions
-		int node_result(std::vector<int> x); // computes and returns the results of one line of the csv file at the current Node
-		std::string node_formula(); // computes and returns the formula at the current Node
+		//! Computes and returns the results of one line of the csv file at the current Node
+		int node_result(std::vector<int> x);
+		
+		//! Computes and returns the formula at the current Node
+		std::string node_formula();
 
 	protected:
-		Node* left_child_; // pointer on the left child
-		Node* right_child_; // pointer on the right child
-		std::string value_; // operation or operator
+		// Attributes
+		Node* left_child_; //! Pointer on the left child
+		Node* right_child_; //! Pointer on the right child
+		std::string value_; //! Operation or operator
 };
