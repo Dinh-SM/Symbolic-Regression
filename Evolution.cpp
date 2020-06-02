@@ -124,9 +124,9 @@ void Evolution::apoptosis_(Node* node, int id)
 	}
 
 	// if the value of the Node to be deleted is a gene, transfer the gene to the corresponding vector of usable genes
-	if(node->value().compare(operator_and) != 0
-		&& node->value().compare(operator_or) != 0
-		&& node->value().compare(operator_not) != 0)
+	if(node->value().compare(OPERATOR_AND) != 0
+		&& node->value().compare(OPERATOR_OR) != 0
+		&& node->value().compare(OPERATOR_NOT) != 0)
 	{
 		for (int i = 0; i < used_operands[id].size(); ++i)
 		{
@@ -189,9 +189,9 @@ std::string Evolution::generate_path_()
 void Evolution::generate_used_operands_(Node* root, std::vector<std::string> &sub_used_operands)
 {
 	// adds the value of the Node to the vector of used genes
-	if(root->value().compare(operator_and) != 0
-		&& root->value().compare(operator_or) != 0
-		&& root->value().compare(operator_not) != 0)
+	if(root->value().compare(OPERATOR_AND) != 0
+		&& root->value().compare(OPERATOR_OR) != 0
+		&& root->value().compare(OPERATOR_NOT) != 0)
 	{
 		if(std::find(sub_used_operands.begin(), sub_used_operands.end(), root->value()) == sub_used_operands.end())
 		{
@@ -277,9 +277,9 @@ void Evolution::re_operands_to_used_(Node* node, int id)
 	}
 
 	// adds the value of the Node to the vector of unusable genes
-	if(node->value().compare(operator_and) != 0
-		&& node->value().compare(operator_or) != 0
-		&& node->value().compare(operator_not) != 0)
+	if(node->value().compare(OPERATOR_AND) != 0
+		&& node->value().compare(OPERATOR_OR) != 0
+		&& node->value().compare(OPERATOR_NOT) != 0)
 	{
 		if(std::find(used_operands[id].begin(), used_operands[id].end(), node->value()) == used_operands[id].end())
 		{
@@ -381,32 +381,32 @@ void Evolution::insertion_(Node* position, Node* parent, int id)
 	if(lr == 0){
 		if(prob==0){
 			operands_to_used_(prob2, id);
-			Node* node_to_insert = new Node(position, x, operator_and);
+			Node* node_to_insert = new Node(position, x, OPERATOR_AND);
 			parent->set_left_child(node_to_insert);
 		}
 		else if(prob==1){
 			operands_to_used_(prob2, id);
-			Node* node_to_insert = new Node(position, x, operator_or);
+			Node* node_to_insert = new Node(position, x, OPERATOR_OR);
 			parent->set_left_child(node_to_insert);
 		}
     	else if(prob==2){
-			Node* node_to_insert = new Node(position, NULL, operator_not);
+			Node* node_to_insert = new Node(position, NULL, OPERATOR_NOT);
 			parent->set_left_child(node_to_insert);
 		}
 	}
 	else if(lr == 1){
 		if(prob==0){
 			operands_to_used_(prob2, id);
-			Node* node_to_insert = new Node(x, position, operator_and);
+			Node* node_to_insert = new Node(x, position, OPERATOR_AND);
 			parent->set_right_child(node_to_insert);
 		}
 		else if(prob==1){
 			operands_to_used_(prob2, id);
-			Node* node_to_insert = new Node(x, position, operator_or);
+			Node* node_to_insert = new Node(x, position, OPERATOR_OR);
 			parent->set_right_child(node_to_insert);
 		}
     	else if(prob==2){
-			Node* node_to_insert = new Node(position, NULL, operator_not);
+			Node* node_to_insert = new Node(position, NULL, OPERATOR_NOT);
 			parent->set_right_child(node_to_insert);
 		}
 	}
@@ -462,15 +462,15 @@ void Evolution::replacement_(Node* position, Node* parent, int id)
 	{
 		replacement_leaf_management_(position, parent, new_node_1, new_node_2, a, b, n, id);
 	}
-	else if(position->value().compare(operator_and) == 0)
+	else if(position->value().compare(OPERATOR_AND) == 0)
 	{
 		replacement_and_management_(position, parent, new_node_1, new_node_2, a, b, n, id);
 	}
-	else if(position->value().compare(operator_or) == 0)
+	else if(position->value().compare(OPERATOR_OR) == 0)
 	{
 		replacement_or_management_(position, parent, new_node_1, new_node_2, a, b, n, id);
 	}
-	else if(position->value().compare(operator_not) == 0)
+	else if(position->value().compare(OPERATOR_NOT) == 0)
 	{
 		replacement_not_management_(position, parent, new_node_1, new_node_2, a, b, n, id);	
 	}
@@ -493,7 +493,7 @@ void Evolution::replacement_leaf_management_(Node* position, Node* parent, Node*
 	//And
 	if(n == 1)
 	{
-		position -> set_value(operator_and);
+		position -> set_value(OPERATOR_AND);
 		
 		//Differenciaton de la valeur de la feuille droite ajoutée
 		position -> set_right_child(new_node_1);
@@ -514,7 +514,7 @@ void Evolution::replacement_leaf_management_(Node* position, Node* parent, Node*
 	//Or
 	else if(n == 2)
 	{
-		position -> set_value(operator_or);
+		position -> set_value(OPERATOR_OR);
 		
 		//Differenciaton de la valeur de la feuille droite ajoutée
 		position -> set_right_child(new_node_1);
@@ -587,14 +587,14 @@ void Evolution::replacement_leaf_management_(Node* position, Node* parent, Node*
 			if(randomizer == 0)
 			{
 				operands_to_used_(index_1, id);
-				new_node_not = new Node(new_node_1, NULL, operator_not);
+				new_node_not = new Node(new_node_1, NULL, OPERATOR_NOT);
 				apoptosis_(parent->left_child(), id);
 				parent->set_left_child(new_node_not);
 			}
 			else
 			{
 				operands_to_used_(index_2, id);
-				new_node_not = new Node(new_node_2, NULL, operator_not);
+				new_node_not = new Node(new_node_2, NULL, OPERATOR_NOT);
 				apoptosis_(parent->left_child(), id);
 				parent->set_left_child(new_node_not);
 			}
@@ -604,14 +604,14 @@ void Evolution::replacement_leaf_management_(Node* position, Node* parent, Node*
 			if(randomizer == 0)
 			{
 				operands_to_used_(index_1, id);
-				new_node_not = new Node(new_node_1, NULL, operator_not);
+				new_node_not = new Node(new_node_1, NULL, OPERATOR_NOT);
 				apoptosis_(parent->right_child(), id);
 				parent->set_right_child(new_node_not);
 			}
 			else
 			{
 				operands_to_used_(index_2, id);
-				new_node_not = new Node(new_node_2, NULL, operator_not);
+				new_node_not = new Node(new_node_2, NULL, OPERATOR_NOT);
 				apoptosis_(parent->right_child(), id);
 				parent->set_right_child(new_node_not);
 			}
@@ -631,7 +631,7 @@ void Evolution::replacement_and_management_(Node* position, Node* parent, Node* 
 	if(parent == NULL)
 	{
 		//OR
-		position -> set_value(operator_or);
+		position -> set_value(OPERATOR_OR);
 	}
 	else
 	{
@@ -648,14 +648,14 @@ void Evolution::replacement_and_management_(Node* position, Node* parent, Node* 
 			{
 				if(randomizer == 0)
 				{
-					new_node_not = new Node(new Node(*position->left_child()), NULL, operator_not);
+					new_node_not = new Node(new Node(*position->left_child()), NULL, OPERATOR_NOT);
 					apoptosis_(parent->left_child(), id);
 					re_operands_to_used_(new_node_not, id);
 					parent->set_left_child(new_node_not);
 				}
 				else
 				{
-					new_node_not = new Node(new Node(*position->right_child()), NULL, operator_not);
+					new_node_not = new Node(new Node(*position->right_child()), NULL, OPERATOR_NOT);
 					apoptosis_(parent->left_child(), id);
 					re_operands_to_used_(new_node_not, id);
 					parent->set_left_child(new_node_not);
@@ -665,14 +665,14 @@ void Evolution::replacement_and_management_(Node* position, Node* parent, Node* 
 			{
 				if(randomizer == 0)
 				{
-					new_node_not = new Node(new Node(*position->left_child()), NULL, operator_not);
+					new_node_not = new Node(new Node(*position->left_child()), NULL, OPERATOR_NOT);
 					apoptosis_(parent->right_child(), id);
 					re_operands_to_used_(new_node_not, id);
 					parent->set_right_child(new_node_not);
 				}
 				else
 				{
-					new_node_not = new Node(new Node(*position->right_child()), NULL, operator_not);
+					new_node_not = new Node(new Node(*position->right_child()), NULL, OPERATOR_NOT);
 					apoptosis_(parent->right_child(), id);
 					re_operands_to_used_(new_node_not, id);
 					parent->set_right_child(new_node_not);
@@ -731,7 +731,7 @@ void Evolution::replacement_and_management_(Node* position, Node* parent, Node* 
 		//OR
 		else
 		{
-			position -> set_value(operator_or);
+			position -> set_value(OPERATOR_OR);
 		}
 	}
 };
@@ -744,7 +744,7 @@ void Evolution::replacement_or_management_(Node* position, Node* parent, Node* n
 	if(parent == NULL)
 	{
 		//AND
-		position -> set_value(operator_and);
+		position -> set_value(OPERATOR_AND);
 	}
 	else
 	{
@@ -761,14 +761,14 @@ void Evolution::replacement_or_management_(Node* position, Node* parent, Node* n
 			{
 				if(randomizer == 0)
 				{
-					new_node_not = new Node(new Node(*position->left_child()), NULL, operator_not);
+					new_node_not = new Node(new Node(*position->left_child()), NULL, OPERATOR_NOT);
 					apoptosis_(parent->left_child(), id);
 					re_operands_to_used_(new_node_not, id);
 					parent->set_left_child(new_node_not);
 				}
 				else
 				{
-					new_node_not = new Node(new Node(*position->right_child()), NULL, operator_not);
+					new_node_not = new Node(new Node(*position->right_child()), NULL, OPERATOR_NOT);
 					apoptosis_(parent->left_child(), id);
 					re_operands_to_used_(new_node_not, id);
 					parent->set_left_child(new_node_not);
@@ -778,14 +778,14 @@ void Evolution::replacement_or_management_(Node* position, Node* parent, Node* n
 			{
 				if(randomizer == 0)
 				{
-					new_node_not = new Node(new Node(*position->left_child()), NULL, operator_not);
+					new_node_not = new Node(new Node(*position->left_child()), NULL, OPERATOR_NOT);
 					apoptosis_(parent->right_child(), id);
 					re_operands_to_used_(new_node_not, id);
 					parent->set_right_child(new_node_not);
 				}
 				else
 				{
-					new_node_not = new Node(new Node(*position->right_child()), NULL, operator_not);
+					new_node_not = new Node(new Node(*position->right_child()), NULL, OPERATOR_NOT);
 					apoptosis_(parent->right_child(), id);
 					re_operands_to_used_(new_node_not, id);
 					parent->set_right_child(new_node_not);
@@ -844,7 +844,7 @@ void Evolution::replacement_or_management_(Node* position, Node* parent, Node* n
 		//AND
 		else
 		{
-			position -> set_value(operator_and);
+			position -> set_value(OPERATOR_AND);
 		}
 	}
 };
@@ -860,7 +860,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 		//OR
 		if(n == 1 || n == 3)
 		{
-			position -> set_value(operator_or);
+			position -> set_value(OPERATOR_OR);
 
 			//Differenciaton de la valeur de la feuille droite ajoutée
 			if(n == 1)
@@ -878,7 +878,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 		//AND
 		else if(n == 0 || n == 2)
 		{
-			position -> set_value(operator_and);
+			position -> set_value(OPERATOR_AND);
 
 			//Differenciaton de la valeur de la feuille droite ajoutée
 			if(n == 0)
@@ -909,7 +909,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 				if(randomizer == 0)
 				{
 					operands_to_used_(index_1, id);
-					new_node_or = new Node(new Node(*position->left_child()), new_node_1, operator_or);
+					new_node_or = new Node(new Node(*position->left_child()), new_node_1, OPERATOR_OR);
 					apoptosis_(parent->left_child(), id);
 					re_operands_to_used_(new_node_or, id);
 					parent->set_left_child(new_node_or);
@@ -917,7 +917,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 				else
 				{
 					operands_to_used_(index_2, id);
-					new_node_or = new Node(new Node(*position->left_child()), new_node_2, operator_or);
+					new_node_or = new Node(new Node(*position->left_child()), new_node_2, OPERATOR_OR);
 					apoptosis_(parent->left_child(), id);
 					re_operands_to_used_(new_node_or, id);
 					parent->set_left_child(new_node_or);
@@ -928,7 +928,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 				if(randomizer == 0)
 				{
 					operands_to_used_(index_1, id);
-					new_node_or = new Node(new Node(*position->left_child()), new_node_1, operator_or);
+					new_node_or = new Node(new Node(*position->left_child()), new_node_1, OPERATOR_OR);
 					apoptosis_(parent->right_child(), id);
 					re_operands_to_used_(new_node_or, id);
 					parent->set_right_child(new_node_or);
@@ -936,7 +936,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 				else
 				{
 					operands_to_used_(index_2, id);
-					new_node_or = new Node(new Node(*position->left_child()), new_node_2, operator_or);
+					new_node_or = new Node(new Node(*position->left_child()), new_node_2, OPERATOR_OR);
 					apoptosis_(parent->right_child(), id);
 					re_operands_to_used_(new_node_or, id);
 					parent->set_right_child(new_node_or);
@@ -1005,7 +1005,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 				if(randomizer == 0)
 				{
 					operands_to_used_(index_1, id);
-					new_node_and = new Node(new Node(*position->left_child()), new_node_1, operator_and);
+					new_node_and = new Node(new Node(*position->left_child()), new_node_1, OPERATOR_AND);
 					apoptosis_(parent->left_child(), id);
 					re_operands_to_used_(new_node_and, id);
 					parent->set_left_child(new_node_and);
@@ -1013,7 +1013,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 				else
 				{
 					operands_to_used_(index_2, id);
-					new_node_and = new Node(new Node(*position->left_child()), new_node_2, operator_and);
+					new_node_and = new Node(new Node(*position->left_child()), new_node_2, OPERATOR_AND);
 					apoptosis_(parent->left_child(), id);
 					re_operands_to_used_(new_node_and, id);
 					parent->set_left_child(new_node_and);
@@ -1024,7 +1024,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 				if(randomizer == 0)
 				{
 					operands_to_used_(index_1, id);
-					new_node_and = new Node(new Node(*position->left_child()), new_node_1, operator_and);
+					new_node_and = new Node(new Node(*position->left_child()), new_node_1, OPERATOR_AND);
 					apoptosis_(parent->right_child(), id);
 					re_operands_to_used_(new_node_and, id);
 					parent->set_right_child(new_node_and);
@@ -1032,7 +1032,7 @@ void Evolution::replacement_not_management_(Node* position, Node* parent, Node* 
 				else
 				{
 					operands_to_used_(index_2, id);
-					new_node_and = new Node(new Node(*position->left_child()), new_node_2, operator_and);
+					new_node_and = new Node(new Node(*position->left_child()), new_node_2, OPERATOR_AND);
 					apoptosis_(parent->right_child(), id);
 					re_operands_to_used_(new_node_and, id);
 					parent->set_right_child(new_node_and);

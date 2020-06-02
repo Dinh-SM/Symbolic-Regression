@@ -3,9 +3,9 @@
 #include <cstdlib>
 
 //Constants, variables
-const std::string operator_or("|");
-const std::string operator_and("&");
-const std::string operator_not("~");
+const std::string OPERATOR_OR("|");
+const std::string OPERATOR_AND("&");
+const std::string OPERATOR_NOT("~");
 
 // Default Constructor
 Node::Node()
@@ -107,15 +107,15 @@ void Node::set_value(std::string s){
 // computes and returns the results of one line of the csv file at the current Node
 int Node::node_result(std::vector<int> x)
 {
-	if(value_.compare(operator_and) == 0) // if the value is AND
+	if(value_.compare(OPERATOR_AND) == 0) // if the value is AND
 	{
 		return left_child_->node_result(x) && right_child_->node_result(x); // computes left child && right child
 	}
-	else if(value_.compare(operator_or) == 0) // if the value is OR
+	else if(value_.compare(OPERATOR_OR) == 0) // if the value is OR
 	{
 		return left_child_->node_result(x) || right_child_->node_result(x); // computes left child || right child
 	}
-	else if(value_.compare(operator_not) == 0) // if the value is NOT
+	else if(value_.compare(OPERATOR_NOT) == 0) // if the value is NOT
 	{
 		return !left_child_->node_result(x); // computes !(left child) (only child is always on the left)
 	}
@@ -128,15 +128,15 @@ int Node::node_result(std::vector<int> x)
 // computes and returns the formula at the current Node
 std::string Node::node_formula()
 {
-	if(value_.compare(operator_and) == 0) // if the value is AND
+	if(value_.compare(OPERATOR_AND) == 0) // if the value is AND
 	{
 		return '(' + left_child_->node_formula() + " " + value_ + " " + right_child_->node_formula() + ')'; // returns (left child AND right child)
 	}
-	else if(value_.compare(operator_or) == 0) // if the value is OR
+	else if(value_.compare(OPERATOR_OR) == 0) // if the value is OR
 	{
 		return '(' + left_child_->node_formula() + " " + value_ + " " + right_child_->node_formula() + ')'; // returns (left child OR right child)
 	}
-	else if(value_.compare(operator_not) == 0) // if the value is NOT
+	else if(value_.compare(OPERATOR_NOT) == 0) // if the value is NOT
 	{
 		return '(' + value_ + left_child_->node_formula() + ')'; // returns (NOT left child)
 	}

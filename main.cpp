@@ -2,16 +2,16 @@
 
 int main(int argc, char const *argv[])
 {
-	const std::string operand_x42("42");
-	const std::string operand_x69("69");
-	const std::string data("./binary_gene_expression_ACE2_tfs.csv");
+	const std::string OPERAND_X42("42");
+	const std::string OPERAND_X69("69");
+	const std::string DATA("./binary_gene_expression_ACE2_tfs.csv");
 	
 	// base Node
-	Node* g = new Node(NULL, NULL, operand_x42); // Niveau 2
-	Node* d = new Node(NULL, NULL, operand_x69); // Niveau 2
-	Node* racine = new Node(g, d, operator_and); // Niveau 1
+	Node* g = new Node(NULL, NULL, OPERAND_X42); // Niveau 2
+	Node* d = new Node(NULL, NULL, OPERAND_X69); // Niveau 2
+	Node* racine = new Node(g, d, OPERATOR_AND); // Niveau 1
 
-	Evolution e(racine, data);
+	Evolution e(racine, DATA);
 
 	// cleans the file
 	std::ofstream ofs;
