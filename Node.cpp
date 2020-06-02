@@ -3,9 +3,9 @@
 #include <cstdlib>
 
 //Constants, variables
-const std::string operator_or("OR");
-const std::string operator_and("AND");
-const std::string operator_not("NOT");
+const std::string operator_or("|");
+const std::string operator_and("&");
+const std::string operator_not("~");
 
 // Default Constructor
 Node::Node()
@@ -138,7 +138,7 @@ std::string Node::node_formula()
 	}
 	else if(value_.compare(operator_not) == 0) // if the value is NOT
 	{
-		return '(' + value_ + " " + left_child_->node_formula() + ')'; // returns (NOT left child)
+		return '(' + value_ + left_child_->node_formula() + ')'; // returns (NOT left child)
 	}
 	else
 	{

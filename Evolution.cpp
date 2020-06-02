@@ -328,7 +328,7 @@ std::vector<float> Evolution::evolution(int number_of_cycles, int number_of_chil
 	// writes the best formula obtained and its fitness at the and of the cycles into a file named "formula.out"
 	std::ofstream myfile;
 	myfile.open("formula.out", std::ios_base::app);
-	myfile << root_->node_formula() << "\t" << compute_fitness_(root_) <<"\n\n";
+	myfile << root_->node_formula() << "\t" << compute_fitness_(root_) << std::endl;
 	myfile.close();
 
 	return fitness_progression;
