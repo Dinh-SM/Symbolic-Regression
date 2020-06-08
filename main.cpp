@@ -59,17 +59,20 @@ int main(int argc, char const *argv[])
 	std::cout << racine.node_formula() << std::endl;
 	
 	std::string s = droite.node_formula();*/
-/*	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
+
+
+//Test deletion()
+	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
 	Evolution e;
 	e.deletion(droite);
 	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
-*/
 
+/*
 //Test delete_blood()
 	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
 	droite.delete_blood();
 	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
-	
+*/	
 	
 	
 
