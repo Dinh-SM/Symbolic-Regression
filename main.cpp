@@ -54,7 +54,7 @@ int main(int argc, char const *argv[])
 
 	// display of the best formula at the end
 	std::cout << "Formule du meilleur arbre après exécution :" << std::endl;
-	std::cout << e.root()->node_formula() << std::endl;
+	// std::cout << e.root()->node_formula() << std::endl; // cette ligne print la formule non simplifiée de l'arbre.
 
 	// serialization of fitness progression for plotting purpose
 	for (int i = 0; i < fitness_progression.size(); ++i)
