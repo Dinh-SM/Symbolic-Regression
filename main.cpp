@@ -1,174 +1,67 @@
-//#include"Node.cpp"
-#include<iostream>
-#include<string>
 #include"Evolution.cpp"
 
 int main(int argc, char const *argv[])
 {
-	std::string operand_true("1");
-	std::string operand_false("0");
-	std::string operator_or("OR");
-	std::string operator_and("AND");
-	std::string operator_not("NOT");
+	const std::string OPERAND_X42("42");
+	const std::string OPERAND_X69("69");
+	const std::string DATA("./binary_gene_expression_ACE2_tfs.csv");
 	
-	Node gdg(NULL, NULL, operand_false); //Niveau4
-	Node gauchedroite(&gdg, NULL, operator_not); // Niveau 3
-	Node ggg(NULL, NULL, operand_true); //Niveau 4
-	Node ggd(NULL, NULL, operand_true); //Niveau 4
-	Node gauchegauche(&ggg, &ggd, operator_and); // Niveau 3
-	Node gauche(&gauchegauche, &gauchedroite, operator_and); // Niveau 2
+	// base Node
+	Node* g = new Node(NULL, NULL, OPERAND_X42); // Niveau 2
+	Node* d = new Node(NULL, NULL, OPERAND_X69); // Niveau 2
+	Node* racine = new Node(g, d, OPERATOR_AND); // Niveau 1
 
-	Node dgg(NULL, NULL, operand_true); //Niveau 4
-	Node dgd(NULL, NULL, operand_false); //Niveau 4
-	Node droitegauche(&dgg, &dgd, operator_or); // Niveau 3
-	Node droite(&droitegauche, NULL, operator_not); // Niveau 2
+	Evolution e(racine, DATA);
 
-	Node racine(&gauche, &droite, operator_or); // Niveau 1
+	// cleans the file
+	std::ofstream ofs;
+	ofs.open("fitness_progression.out", std::ofstream::out | std::ofstream::trunc);
+	ofs.close();
 
-/*
-	std::cout << "Résultat arbre :" << std::endl;
-	std::cout << racine.node_result() << std::endl;
-
-	std::cout << "Résultat noeud gauche :" << std::endl;
-	std::cout << gauche.node_result() << std::endl;
-
-	std::cout << "Résultat noeud droite :" << std::endl;
-	std::cout << droite.node_result() << std::endl;
-
-	std::cout << "Formule arbre :" << std::endl;
-	std::cout << racine.node_formula() << std::endl;
-
-
-	Node copy(racine);
-	Node dgd2(NULL, NULL, operand_true); //Niveau 4
-	copy.right_child()->left_child()->set_right_child(&dgd2);
-
-	std::cout << "Résultat arbre copié :" << std::endl;
-	std::cout << copy.node_result() << std::endl;
-
-	std::cout << "Résultat noeud gauche copié :" << std::endl;
-	std::cout << copy.left_child()->node_result() << std::endl;
-
-	std::cout << "Résultat noeud droite copié :" << std::endl;
-	std::cout << copy.right_child()->node_result() << std::endl;
-
-	std::cout << "Formule arbre copié :" << std::endl;
-	std::cout << copy.node_formula() << std::endl;
-	
+	// display base Node
 	std::cout << "Formule arbre de base :" << std::endl;
-	std::cout << racine.node_formula() << std::endl;
-	
-	std::string s = droite.node_formula();*/
+	std::cout << racine->node_formula() << std::endl;
+	std::cout << std::endl;
+	std::vector<float> fitness_progression;
 
-
-//Test deletion()
-	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
-	Evolution e;
-	e.deletion(droite);
-	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
-
-/*
-//Test delete_blood()
-	std::cout<<"formule originale :" <<droite.node_formula()<<'\n';
-	droite.delete_blood();
-	std::cout <<"nouvelle formule : " << droite.node_formula() << '\n';
-*/	
-	
-	
-
-	/*Evolution evolution;
-	for (int i = 0; i < 100; ++i)
+	// arguments management and algorithm execution
+	// argv[1] is the number of cycles, argv[2] is the number of children and argv[3] is the csv file
+	if(argc == 4)
 	{
-		evolution.mutation(racine, racine);
-	}
+		std::stringstream argv_1;
+		argv_1 << argv[1];
+		int number_of_cycles;
+		argv_1 >> number_of_cycles;
 
+		std::stringstream argv_2;
+		argv_2 << argv[2];
+		int number_of_children;
+		argv_2 >> number_of_children;
 
-	// parcours à partir d'un string
-	// si le chemin mène à rien à un moment, il donne le dernier noeud sur le chemin
-	std::string path("gdg");
-	Node* current_node = &racine;
-	for (int i = 0; i < path.length(); ++i)
-	{
-		if(path.c_str()[i] == 'g' && current_node->left_child() != NULL)
+		e.set_data(std::string(argv[3]));
+		
+		if(number_of_cycles > 0 && number_of_children > 0)
 		{
-			current_node = current_node->left_child();
-		}
-		else if(path.c_str()[i] == 'd' && current_node->right_child() != NULL)
-		{
-			current_node = current_node->right_child();
-		}
-		else
-		{
-			break;
+			fitness_progression = e.evolution(number_of_cycles, number_of_children);
 		}
 	}
-	std::cout << current_node->value() << std::endl;
+	else
+	{
+		fitness_progression = e.evolution(150, 8); //10 cycles avec 5 enfants
+	}
 
+	// display of the best formula at the end
+	std::cout << "Meilleure formule arbre après exécution :" << std::endl;
+	std::cout << e.root()->node_formula() << std::endl;
 
-	std::string operand_x1("x1");
-	std::string operand_x2("x2");
-	Node gdg3(NULL, NULL, operand_x1); //Niveau4
-	Node gd3(&gdg3, NULL, operator_not); // Niveau 3
-	Node ggg3(NULL, NULL, operand_x2); //Niveau 4
-	Node ggd3(NULL, NULL, operand_x2); //Niveau 4
-	Node gg3(&ggg3, &ggd3, operator_and); // Niveau 3
-	Node g3(&gg3, &gd3, operator_and); // Niveau 2
-
-	Node dgg3(NULL, NULL, operand_x2); //Niveau 4
-	Node dgd3(NULL, NULL, operand_x1); //Niveau 4
-	Node dg3(&dgg3, &dgd3, operator_or); // Niveau 3
-	Node d3(&dg3, NULL, operator_not); // Niveau 2
-
-	Node racine3(&g3, &d3, operator_or); // Niveau 1
-
-	std::cout << "Résultat arbre avec x1 et x2 :" << std::endl;
-	std::cout << racine3.node_result(1, 0) << std::endl;
-	std::cout << "Formule arbre avec x1 et x2 :" << std::endl;
-	std::cout << racine3.node_formula() << std::endl;
-	
-	std::cout << "Résultat arbre de base :" << std::endl;
-	std::cout << racine.node_result() << std::endl;
-	std::cout << "Formule arbre de base :" << std::endl;
-	std::cout << racine.node_formula() << std::endl;
-
-
-//Test replacement
-	
-	Node rep_node(racine);	
-	
-	std::cout << "Replacement!!" << std::endl;
-
-//	rep_node.set_value(operator_and);
-
-	std::cout << "Résultat arbre :" << std::endl;
-	std::cout << rep_node.node_result() << std::endl;
-
-	std::cout << "Formule arbre :" << std::endl;
-	std::cout << rep_node.node_formula() << std::endl;
-
-	std::cout << "Modification..." << std::endl;
-
-	e.Evolution::replacement(&rep_node, rep_node);
-	
-	std::cout << "Formule arbre :" << std::endl;
-	std::cout << rep_node.node_formula() << std::endl;
-
-
-	std::cout << "Résultat arbre :" << std::endl;
-	std::cout << rep_node.node_result() << std::endl;
-
-	std::cout << "Modification le retour..." << std::endl;
-
-	e.Evolution::replacement(&rep_node, rep_node);
-	
-	std::cout << "Formule arbre :" << std::endl;
-	std::cout << rep_node.node_formula() << std::endl;
-
-	std::cout << "Résultat arbre :" << std::endl;
-	std::cout << rep_node.node_result() << std::endl;=
+	// serialization of fitness progression for plotting purpose
+	for (int i = 0; i < fitness_progression.size(); ++i)
+	{
+		std::ofstream myfile;
+		myfile.open("fitness_progression.out", std::ios_base::app);
+		myfile << i << "\t" << fitness_progression[i] << std::endl;
+		myfile.close();
+	}
 
 	return 0;
-*/
-}
-
-
+};

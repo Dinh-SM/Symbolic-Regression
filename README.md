@@ -4,11 +4,23 @@
 			  --> Evolution : Modify the function
 
 
-- Node : 3 attributs (2 Node and 1 char*)
-	- Constructor : Node(Node* lc, Node* rc, std::string v) et copy constructor; plus destructor et getters
-	- int node_result() : for have the result of the formula
-	- int node_result(int x1, int x2) : for have the result of the formula with different value at the end of the tree
-	- std::string node_formula() : give the formula of the tree
+- Node : 3 attributs (2 Node and 1 char*) - include string and vector
+	- Public :
+		- Constructor : Node(Node* lc, Node* rc, std::string v), copy constructor and destructor
+		- Getters 
+			- Node* left_child()
+			- Node* right_child()
+			- std::string value()
+		- Setters
+			- void set_left_child (Node* lc)
+			- void set_right_child (Node* rc)
+			- void set_value (std::string s)
+		- int node_result(std::vector<int> x) : for have the result of the formula with different value at the end of the tree
+		- std::string node_formula() : give the formula of the tree
+	- Protected (attributes):
+		- Node* left_child_
+		- Node* right_child_
+		- std::string value_
 
 - Evolution : n attributs () - Use class Node
 	- Node* replication(Node root, int number_of_child) : for create number_of_child children to the parent's formula

@@ -1,0 +1,70 @@
+\hypertarget{classNode}{}\section{Node Class Reference}
+\label{classNode}\index{Node@{Node}}
+
+
+Collaboration diagram for Node\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=191pt]{classNode__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classNode_aeeda019b6480a7ae5713890f802b7055}\label{classNode_aeeda019b6480a7ae5713890f802b7055}} 
+{\bfseries Node} (\hyperlink{classNode}{Node} $\ast$lc, \hyperlink{classNode}{Node} $\ast$rc, std\+::string v)
+\item 
+\mbox{\Hypertarget{classNode_a0089889f0d4e22f1cbb707ca9e1c27ea}\label{classNode_a0089889f0d4e22f1cbb707ca9e1c27ea}} 
+\hyperlink{classNode_a0089889f0d4e22f1cbb707ca9e1c27ea}{Node} (\hyperlink{classNode}{Node} \&root)
+\begin{DoxyCompactList}\small\item\em Makes a deep copy of the \hyperlink{classNode}{Node} including its children. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classNode_a1326a789dd57a0219d6c4927573c4965}\label{classNode_a1326a789dd57a0219d6c4927573c4965}} 
+\hyperlink{classNode}{Node} $\ast$ \hyperlink{classNode_a1326a789dd57a0219d6c4927573c4965}{left\+\_\+child} ()
+\begin{DoxyCompactList}\small\item\em Returns the pointer on the left child. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classNode_a3c9dba1de9c55937d71598d4ba06314b}\label{classNode_a3c9dba1de9c55937d71598d4ba06314b}} 
+\hyperlink{classNode}{Node} $\ast$ \hyperlink{classNode_a3c9dba1de9c55937d71598d4ba06314b}{right\+\_\+child} ()
+\begin{DoxyCompactList}\small\item\em Returns the pointer on the right child. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classNode_a932c934ef9fe76a2839db304529c7769}\label{classNode_a932c934ef9fe76a2839db304529c7769}} 
+std\+::string \hyperlink{classNode_a932c934ef9fe76a2839db304529c7769}{value} ()
+\begin{DoxyCompactList}\small\item\em Returns the value of the \hyperlink{classNode}{Node}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classNode_a50c34dde7898f3992c72eef3df00917b}\label{classNode_a50c34dde7898f3992c72eef3df00917b}} 
+void \hyperlink{classNode_a50c34dde7898f3992c72eef3df00917b}{set\+\_\+left\+\_\+child} (\hyperlink{classNode}{Node} $\ast$lc)
+\begin{DoxyCompactList}\small\item\em Changes the pointer pointing on the left child. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classNode_a85f67c5236d38be3e552551b408c2399}\label{classNode_a85f67c5236d38be3e552551b408c2399}} 
+void \hyperlink{classNode_a85f67c5236d38be3e552551b408c2399}{set\+\_\+right\+\_\+child} (\hyperlink{classNode}{Node} $\ast$rc)
+\begin{DoxyCompactList}\small\item\em Changes the pointer pointing on the right child. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classNode_af93bfefb945b9cf6acf3ad1361c4810f}\label{classNode_af93bfefb945b9cf6acf3ad1361c4810f}} 
+void \hyperlink{classNode_af93bfefb945b9cf6acf3ad1361c4810f}{set\+\_\+value} (std\+::string s)
+\begin{DoxyCompactList}\small\item\em Changes the value of the current \hyperlink{classNode}{Node}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classNode_adf58a08bb7b8f8247b5a7db7339e6385}\label{classNode_adf58a08bb7b8f8247b5a7db7339e6385}} 
+int \hyperlink{classNode_adf58a08bb7b8f8247b5a7db7339e6385}{node\+\_\+result} (std\+::vector$<$ int $>$ x)
+\begin{DoxyCompactList}\small\item\em Computes and returns the results of one line of the csv file at the current \hyperlink{classNode}{Node}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classNode_ac7dee6a30adfb99120189f280e61bc4b}\label{classNode_ac7dee6a30adfb99120189f280e61bc4b}} 
+std\+::string \hyperlink{classNode_ac7dee6a30adfb99120189f280e61bc4b}{node\+\_\+formula} ()
+\begin{DoxyCompactList}\small\item\em Computes and returns the formula at the current \hyperlink{classNode}{Node}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classNode_a5ee0db484771d8654c32e7863fba292e}\label{classNode_a5ee0db484771d8654c32e7863fba292e}} 
+\hyperlink{classNode}{Node} $\ast$ {\bfseries left\+\_\+child\+\_\+}
+\item 
+\mbox{\Hypertarget{classNode_abf180145dff7ffce95b3b39bfe24d2f6}\label{classNode_abf180145dff7ffce95b3b39bfe24d2f6}} 
+\hyperlink{classNode}{Node} $\ast$ \hyperlink{classNode_abf180145dff7ffce95b3b39bfe24d2f6}{right\+\_\+child\+\_\+}
+\begin{DoxyCompactList}\small\item\em Pointer on the left child. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classNode_ae44ac8cca17985520d95040e0e8bb167}\label{classNode_ae44ac8cca17985520d95040e0e8bb167}} 
+std\+::string \hyperlink{classNode_ae44ac8cca17985520d95040e0e8bb167}{value\+\_\+}
+\begin{DoxyCompactList}\small\item\em Pointer on the right child. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 4 of file Node.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Node.\+h\item 
+Node.\+cpp\end{DoxyCompactItemize}

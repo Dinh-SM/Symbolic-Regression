@@ -1,0 +1,22 @@
+Goal \+: Find the best approximation Content \+: 2 class --$>$ \hyperlink{classNode}{Node} \+: Treat the tree of the formula --$>$ \hyperlink{classEvolution}{Evolution} \+: Modify the function
+
+
+\begin{DoxyItemize}
+\item \hyperlink{classNode}{Node} \+: 3 attributs (2 \hyperlink{classNode}{Node} and 1 char$\ast$)
+\begin{DoxyItemize}
+\item Constructor \+: \hyperlink{classNode}{Node(\+Node$\ast$ lc, Node$\ast$ rc, std\+::string v)} et copy constructor; plus destructor et getters
+\item int node\+\_\+result() \+: for have the result of the formula
+\item int node\+\_\+result(int x1, int x2) \+: for have the result of the formula with different value at the end of the tree
+\item std\+::string node\+\_\+formula() \+: give the formula of the tree
+\end{DoxyItemize}
+\item \hyperlink{classEvolution}{Evolution} \+: n attributs () -\/ Use class \hyperlink{classNode}{Node}
+\begin{DoxyItemize}
+\item Node$\ast$ replication(\+Node root, int number\+\_\+of\+\_\+child) \+: for create number\+\_\+of\+\_\+child children to the parent\textquotesingle{}s formula
+\item void mutation(\+Node position, Node root) \+: choose a mutation to a given node of the formula
+\item \hyperlink{classNode}{Node} insertion(\+Node parent, Node root) \+: make the mutation \textquotesingle{}insertion\textquotesingle{} at a given place of the formula
+\item \hyperlink{classNode}{Node} deletion(\+Node parent, Node root) \+: make the mutation \textquotesingle{}deletion\textquotesingle{} at a given place of the formula
+\item \hyperlink{classNode}{Node} replacement(\+Node parent, Node root) \+: make the mutation \textquotesingle{}deletion\textquotesingle{} at a given node of the formula
+\item int fitness(\+Node tree, int$\ast$ donnee) \+: calculation of the fitness of a formula
+\item \hyperlink{classNode}{Node} $\ast$ comparative\+\_\+fitness (\hyperlink{classNode}{Node} root, Node$\ast$ childre\+\_\+tab, int number\+\_\+of\+\_\+child, int$\ast$ donnee) \+: choose the best children of the formula 
+\end{DoxyItemize}
+\end{DoxyItemize}
