@@ -1,6 +1,6 @@
 #Hey oh, let's go !
 import os
-import pylab as plt
+import matplotlib.pyplot as plt
 import numpy as np
 
 cycles = input("Nombre de cycles de calcul: ")
