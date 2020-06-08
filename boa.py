@@ -2,6 +2,7 @@
 import os
 import pylab as plt
 import numpy as np
+from sympy import simplify
 
 cycles = input("Nombre de cycles de calcul: ")
 children = input("Nombre de descendants attendus: ")
@@ -10,6 +11,10 @@ name_file = input("Fichier à exploiter: ")
 os.system("g++ -o test main.cpp")
 command = "./test " + cycles + " " + children + " " + name_file;
 os.system(command)
+
+formula = open("formula.out", "r").readlines()[-1]
+
+str(simplify(formula.replace('\t',' ')))
 
 x, y = np.loadtxt('fitness_progression.out', delimiter='\t', unpack=True)
 plt.plot(x,y, label='fitness value')
