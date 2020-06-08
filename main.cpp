@@ -4,7 +4,7 @@ int main(int argc, char const *argv[])
 {
 	const std::string OPERAND_X42("42");
 	const std::string OPERAND_X69("69");
-	const std::string DATA("./binary_gene_expression_ACE2_tfs.csv");
+	const std::string DATA("./gene_table.csv");
 	
 	// base Node
 	Node* g = new Node(NULL, NULL, OPERAND_X42); // Niveau 2
@@ -43,15 +43,17 @@ int main(int argc, char const *argv[])
 		if(number_of_cycles > 0 && number_of_children > 0)
 		{
 			fitness_progression = e.evolution(number_of_cycles, number_of_children);
+			std::cout << "Fitness du meilleur arbre après exécution : " << fitness_progression[number_of_cycles-1] << std::endl;
 		}
 	}
 	else
 	{
 		fitness_progression = e.evolution(150, 8); //10 cycles avec 5 enfants
+		std::cout << "Fitness du meilleur arbre après exécution : " << fitness_progression[150-1] << std::endl;
 	}
 
 	// display of the best formula at the end
-	std::cout << "Meilleure formule arbre après exécution :" << std::endl;
+	std::cout << "Formule du meilleur arbre après exécution :" << std::endl;
 	std::cout << e.root()->node_formula() << std::endl;
 
 	// serialization of fitness progression for plotting purpose
