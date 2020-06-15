@@ -15,7 +15,7 @@ os.system(command)
 formula = open("formula.out", "r").readlines()[-1].split('\t')
 
 print()
-print("Meilleure formule obtenue à l'issue des cycles :")
+print("Meilleure formule obtenue à l\'issue des cycles :")
 print(str(formula[0])
 
 print()
