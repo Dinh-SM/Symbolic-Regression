@@ -19,9 +19,10 @@ int main(int argc, char const *argv[])
 	ofs.close();
 
 	// display base Node
-	std::cout << "Formule arbre de base :" << std::endl;
-	std::cout << racine->node_formula() << std::endl;
-	std::cout << std::endl;
+	// std::cout << "Formule arbre de base :" << std::endl;
+	// std::cout << racine->node_formula() << std::endl;
+	// std::cout << std::endl;
+	
 	std::vector<float> fitness_progression;
 
 	// arguments management and algorithm execution
@@ -43,17 +44,17 @@ int main(int argc, char const *argv[])
 		if(number_of_cycles > 0 && number_of_children > 0)
 		{
 			fitness_progression = e.evolution(number_of_cycles, number_of_children);
-			std::cout << "Fitness du meilleur arbre après exécution : " << fitness_progression[number_of_cycles-1] << std::endl;
+			//std::cout << "Fitness du meilleur arbre après exécution : " << fitness_progression[number_of_cycles-1] << std::endl;
 		}
 	}
 	else
 	{
 		fitness_progression = e.evolution(150, 8); //10 cycles avec 5 enfants
-		std::cout << "Fitness du meilleur arbre après exécution : " << fitness_progression[150-1] << std::endl;
+		//std::cout << "Fitness du meilleur arbre après exécution : " << fitness_progression[150-1] << std::endl;
 	}
 
 	// display of the best formula at the end
-	std::cout << "Formule du meilleur arbre après exécution :" << std::endl;
+	// std::cout << "Formule du meilleur arbre après exécution :" << std::endl;
 	// std::cout << e.root()->node_formula() << std::endl; // cette ligne print la formule non simplifiée de l'arbre.
 
 	// serialization of fitness progression for plotting purpose
