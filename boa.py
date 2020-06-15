@@ -14,8 +14,15 @@ os.system(command)
 
 formula = open("formula.out", "r").readlines()[-1].split('\t')
 
+print("Meilleure formule obtenue à l'issue des cycles :")
+print(str(formula[0])
+
+print("La formule simplifiée :")
 print(str(simplify(formula[0])))
 
+print("Sa fitness :")
+print(str(formula[1]))
+      
 x, y = np.loadtxt('fitness_progression.out', delimiter='\t', unpack=True)
 plt.plot(x,y, label='fitness value')
 
