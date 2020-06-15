@@ -14,12 +14,15 @@ os.system(command)
 
 formula = open("formula.out", "r").readlines()[-1].split('\t')
 
+print()
 print("Meilleure formule obtenue à l'issue des cycles :")
 print(str(formula[0])
 
+print()
 print("La formule simplifiée :")
 print(str(simplify(formula[0])))
 
+print()
 print("Sa fitness :")
 print(str(formula[1]))
       
